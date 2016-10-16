@@ -6,6 +6,7 @@
  */
 
 // include statements
+#include <cmath>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -14,20 +15,21 @@ using namespace std;
 // usage message
 const string USAGE_MESSAGE =
 "\nUSAGE: numlist -ARG\n"
-"    -avg:        Compute average of list of numbers\n"
-"    -csv:        Print the list as comma-separated values\n"
-"    -div<NUM>:   Divide all numbers by <NUM>\n"
-"    -dlm'<STR>': Print the list, but delimited by <STR>\n"
-"    -gt<NUM>:    Print all numbers greater than <NUM>\n"
-"    -gte<NUM>:   Print all numbers greater than or equal to <NUM>\n"
-"    -int:        Print the list as integers\n"
-"    -lt<NUM>:    Print all numbers less than <NUM>\n"
-"    -lte<NUM>:   Print all numbers less than or equal to <NUM>\n"
-"    -max:        Compute maximum of list of numbers\n"
-"    -min:        Compute minimum of list of numbers\n"
-"    -mult<NUM>:  Multiply all numbers by <NUM>\n"
-"    -sum:        Compute sum of list of numbers\n"
-"    -tsv:        Print the list as tab-separated values\n";
+"    -avg:       Compute average of list of numbers\n"
+"    -csv:       Print the list as comma-separated values\n"
+"    -div<NUM>:  Divide all numbers by <NUM>\n"
+"    -dlm<STR>:  Print the list, but delimited by <STR>\n"
+"    -gt<NUM>:   Print all numbers greater than <NUM>\n"
+"    -gte<NUM>:  Print all numbers greater than or equal to <NUM>\n"
+"    -int:       Print the list as integers\n"
+"    -lt<NUM>:   Print all numbers less than <NUM>\n"
+"    -lte<NUM>:  Print all numbers less than or equal to <NUM>\n"
+"    -max:       Compute maximum of list of numbers\n"
+"    -min:       Compute minimum of list of numbers\n"
+"    -mult<NUM>: Multiply all numbers by <NUM>\n"
+"    -pow<NUM>:  Raise all numbers to the power of <NUM>\n"
+"    -sum:       Compute sum of list of numbers\n"
+"    -tsv:       Print the list as tab-separated values\n";
 
 // compute the sum of a list of numers
 double sum( const vector<double> & nums ) {
@@ -141,6 +143,13 @@ void lte( const vector<double> & nums, const double & thresh ) {
     }
 }
 
+// raise all numbers to the power of "exponent"
+void power( const vector<double> & nums, const double & exponent ) {
+    for(auto i : nums) {
+        cout << pow(i,exponent) << endl;
+    }
+}
+
 // replace all instances of "search" with "replace" in "subject"
 void replace(string & subject, const string & search, const string & replace) {
     size_t pos = 0;
@@ -215,6 +224,9 @@ int main( int argc, char* argv[] ) {
     }
     else if(argv[1][1] == 'm' && argv[1][2] == 'u' && argv[1][3] == 'l' && argv[1][4] == 't') {
         mult(nums, stod(((string)argv[1]).substr(5)));
+    }
+    else if(argv[1][1] == 'p' && argv[1][2] == 'o' && argv[1][3] == 'w') {
+        power(nums,stod(((string)argv[1]).substr(4)));
     }
     else if(strcmp(argv[1],"-sum") == 0) {
         cout << sum(nums) << endl;
