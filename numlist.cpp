@@ -14,12 +14,18 @@ using namespace std;
 // usage message
 const string USAGE_MESSAGE =
 "\nUSAGE: numlist -ARG\n"
-"    -avg:    Compute average of list of numbers\n"
-"    -csv:    Print the list as comma-separated values\n"
-"    -int:    Print the list as integers\n"
-"    -max:    Compute maximum of list of numbers\n"
-"    -min:    Compute minimum of list of numbers\n"
-"    -sum:    Compute sum of list of numbers\n";
+"    -avg:       Compute average of list of numbers\n"
+"    -csv:       Print the list as comma-separated values\n"
+"    -div<NUM>:  Divide all numbers by <NUM>\n"
+"    -gt<NUM>:   Print all numbers greater than <NUM>\n"
+"    -gte<NUM>:  Print all numbers greater than or equal to <NUM>\n"
+"    -int:       Print the list as integers\n"
+"    -lt<NUM>:   Print all numbers less than <NUM>\n"
+"    -lte<NUM>:  Print all numbers less than or equal to <NUM>\n"
+"    -max:       Compute maximum of list of numbers\n"
+"    -min:       Compute minimum of list of numbers\n"
+"    -mult<NUM>: Multiply all numbers by <NUM>\n"
+"    -sum:       Compute sum of list of numbers\n";
 
 // compute the sum of a list of numers
 double sum( vector<double> & nums ) {
@@ -73,6 +79,56 @@ double min( vector<double> & nums ) {
     return out;
 }
 
+// output all numbers greater than the threshold
+void gt( vector<double> & nums, double thresh ) {
+    for(auto i : nums) {
+        if(i > thresh) {
+            cout << i << endl;
+        }
+    }
+}
+
+// output all numbers greater than or equal to the threshold
+void gte( vector<double> & nums, double thresh ) {
+    for(auto i : nums) {
+        if(i >= thresh) {
+            cout << i << endl;
+        }
+    }
+}
+
+// output all numbers less than the threshold
+void lt( vector<double> & nums, double thresh ) {
+    for(auto i : nums) {
+        if(i < thresh) {
+            cout << i << endl;
+        }
+    }
+}
+
+// divide all numbers by num
+void div( vector<double> & nums, double num ) {
+    for(auto i : nums) {
+        cout << i/num << endl;
+    }
+}
+
+// multiply all numbers by num
+void mult( vector<double> & nums, double num ) {
+    for(auto i : nums) {
+        cout << i*num << endl;
+    }
+}
+
+// output all numbers less than or equal to the threshold
+void lte( vector<double> & nums, double thresh ) {
+    for(auto i : nums) {
+        if(i <= thresh) {
+            cout << i << endl;
+        }
+    }
+}
+
 // main function
 int main( int argc, char* argv[] ) {
     // check arguments
@@ -96,14 +152,36 @@ int main( int argc, char* argv[] ) {
     else if(strcmp(argv[1],"-csv") == 0) {
         csv(nums);
     }
+    else if(argv[1][1] == 'd' && argv[1][2] == 'i' && argv[1][3] == 'v') {
+        div(nums, stod(((string)argv[1]).substr(4)));
+    }
+    else if(argv[1][1] == 'g' && argv[1][2] == 't') {
+        if(argv[1][3] == 'e') {
+            gte(nums, stod(((string)argv[1]).substr(4)));
+        }
+        else {
+            gt(nums, stod(((string)argv[1]).substr(3)));
+        }
+    }
     else if(strcmp(argv[1],"-int") == 0) {
         Int(nums);
+    }
+    else if(argv[1][1] == 'l' && argv[1][2] == 't') {
+        if(argv[1][3] == 'e') {
+            lte(nums, stod(((string)argv[1]).substr(4)));
+        }
+        else {
+            lt(nums, stod(((string)argv[1]).substr(3)));
+        }
     }
     else if(strcmp(argv[1],"-max") == 0) {
         cout << max(nums) << endl;
     }
     else if(strcmp(argv[1],"-min") == 0) {
         cout << min(nums) << endl;
+    }
+    else if(argv[1][1] == 'm' && argv[1][2] == 'u' && argv[1][3] == 'l' && argv[1][4] == 't') {
+        mult(nums, stod(((string)argv[1]).substr(5)));
     }
     else if(strcmp(argv[1],"-sum") == 0) {
         cout << sum(nums) << endl;
