@@ -1,7 +1,6 @@
 /* Niema Moshiri 2016
  *
- * Perform various basic tasks on a list of numbers passed in via STDIN. Only
- * one number should be on each line of the input.
+ * Perform various basic tasks on a list of numbers passed in via STDIN.
  *
  * Only pass in a single argument.
  */
