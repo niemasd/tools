@@ -1,3 +1,11 @@
+### COMPILED FILES ###
+numlist
+
+### MAC GITIGNORE ###
+.DS_Store
+*.swp
+*.plist
+
 ### C++ GITIGNORE ###
 # Compiled Object files
 *.slo
