@@ -15,6 +15,7 @@ using namespace std;
 // usage message
 const string USAGE_MESSAGE =
 "\nUSAGE: numlist -ARG\n"
+"    -add<NUM>:  Add <NUM> to all numbers\n"
 "    -avg:       Compute average of list of numbers\n"
 "    -csv:       Print the list as comma-separated values\n"
 "    -div<NUM>:  Divide all numbers by <NUM>\n"
@@ -28,6 +29,7 @@ const string USAGE_MESSAGE =
 "    -min:       Compute minimum of list of numbers\n"
 "    -mult<NUM>: Multiply all numbers by <NUM>\n"
 "    -pow<NUM>:  Raise all numbers to the power of <NUM>\n"
+"    -sub<NUM>:  Subtract <NUM> from all numbers\n"
 "    -sum:       Compute sum of list of numbers\n"
 "    -tsv:       Print the list as tab-separated values\n";
 
@@ -120,6 +122,20 @@ void lt( const vector<double> & nums, const double & thresh ) {
     }
 }
 
+// add num to all numbers
+void add( const vector<double> & nums, const double & num ) {
+    for(auto i : nums) {
+        cout << i+num << endl;
+    }
+}
+
+// subtract num from all numbers
+void sub( const vector<double> & nums, const double & num ) {
+    for(auto i : nums) {
+        cout << i-num << endl;
+    }
+}
+
 // divide all numbers by num
 void div( const vector<double> & nums, const double & num ) {
     for(auto i : nums) {
@@ -176,7 +192,10 @@ int main( int argc, char* argv[] ) {
     }
 
     // perform task
-    if(strcmp(argv[1],"-avg") == 0) {
+    if(argv[1][1] == 'a' && argv[1][2] == 'd' && argv[1][3] == 'd') {
+        add(nums,stod(((string)argv[1]).substr(4)));
+    }
+    else if(strcmp(argv[1],"-avg") == 0) {
         cout << avg(nums) << endl;
     }
     else if(strcmp(argv[1],"-csv") == 0) {
@@ -227,6 +246,9 @@ int main( int argc, char* argv[] ) {
     }
     else if(argv[1][1] == 'p' && argv[1][2] == 'o' && argv[1][3] == 'w') {
         power(nums,stod(((string)argv[1]).substr(4)));
+    }
+    else if(argv[1][1] == 's' && argv[1][2] == 'u' && argv[1][3] == 'b') {
+        sub(nums,stod(((string)argv[1]).substr(4)));
     }
     else if(strcmp(argv[1],"-sum") == 0) {
         cout << sum(nums) << endl;
