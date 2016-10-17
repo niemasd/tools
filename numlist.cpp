@@ -37,8 +37,8 @@ const string USAGE_MESSAGE =
 // compute the sum of a list of numers
 double sum( const vector<double> & nums ) {
     double out = 0;
-    for(auto i : nums) {
-        out += i;
+    for(unsigned int i = 0; i < nums.size(); ++i) {
+        out += nums[i];
     }
     return out;
 }
@@ -69,17 +69,17 @@ void tsv( const vector<double> & nums ) {
 
 // print the list of numbers as integers
 void Int( const vector<double> & nums ) {
-    for(auto i : nums) {
-        cout << (int)i << endl;
+    for(unsigned int i = 0; i < nums.size(); ++i) {
+        cout << (int)nums[i] << endl;
     }
 }
 
 // find the max of a list of numbers
 double max( const vector<double> & nums ) {
     double out = nums[0];
-    for(auto i : nums) {
-        if(i > out) {
-            out = i;
+    for(unsigned int i = 0; i < nums.size(); ++i) {
+        if(nums[i] > out) {
+            out = nums[i];
         }
     }
     return out;
@@ -88,9 +88,9 @@ double max( const vector<double> & nums ) {
 // find the min of a list of numbers
 double min( const vector<double> & nums ) {
     double out = nums[0];
-    for(auto i : nums) {
-        if(i < out) {
-            out = i;
+    for(unsigned int i = 0; i < nums.size(); ++i) {
+        if(nums[i] < out) {
+            out = nums[i];
         }
     }
     return out;
@@ -98,72 +98,72 @@ double min( const vector<double> & nums ) {
 
 // output all numbers greater than the threshold
 void gt( const vector<double> & nums, const double & thresh ) {
-    for(auto i : nums) {
-        if(i > thresh) {
-            cout << i << endl;
+    for(unsigned int i = 0; i < nums.size(); ++i) {
+        if(nums[i] > thresh) {
+            cout << nums[i] << endl;
         }
     }
 }
 
 // output all numbers greater than or equal to the threshold
 void gte( const vector<double> & nums, const double & thresh ) {
-    for(auto i : nums) {
-        if(i >= thresh) {
-            cout << i << endl;
+    for(unsigned int i = 0; i < nums.size(); ++i) {
+        if(nums[i] >= thresh) {
+            cout << nums[i] << endl;
         }
     }
 }
 
 // output all numbers less than the threshold
 void lt( const vector<double> & nums, const double & thresh ) {
-    for(auto i : nums) {
-        if(i < thresh) {
-            cout << i << endl;
+    for(unsigned int i = 0; i < nums.size(); ++i) {
+        if(nums[i] < thresh) {
+            cout << nums[i] << endl;
         }
     }
 }
 
 // add num to all numbers
 void add( const vector<double> & nums, const double & num ) {
-    for(auto i : nums) {
-        cout << i+num << endl;
+    for(unsigned int i = 0; i < nums.size(); ++i) {
+        cout << nums[i]+num << endl;
     }
 }
 
 // subtract num from all numbers
 void sub( const vector<double> & nums, const double & num ) {
-    for(auto i : nums) {
-        cout << i-num << endl;
+    for(unsigned int i = 0; i < nums.size(); ++i) {
+        cout << nums[i]-num << endl;
     }
 }
 
 // divide all numbers by num
 void div( const vector<double> & nums, const double & num ) {
-    for(auto i : nums) {
-        cout << i/num << endl;
+    for(unsigned int i = 0; i < nums.size(); ++i) {
+        cout << nums[i]/num << endl;
     }
 }
 
 // multiply all numbers by num
 void mult( const vector<double> & nums, const double & num ) {
-    for(auto i : nums) {
-        cout << i*num << endl;
+    for(unsigned int i = 0; i < nums.size(); ++i) {
+        cout << nums[i]*num << endl;
     }
 }
 
 // output all numbers less than or equal to the threshold
 void lte( const vector<double> & nums, const double & thresh ) {
-    for(auto i : nums) {
-        if(i <= thresh) {
-            cout << i << endl;
+    for(unsigned int i = 0; i < nums.size(); ++i) {
+        if(nums[i] <= thresh) {
+            cout << nums[i] << endl;
         }
     }
 }
 
 // raise all numbers to the power of "exponent"
 void power( const vector<double> & nums, const double & exponent ) {
-    for(auto i : nums) {
-        cout << pow(i,exponent) << endl;
+    for(unsigned int i = 0; i < nums.size(); ++i) {
+        cout << pow(nums[i],exponent) << endl;
     }
 }
 
