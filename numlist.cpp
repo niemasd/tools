@@ -6,6 +6,7 @@
  */
 
 // include statements
+#include <algorithm>
 #include <cmath>
 #include <cstring>
 #include <iostream>
