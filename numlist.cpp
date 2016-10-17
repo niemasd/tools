@@ -50,7 +50,7 @@ double avg( const vector<double> & nums ) {
 // delimit the numbers using delimiter
 void dlm( const vector<double> & nums, const string & delimiter) {
     cout << nums[0];
-    for(int i = 1; i < nums.size(); ++i) {
+    for(unsigned int i = 1; i < nums.size(); ++i) {
         cout << delimiter << nums[i];
     }
     cout << endl;
