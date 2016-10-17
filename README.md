@@ -4,7 +4,11 @@ This is a collection of command-line tools I wrote to make various repetitive ta
     * The list of numbers must be passed in via standard input
     * Run it without arguments to see the usage message, which contains a list of functions
     * The list of numbers can be integers or decimals: the tool handles both
-    * The numbers must be delimited by spaces and/or newlines (not by commas or any other symbols)
+    * The numbers must be delimited by whitespace
+    * If your numbers are *not* delimited by whitespace, you can use `tr` to fix your list. For example:
+    ```bash
+    echo "1,2,3,4,5" | tr ',' ' ' | numlist -sum
+    ```
 
 
 INSTALLATION
@@ -19,7 +23,7 @@ INSTALLATION
     ```bash
     cd ~/bin/tools
     make
-```
+    ```
 
 3. **OPTIONAL:** Other tools/scripts I write for other projects may expect these tools to be found in your `PATH`, so I would suggest adding the directory to your `PATH` variable. To continue the previous example, if I were to add it to my `.profile`:
     ```bash
