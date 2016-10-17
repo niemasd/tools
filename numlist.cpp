@@ -9,6 +9,7 @@
 #include <cmath>
 #include <cstring>
 #include <iostream>
+#include <list>
 #include <stdlib.h>
 #include <string>
 #include <vector>
@@ -46,221 +47,253 @@ const string USAGE_MESSAGE =
 "    -var:       Compute variance of list of numbers\n";
 
 // compute the sum of a list of numers
-double sum( const vector<double> & nums ) {
+double sum( const list<double> & nums ) {
     double out = 0.0;
-    for(unsigned int i = 0; i < nums.size(); ++i) {
-        out += nums[i];
+    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
+        out += *it;
     }
     return out;
 }
 
 // compute the average of a list of numbers
-double avg( const vector<double> & nums ) {
+double avg( const list<double> & nums ) {
     return sum(nums) / nums.size();
 }
 
 // compute the variance of a list of numbers
-double var( const vector<double> & nums ) {
+double var( const list<double> & nums ) {
+    int n = nums.size();
     double s = 0.0;
     double ss = 0.0;
-    for(unsigned int i = 0; i < nums.size(); ++i) {
-        s += nums[i];
-        ss += nums[i]*nums[i];
+    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
+        double num = *it;
+        s += num;
+        ss += num*num;
     }
-    double mean = s / nums.size();
-    return ss/nums.size() - mean*mean;
+    double mean = s/n;
+    return ss/n - mean*mean;
 }
 
 // compute the standard deviation of a list of numbers
-double stdev( const vector<double> & nums ) {
+double stdev( const list<double> & nums ) {
     return pow(var(nums),0.5);
 }
 
 // delimit the numbers using delimiter
-void dlm( const vector<double> & nums, const string & delimiter) {
-    cout << nums[0];
-    for(unsigned int i = 1; i < nums.size(); ++i) {
-        cout << delimiter << nums[i];
+void dlm( const list<double> & nums, const string & delimiter) {
+    list<double>::const_iterator it = nums.begin();
+    cout << *it;
+    ++it;
+    for(list<double>::const_iterator end = nums.end(); it != end; ++it) {
+        cout << delimiter << *it;
     }
     cout << endl;
 }
 
 // print the list of numbers as comma-separated
-void csv( const vector<double> & nums ) {
+void csv( const list<double> & nums ) {
     dlm(nums,",");
 }
 
 // print the list of numbers as tab-separated
-void tsv( const vector<double> & nums ) {
+void tsv( const list<double> & nums ) {
     dlm(nums,"\t");
 }
 
 // print the list of numbers as integers
-void Int( const vector<double> & nums ) {
-    for(unsigned int i = 0; i < nums.size(); ++i) {
-        cout << (int)nums[i] << endl;
+void Int( const list<double> & nums ) {
+    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
+        cout << (int)(*it) << endl;
     }
 }
 
 // find the max of a list of numbers
-double max( const vector<double> & nums ) {
-    double out = nums[0];
-    for(unsigned int i = 0; i < nums.size(); ++i) {
-        if(nums[i] > out) {
-            out = nums[i];
+double max( const list<double> & nums ) {
+    list<double>::const_iterator it = nums.begin();
+    double out = *it;
+    ++it;
+    for(list<double>::const_iterator end = nums.end(); it != end; ++it) {
+        double num = *it;
+        if(num > out) {
+            out = num;
         }
     }
     return out;
 }
 
 // find the min of a list of numbers
-double min( const vector<double> & nums ) {
-    double out = nums[0];
-    for(unsigned int i = 0; i < nums.size(); ++i) {
-        if(nums[i] < out) {
-            out = nums[i];
+double min( const list<double> & nums ) {
+    list<double>::const_iterator it = nums.begin();
+    double out = *it;
+    ++it;
+    for(list<double>::const_iterator end = nums.end(); it != end; ++it) {
+        double num = *it;
+        if(num < out) {
+            out = num;
         }
     }
     return out;
 }
 
 // find the median of a list of numbers
-double med( vector<double> & nums ) {
+double med( const list<double> & nums ) {
     // sort list
-    sort(nums.begin(),nums.end());
+    unsigned int n = nums.size();
+    vector<double> numsVec(n,0);
+    unsigned int i = 0;
+    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it, ++i) {
+        numsVec[i] = *it;
+    }
+    sort(numsVec.begin(),numsVec.end());
 
     // odd number of elements, so return middle element
-    if(nums.size() % 2 == 1) {
-        return nums[nums.size()/2];
+    if(n%2 == 1) {
+        return numsVec[n/2];
     }
 
     // even number of elements, so return avg of middle elements
     else {
-        unsigned int mid = nums.size()/2;
-        return (nums[mid] + nums[mid-1]) / 2;
+        unsigned int mid = n/2;
+        return (numsVec[mid] + numsVec[mid-1]) / 2;
     }
 }
 
 // find the first quartile of a list of numbers
-double q1( vector<double> & nums ) {
+double q1( const list<double> & nums ) {
     // sort list
-    sort(nums.begin(),nums.end());
+    unsigned int n = nums.size();
+    vector<double> numsVec(n,0);
+    unsigned int i = 0;
+    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it, ++i) {
+        numsVec[i] = *it;
+    }
+    sort(numsVec.begin(),numsVec.end());
 
     // find first quartile
-    unsigned int mid = nums.size()/2;
+    unsigned int mid = n/2;
     unsigned int q1 = mid/2;
-    if(nums.size() % 2 == 1) {
-        if(mid % 2 == 1) {
-            return nums[q1];
+    if(n%2 == 1) {
+        if(mid%2 == 1) {
+            return numsVec[q1];
         }
         else {
-            return (nums[q1] + nums[q1-1]) / 2;
+            return (numsVec[q1] + numsVec[q1-1]) / 2;
         }
     }
     else {
-        if(mid % 2 == 1) {
-            return nums[q1];
+        if(mid%2 == 1) {
+            return numsVec[q1];
         }
         else {
-            return (nums[q1] + nums[q1-1]) / 2;
+            return (numsVec[q1] + numsVec[q1-1]) / 2;
         }
     }
 }
 
 // find the third quartile of a list of numbers
-double q3( vector<double> & nums ) {
+double q3( const list<double> & nums ) {
     // sort list
-    sort(nums.begin(),nums.end());
+    unsigned int n = nums.size();
+    vector<double> numsVec(n,0);
+    unsigned int i = 0;
+    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it, ++i) {
+        numsVec[i] = *it;
+    }
+    sort(numsVec.begin(),numsVec.end());
 
     // find first quartile
-    unsigned int mid = nums.size()/2;
+    unsigned int mid = n/2;
     unsigned int q3 = mid + mid/2;
-    if(nums.size() % 2 == 1) {
-        if(mid % 2 == 1) {
-            return nums[q3+1];
+    if(n%2 == 1) {
+        if(mid%2 == 1) {
+            return numsVec[q3+1];
         }
         else {
-            return (nums[q3] + nums[q3+1]) / 2;
+            return (numsVec[q3] + numsVec[q3+1]) / 2;
         }
     }
     else {
-        if(mid % 2 == 1) {
-            return nums[q3];
+        if(mid%2 == 1) {
+            return numsVec[q3];
         }
         else {
-            return (nums[q3] + nums[q3-1]) / 2;
+            return (numsVec[q3] + numsVec[q3-1]) / 2;
         }
     }
 }
 
 // output all numbers greater than the threshold
-void gt( const vector<double> & nums, const double & thresh ) {
-    for(unsigned int i = 0; i < nums.size(); ++i) {
-        if(nums[i] > thresh) {
-            cout << nums[i] << endl;
+void gt( const list<double> & nums, const double & thresh ) {
+    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
+        double num = *it;
+        if(num > thresh) {
+            cout << num << endl;
         }
     }
 }
 
 // output all numbers greater than or equal to the threshold
-void gte( const vector<double> & nums, const double & thresh ) {
-    for(unsigned int i = 0; i < nums.size(); ++i) {
-        if(nums[i] >= thresh) {
-            cout << nums[i] << endl;
+void gte( const list<double> & nums, const double & thresh ) {
+    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
+        double num = *it;
+        if(num >= thresh) {
+            cout << num << endl;
         }
     }
 }
 
 // output all numbers less than the threshold
-void lt( const vector<double> & nums, const double & thresh ) {
-    for(unsigned int i = 0; i < nums.size(); ++i) {
-        if(nums[i] < thresh) {
-            cout << nums[i] << endl;
+void lt( const list<double> & nums, const double & thresh ) {
+    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
+        double num = *it;
+        if(num < thresh) {
+            cout << num << endl;
+        }
+    }
+}
+
+// output all numbers less than or equal to the threshold
+void lte( const list<double> & nums, const double & thresh ) {
+    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
+        double num = *it;
+        if(num <= thresh) {
+            cout << num << endl;
         }
     }
 }
 
 // add num to all numbers
-void add( const vector<double> & nums, const double & num ) {
-    for(unsigned int i = 0; i < nums.size(); ++i) {
-        cout << nums[i]+num << endl;
+void add( const list<double> & nums, const double & num ) {
+    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
+        cout << (*it)+num << endl;
     }
 }
 
 // subtract num from all numbers
-void sub( const vector<double> & nums, const double & num ) {
-    for(unsigned int i = 0; i < nums.size(); ++i) {
-        cout << nums[i]-num << endl;
+void sub( const list<double> & nums, const double & num ) {
+    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
+        cout << (*it)-num << endl;
     }
 }
 
 // divide all numbers by num
-void div( const vector<double> & nums, const double & num ) {
-    for(unsigned int i = 0; i < nums.size(); ++i) {
-        cout << nums[i]/num << endl;
+void div( const list<double> & nums, const double & num ) {
+    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
+        cout << (*it)/num << endl;
     }
 }
 
 // multiply all numbers by num
-void mult( const vector<double> & nums, const double & num ) {
-    for(unsigned int i = 0; i < nums.size(); ++i) {
-        cout << nums[i]*num << endl;
-    }
-}
-
-// output all numbers less than or equal to the threshold
-void lte( const vector<double> & nums, const double & thresh ) {
-    for(unsigned int i = 0; i < nums.size(); ++i) {
-        if(nums[i] <= thresh) {
-            cout << nums[i] << endl;
-        }
+void mult( const list<double> & nums, const double & num ) {
+    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
+        cout << (*it)*num << endl;
     }
 }
 
 // raise all numbers to the power of "exponent"
-void power( const vector<double> & nums, const double & exponent ) {
-    for(unsigned int i = 0; i < nums.size(); ++i) {
-        cout << pow(nums[i],exponent) << endl;
+void power( const list<double> & nums, const double & exponent ) {
+    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
+        cout << pow(*it,exponent) << endl;
     }
 }
 
@@ -274,69 +307,93 @@ void replace(string & subject, const string & search, const string & replace) {
 }
 
 // print list in ascending order
-void sortA( vector<double> & nums ) {
-    sort(nums.begin(),nums.end());
-    for(unsigned int i = 0; i < nums.size(); ++i) {
-        cout << nums[i] << endl;
+void sortA( const list<double> & nums ) {
+    unsigned int n = nums.size();
+    vector<double> numsVec(n,0);
+    unsigned int i = 0;
+    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it, ++i) {
+        numsVec[i] = *it;
+    }
+    sort(numsVec.begin(),numsVec.end());
+    for(unsigned int i = 0; i < n; ++i) {
+        cout << numsVec[i] << endl;
     }
 }
 
 // print list in descending order
-void sortD( vector<double> & nums ) {
-    sort(nums.rbegin(), nums.rend());
-    for(unsigned int i = 0; i < nums.size(); ++i) {
-        cout << nums[i] << endl;
+void sortD( const list<double> & nums ) {
+    unsigned int n = nums.size();
+    vector<double> numsVec(n,0);
+    unsigned int i = 0;
+    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it, ++i) {
+        numsVec[i] = *it;
+    }
+    sort(numsVec.rbegin(),numsVec.rend());
+    for(unsigned int i = 0; i < n; ++i) {
+        cout << numsVec[i] << endl;
     }
 }
 
 // compute various stats on list of numbers
-void stats( vector<double> & nums ) {
+void stats( const list<double> & nums ) {
     // sort list
-    sort(nums.begin(),nums.end());
+    unsigned int n = nums.size();
+    vector<double> numsVec(n,0);
+    unsigned int i = 0;
+    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it, ++i) {
+        numsVec[i] = *it;
+    }
+    sort(numsVec.begin(),numsVec.end());
 
     // compute stats
     double s = 0.0;
     double ss = 0.0;
-    double outMax = nums[0];
-    double outMin = nums[0];
-    for(unsigned int i = 0; i < nums.size(); ++i) {
-        s += nums[i];
-        ss += nums[i]*nums[i];
-        if(nums[i] > outMax) {
-            outMax = nums[i];
+    double outMax = numsVec[0];
+    double outMin = numsVec[0];
+    cout << "sorted list: " << numsVec[0];
+    for(unsigned int i = 0; i < n; ++i) {
+        double num = numsVec[i];
+        if(i != 0) {
+            cout << "," << num;
         }
-        if(nums[i] < outMin) {
-            outMin = nums[i];
+        s += num;
+        ss += num*num;
+        if(num > outMax) {
+            outMax = num;
+        }
+        if(num < outMin) {
+            outMin = num;
         }
     }
-    double outMean = s / nums.size();
-    double outVar = ss/nums.size() - outMean*outMean;
+    cout << endl << endl;
+    double outMean = s/n;
+    double outVar = ss/n - outMean*outMean;
     double outMed;
     double outQ1;
     double outQ3;
-    unsigned int mid = nums.size()/2;
+    unsigned int mid = n/2;
     unsigned int q1 = mid/2;
     unsigned int q3 = mid + q1;
-    if(nums.size() % 2 == 1) {
-        outMed = nums[mid];
+    if(n % 2 == 1) {
+        outMed = numsVec[mid];
         if(mid % 2 == 1) {
-            outQ1 = nums[q1];
-            outQ3 = nums[q3+1];
+            outQ1 = numsVec[q1];
+            outQ3 = numsVec[q3+1];
         }
         else {
-            outQ1 = (nums[q1] + nums[q1-1]) / 2;
-            outQ3 = (nums[q3] + nums[q3+1]) / 2;
+            outQ1 = (numsVec[q1] + numsVec[q1-1]) / 2;
+            outQ3 = (numsVec[q3] + numsVec[q3+1]) / 2;
         }
     }
     else {
-        outMed = (nums[mid] + nums[mid-1]) / 2;
+        outMed = (numsVec[mid] + numsVec[mid-1]) / 2;
         if(mid % 2 == 1) {
-            outQ1 = nums[q1];
-            outQ3 = nums[q3];
+            outQ1 = numsVec[q1];
+            outQ3 = numsVec[q3];
         }
         else {
-            outQ1 = (nums[q1] + nums[q1-1]) / 2;
-            outQ3 = (nums[q3] + nums[q3-1]) / 2;
+            outQ1 = (numsVec[q1] + numsVec[q1-1]) / 2;
+            outQ3 = (numsVec[q3] + numsVec[q3-1]) / 2;
         }
     }
 
@@ -345,7 +402,9 @@ void stats( vector<double> & nums ) {
     cout << "quartile1: " << outQ1 << endl;
     cout << "median:    " << outMed << endl;
     cout << "quartile3: " << outQ3 << endl;
-    cout << "maximum:   " << outMax << endl;
+    cout << "maximum:   " << outMax << endl << endl;
+
+    cout << "sum:       " << s << endl;
     cout << "average:   " << outMean << endl;
     cout << "variance:  " << outVar << endl;
     cout << "stdev:     " << pow(outVar,0.5) << endl;
@@ -365,7 +424,7 @@ int main( int argc, char* argv[] ) {
     }
 
     // read in numbers
-    vector<double> nums;
+    list<double> nums;
     double num;
     while(cin >> num) {
         nums.push_back(num);
