@@ -34,6 +34,8 @@ const string USAGE_MESSAGE =
 "    -min:       Compute minimum of list of numbers\n"
 "    -mult<NUM>: Multiply all numbers by <NUM>\n"
 "    -pow<NUM>:  Raise all numbers to the power of <NUM>\n"
+"    -q1:        Compute first quartile of list of numbers\n"
+"    -q3:        Compute third quartile of list of numbers\n"
 "    -stats:     Compute various statistics on list of numbers\n"
 "    -std:       Compute standard deviation of list of numbers\n"
 "    -sub<NUM>:  Subtract <NUM> from all numbers\n"
@@ -134,6 +136,58 @@ double med( vector<double> & nums ) {
     else {
         unsigned int mid = nums.size()/2;
         return (nums[mid] + nums[mid-1]) / 2;
+    }
+}
+
+// find the first quartile of a list of numbers
+double q1( vector<double> & nums ) {
+    // sort list
+    sort(nums.begin(),nums.end());
+
+    // find first quartile
+    unsigned int mid = nums.size()/2;
+    unsigned int q1 = mid/2;
+    if(nums.size() % 2 == 1) {
+        if(mid % 2 == 1) {
+            return nums[q1];
+        }
+        else {
+            return (nums[q1] + nums[q1-1]) / 2;
+        }
+    }
+    else {
+        if(mid % 2 == 1) {
+            return nums[q1];
+        }
+        else {
+            return (nums[q1] + nums[q1-1]) / 2;
+        }
+    }
+}
+
+// find the third quartile of a list of numbers
+double q3( vector<double> & nums ) {
+    // sort list
+    sort(nums.begin(),nums.end());
+
+    // find first quartile
+    unsigned int mid = nums.size()/2;
+    unsigned int q3 = mid + mid/2;
+    if(nums.size() % 2 == 1) {
+        if(mid % 2 == 1) {
+            return nums[q3+1];
+        }
+        else {
+            return (nums[q3] + nums[q3+1]) / 2;
+        }
+    }
+    else {
+        if(mid % 2 == 1) {
+            return nums[q3];
+        }
+        else {
+            return (nums[q3] + nums[q3-1]) / 2;
+        }
     }
 }
 
@@ -362,6 +416,12 @@ int main( int argc, char* argv[] ) {
     }
     else if(argv[1][1] == 'p' && argv[1][2] == 'o' && argv[1][3] == 'w') {
         power(nums,strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
+    }
+    else if(strcmp(argv[1],"-q1") == 0) {
+        cout << q1(nums) << endl;
+    }
+    else if(strcmp(argv[1],"-q3") == 0) {
+        cout << q3(nums) << endl;
     }
     else if(argv[1][1] == 's' && argv[1][2] == 'u' && argv[1][3] == 'b') {
         sub(nums,strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
