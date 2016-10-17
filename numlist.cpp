@@ -7,6 +7,7 @@
 
 // include statements
 #include <cmath>
+#include <cstring>
 #include <iostream>
 #include <string>
 #include <vector>
