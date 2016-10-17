@@ -36,6 +36,8 @@ const string USAGE_MESSAGE =
 "    -pow<NUM>:  Raise all numbers to the power of <NUM>\n"
 "    -q1:        Compute first quartile of list of numbers\n"
 "    -q3:        Compute third quartile of list of numbers\n"
+"    -sortA:     Print the list in ascending order\n"
+"    -sortD:     Print the list in descending order\n"
 "    -stats:     Compute various statistics on list of numbers\n"
 "    -std:       Compute standard deviation of list of numbers\n"
 "    -sub<NUM>:  Subtract <NUM> from all numbers\n"
@@ -271,6 +273,22 @@ void replace(string & subject, const string & search, const string & replace) {
     }
 }
 
+// print list in ascending order
+void sortA( vector<double> & nums ) {
+    sort(nums.begin(),nums.end());
+    for(unsigned int i = 0; i < nums.size(); ++i) {
+        cout << nums[i] << endl;
+    }
+}
+
+// print list in descending order
+void sortD( vector<double> & nums ) {
+    sort(nums.rbegin(), nums.rend());
+    for(unsigned int i = 0; i < nums.size(); ++i) {
+        cout << nums[i] << endl;
+    }
+}
+
 // compute various stats on list of numbers
 void stats( vector<double> & nums ) {
     // sort list
@@ -425,6 +443,12 @@ int main( int argc, char* argv[] ) {
     }
     else if(argv[1][1] == 's' && argv[1][2] == 'u' && argv[1][3] == 'b') {
         sub(nums,strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
+    }
+    else if(strcmp(argv[1],"-sortA") == 0) {
+        sortA(nums);
+    }
+    else if(strcmp(argv[1],"-sortD") == 0) {
+        sortD(nums);
     }
     else if(strcmp(argv[1],"-stats") == 0) {
         stats(nums);
