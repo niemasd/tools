@@ -9,6 +9,7 @@
 #include <cmath>
 #include <cstring>
 #include <iostream>
+#include <stdlib.h>
 #include <string>
 #include <vector>
 using namespace std;
@@ -194,7 +195,7 @@ int main( int argc, char* argv[] ) {
 
     // perform task
     if(argv[1][1] == 'a' && argv[1][2] == 'd' && argv[1][3] == 'd') {
-        add(nums,stod(((string)argv[1]).substr(4)));
+        add(nums,strtod(((string)argv[1]).substr(4).c_str(),nullptr));
     }
     else if(strcmp(argv[1],"-avg") == 0) {
         cout << avg(nums) << endl;
@@ -204,7 +205,7 @@ int main( int argc, char* argv[] ) {
     }
     else if(argv[1][1] == 'd') {
         if(argv[1][2] == 'i' && argv[1][3] == 'v') {
-            div(nums, stod(((string)argv[1]).substr(4)));
+            div(nums, strtod(((string)argv[1]).substr(4).c_str(),nullptr));
         }
         else if(argv[1][2] == 'l' && argv[1][3] == 'm') {
             string delimiter = argv[1];
@@ -216,13 +217,18 @@ int main( int argc, char* argv[] ) {
             replace(delimiter,"\\t","\t");
             dlm(nums,delimiter);
          }
+         else {
+             cerr << "ERROR: Invalid argument: " << argv[1] << endl;
+             cerr << USAGE_MESSAGE << endl;
+             exit(-1);
+         }
     }
     else if(argv[1][1] == 'g' && argv[1][2] == 't') {
         if(argv[1][3] == 'e') {
-            gte(nums, stod(((string)argv[1]).substr(4)));
+            gte(nums, strtod(((string)argv[1]).substr(4).c_str(),nullptr));
         }
         else {
-            gt(nums, stod(((string)argv[1]).substr(3)));
+            gt(nums, strtod(((string)argv[1]).substr(3).c_str(),nullptr));
         }
     }
     else if(strcmp(argv[1],"-int") == 0) {
@@ -230,10 +236,10 @@ int main( int argc, char* argv[] ) {
     }
     else if(argv[1][1] == 'l' && argv[1][2] == 't') {
         if(argv[1][3] == 'e') {
-            lte(nums, stod(((string)argv[1]).substr(4)));
+            lte(nums, strtod(((string)argv[1]).substr(4).c_str(),nullptr));
         }
         else {
-            lt(nums, stod(((string)argv[1]).substr(3)));
+            lt(nums, strtod(((string)argv[1]).substr(3).c_str(),nullptr));
         }
     }
     else if(strcmp(argv[1],"-max") == 0) {
@@ -243,13 +249,13 @@ int main( int argc, char* argv[] ) {
         cout << min(nums) << endl;
     }
     else if(argv[1][1] == 'm' && argv[1][2] == 'u' && argv[1][3] == 'l' && argv[1][4] == 't') {
-        mult(nums, stod(((string)argv[1]).substr(5)));
+        mult(nums, strtod(((string)argv[1]).substr(5).c_str(),nullptr));
     }
     else if(argv[1][1] == 'p' && argv[1][2] == 'o' && argv[1][3] == 'w') {
-        power(nums,stod(((string)argv[1]).substr(4)));
+        power(nums,strtod(((string)argv[1]).substr(4).c_str(),nullptr));
     }
     else if(argv[1][1] == 's' && argv[1][2] == 'u' && argv[1][3] == 'b') {
-        sub(nums,stod(((string)argv[1]).substr(4)));
+        sub(nums,strtod(((string)argv[1]).substr(4).c_str(),nullptr));
     }
     else if(strcmp(argv[1],"-sum") == 0) {
         cout << sum(nums) << endl;
