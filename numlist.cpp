@@ -40,6 +40,7 @@ const string USAGE_MESSAGE =
 "    -q3:        Compute third quartile of list of numbers\n"
 "    -sortA:     Print the list in ascending order\n"
 "    -sortD:     Print the list in descending order\n"
+"    -sqrt:      Compute the square root of each number\n"
 "    -stats:     Compute various statistics on list of numbers\n"
 "    -std:       Compute standard deviation of list of numbers\n"
 "    -sub<NUM>:  Subtract <NUM> from all numbers\n"
@@ -509,6 +510,9 @@ int main( int argc, char* argv[] ) {
     }
     else if(strcmp(argv[1],"-sortD") == 0) {
         sortD(nums);
+    }
+    else if(strcmp(argv[1],"-sqrt") == 0) {
+        power(nums,0.5);
     }
     else if(strcmp(argv[1],"-stats") == 0) {
         stats(nums);
