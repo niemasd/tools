@@ -29,6 +29,7 @@ const string USAGE_MESSAGE =
 "    -h:         Print this help message\n"
 "    -help:      Print this help message\n"
 "    -int:       Print the list as integers\n"
+"    -len:       Print length of list of numbers\n"
 "    -lt<NUM>:   Print all numbers less than <NUM>\n"
 "    -lte<NUM>:  Print all numbers less than or equal to <NUM>\n"
 "    -max:       Compute maximum of list of numbers\n"
@@ -472,6 +473,9 @@ int main( int argc, char* argv[] ) {
     }
     else if(strcmp(argv[1],"-int") == 0) {
         Int(nums);
+    }
+    else if(strcmp(argv[1],"-len") == 0) {
+        cout << nums.size() << endl;
     }
     else if(argv[1][1] == 'l' && argv[1][2] == 't') {
         if(argv[1][3] == 'e') {
