@@ -19,35 +19,36 @@ using namespace std;
 // usage message
 const string USAGE_MESSAGE =
 "\nUSAGE: numlist -ARG\n"
-"    -add<NUM>:  Add <NUM> to all numbers\n"
-"    -avg:       Compute average of list of numbers\n"
-"    -csv:       Print the list as comma-separated values\n"
-"    -div<NUM>:  Divide all numbers by <NUM>\n"
-"    -dlm<STR>:  Print the list, but delimited by <STR>\n"
-"    -gt<NUM>:   Print all numbers greater than <NUM>\n"
-"    -gte<NUM>:  Print all numbers greater than or equal to <NUM>\n"
-"    -h:         Print this help message\n"
-"    -help:      Print this help message\n"
-"    -int:       Print the list as integers\n"
-"    -len:       Print length of list of numbers\n"
-"    -lt<NUM>:   Print all numbers less than <NUM>\n"
-"    -lte<NUM>:  Print all numbers less than or equal to <NUM>\n"
-"    -max:       Compute maximum of list of numbers\n"
-"    -med:       Compute median of list of numbers\n"
-"    -min:       Compute minimum of list of numbers\n"
-"    -mult<NUM>: Multiply all numbers by <NUM>\n"
-"    -pow<NUM>:  Raise all numbers to the power of <NUM>\n"
-"    -q1:        Compute first quartile of list of numbers\n"
-"    -q3:        Compute third quartile of list of numbers\n"
-"    -sortA:     Print the list in ascending order\n"
-"    -sortD:     Print the list in descending order\n"
-"    -sqrt:      Compute the square root of each number\n"
-"    -stats:     Compute various statistics on list of numbers\n"
-"    -std:       Compute standard deviation of list of numbers\n"
-"    -sub<NUM>:  Subtract <NUM> from all numbers\n"
-"    -sum:       Compute sum of list of numbers\n"
-"    -tsv:       Print the list as tab-separated values\n"
-"    -var:       Compute variance of list of numbers\n";
+"    -add<NUM>:   Add <NUM> to all numbers\n"
+"    -avg:        Compute average of list of numbers\n"
+"    -csv:        Print the list as comma-separated values\n"
+"    -div<NUM>:   Divide all numbers by <NUM>\n"
+"    -dlm<STR>:   Print the list, but delimited by <STR>\n"
+"    -gt<NUM>:    Print all numbers greater than <NUM>\n"
+"    -gte<NUM>:   Print all numbers greater than or equal to <NUM>\n"
+"    -h:          Print this help message\n"
+"    -help:       Print this help message\n"
+"    -int:        Print the list as integers\n"
+"    -len:        Print length of list of numbers\n"
+"    -lt<NUM>:    Print all numbers less than <NUM>\n"
+"    -lte<NUM>:   Print all numbers less than or equal to <NUM>\n"
+"    -max:        Compute maximum of list of numbers\n"
+"    -med:        Compute median of list of numbers\n"
+"    -min:        Compute minimum of list of numbers\n"
+"    -mult<NUM>:  Multiply all numbers by <NUM>\n"
+"    -pow<NUM>:   Raise all numbers to the power of <NUM>\n"
+"    -quant<NUM>: Compute <NUM>th quantile of list of numbers\n"
+"    -quart1:     Compute first quartile of list of numbers\n"
+"    -quart3:     Compute third quartile of list of numbers\n"
+"    -sortA:      Print the list in ascending order\n"
+"    -sortD:      Print the list in descending order\n"
+"    -sqrt:       Compute the square root of each number\n"
+"    -stats:      Compute various statistics on list of numbers\n"
+"    -std:        Compute standard deviation of list of numbers\n"
+"    -sub<NUM>:   Subtract <NUM> from all numbers\n"
+"    -sum:        Compute sum of list of numbers\n"
+"    -tsv:        Print the list as tab-separated values\n"
+"    -var:        Compute variance of list of numbers\n";
 
 // compute the sum of a list of numers
 double sum( const list<double> & nums ) {
@@ -222,6 +223,41 @@ double q3( const list<double> & nums ) {
         else {
             return (numsVec[q3] + numsVec[q3-1]) / 2;
         }
+    }
+}
+
+// compute the q-th quantile of list of numbers
+double quant( const list<double> & nums, const float & q ) {
+    // check for validity
+    if(q < 0 || q > 1) {
+        cerr << "ERROR: Invalid quantile. <NUM> must be between 0 and 1";
+        exit(-1);
+    }
+
+    // sort list
+    unsigned int n = nums.size();
+    vector<double> numsVec(n,0);
+    unsigned int i = 0;
+    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it, ++i) {
+        numsVec[i] = *it;
+    }
+    sort(numsVec.begin(),numsVec.end());
+
+    unsigned int index = floor(q*nums.size());
+
+    // special case for index = 0
+    if(index == 0) {
+        return numsVec[0];
+    }
+
+    // if exact index, return that index
+    else if(index == q*nums.size()) {
+        return numsVec[index-1];
+    }
+
+    // if not, return average of the two surrounding indices
+    else {
+        return (numsVec[index-1] + numsVec[index])/2;
     }
 }
 
@@ -421,7 +457,7 @@ int main( int argc, char* argv[] ) {
         cerr << USAGE_MESSAGE << endl;
         exit(-1);
     }
-    else if(strcmp(argv[1],"-h") == 0 or strcmp(argv[1],"-help") == 0) {
+    else if(strcmp(argv[1],"-h") == 0 || strcmp(argv[1],"-help") == 0 || strcmp(argv[1],"--help") == 0) {
         cout << USAGE_MESSAGE << endl;
         exit(0);
     }
@@ -500,10 +536,13 @@ int main( int argc, char* argv[] ) {
     else if(argv[1][1] == 'p' && argv[1][2] == 'o' && argv[1][3] == 'w') {
         power(nums,strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
     }
-    else if(strcmp(argv[1],"-q1") == 0) {
+    else if(argv[1][1] == 'q' && argv[1][2] == 'u' && argv[1][3] == 'a' && argv[1][4] == 'n' && argv[1][5] == 't') {
+        cout << quant(nums,strtod(((string)argv[1]).substr(6).c_str(),(char**)0)) << endl;
+    }
+    else if(strcmp(argv[1],"-quart1") == 0) {
         cout << q1(nums) << endl;
     }
-    else if(strcmp(argv[1],"-q3") == 0) {
+    else if(strcmp(argv[1],"-quart3") == 0) {
         cout << q3(nums) << endl;
     }
     else if(argv[1][1] == 's' && argv[1][2] == 'u' && argv[1][3] == 'b') {
