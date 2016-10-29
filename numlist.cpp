@@ -230,7 +230,7 @@ double q3( const list<double> & nums ) {
 double quant( const list<double> & nums, const float & q ) {
     // check for validity
     if(q < 0 || q > 1) {
-        cerr << "ERROR: Invalid quantile. <NUM> must be between 0 and 1";
+        cerr << "ERROR: Invalid quantile. <NUM> must be between 0 and 1" << endl;
         exit(-1);
     }
 
@@ -243,7 +243,7 @@ double quant( const list<double> & nums, const float & q ) {
     }
     sort(numsVec.begin(),numsVec.end());
 
-    unsigned int index = floor(q*nums.size());
+    unsigned int index = (unsigned int)floor(q*nums.size());
 
     // special case for index = 0
     if(index == 0) {
