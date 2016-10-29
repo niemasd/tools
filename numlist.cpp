@@ -227,10 +227,14 @@ double q3( const list<double> & nums ) {
 }
 
 // compute the q-th quantile of list of numbers
+double Lerp(double v0, double v1, double t)
+{
+    return (1 - t)*v0 + t*v1;
+}
 double quant( const list<double> & nums, const float & q ) {
-    // check for validity
-    if(q < 0 || q > 1) {
-        cerr << "ERROR: Invalid quantile. <NUM> must be between 0 and 1" << endl;
+    if (nums.size() <= 2)
+    {
+        cerr << "Can't compute quantiles on a list of numbers with less than 2 elements." << endl;
         exit(-1);
     }
 
@@ -243,22 +247,13 @@ double quant( const list<double> & nums, const float & q ) {
     }
     sort(numsVec.begin(),numsVec.end());
 
-    unsigned int index = (unsigned int)floor(q*nums.size());
-
-    // special case for index = 0
-    if(index == 0) {
-        return numsVec[0];
-    }
-
-    // if exact index, return that index
-    else if(index == q*nums.size()) {
-        return numsVec[index-1];
-    }
-
-    // if not, return average of the two surrounding indices
-    else {
-        return (numsVec[index-1] + numsVec[index])/2;
-    }
+    // compute quantile
+    double center = Lerp(-0.5, numsVec.size() - 0.5, q);
+    size_t left = std::max(int64_t(std::floor(center)), int64_t(0));
+    size_t right = std::min(int64_t(std::ceil(center)), int64_t(numsVec.size() - 1));
+    double datLeft = numsVec.at(left);
+    double datRight = numsVec.at(right);
+    return Lerp(datLeft, datRight, center - left);
 }
 
 // output all numbers greater than the threshold
