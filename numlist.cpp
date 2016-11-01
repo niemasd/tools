@@ -384,11 +384,11 @@ void stats( const list<double> & nums ) {
     double ss = 0.0;
     double outMax = numsVec[0];
     double outMin = numsVec[0];
-    cout << "sorted list: " << numsVec[0];
+    cerr << "sorted list: " << numsVec[0];
     for(unsigned int i = 0; i < n; ++i) {
         double num = numsVec[i];
         if(i != 0) {
-            cout << "," << num;
+            cerr << "," << num;
         }
         s += num;
         ss += num*num;
@@ -438,6 +438,7 @@ void stats( const list<double> & nums ) {
     cout << "quartile3: " << outQ3 << endl;
     cout << "maximum:   " << outMax << endl << endl;
 
+    cout << "length:    " << nums.size() << endl;
     cout << "sum:       " << s << endl;
     cout << "average:   " << outMean << endl;
     cout << "variance:  " << outVar << endl;
