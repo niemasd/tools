@@ -10,7 +10,7 @@ This is a collection of command-line tools I wrote to make various repetitive ta
     echo "1,2,3,4,5" | tr ',' ' ' | numlist -sum
     ```
 
-* **[touchall](touchall.sh): Recursively touch all files in current directory (and subdirectories)**
+* **[touchall.sh](touchall.sh): Recursively touch all files in current directory (and subdirectories)**
     * Run it without arguments
 
 
