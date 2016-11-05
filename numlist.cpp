@@ -37,7 +37,7 @@ const string USAGE_MESSAGE =
 "    -min:        Compute minimum of list of numbers\n"
 "    -mult<NUM>:  Multiply all numbers by <NUM>\n"
 "    -pow<NUM>:   Raise all numbers to the power of <NUM>\n"
-"    -quant<NUM>: Compute <NUM>th quantile of list of numbers\n"
+"    -quant<NUM>: Compute <NUM>th quantile of list of numbers (0 <= <NUM> <= 1)\n"
 "    -quart1:     Compute first quartile of list of numbers\n"
 "    -quart3:     Compute third quartile of list of numbers\n"
 "    -sortA:      Print the list in ascending order\n"
@@ -51,73 +51,102 @@ const string USAGE_MESSAGE =
 "    -var:        Compute variance of list of numbers\n";
 
 // compute the sum of a list of numers
-double sum( const list<double> & nums ) {
+double sum() {
     double out = 0.0;
-    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
-        out += *it;
+    double num;
+    while(cin >> num) {
+        out += num;
     }
     return out;
 }
 
+// compute the length of a list of numbers
+double len() {
+    unsigned int n = 0;
+    double num;
+    while(cin >> num) {
+        ++n;
+    }
+    return n;
+}
+
 // compute the average of a list of numbers
-double avg( const list<double> & nums ) {
-    return sum(nums) / nums.size();
+double avg() {
+    double out = 0.0;
+    unsigned int n = 0;
+    double num;
+    while(cin >> num) {
+        out += num;
+        ++n;
+    }
+    return (out/n);
 }
 
 // compute the variance of a list of numbers
-double var( const list<double> & nums ) {
-    int n = nums.size();
+double var() {
     double s = 0.0;
     double ss = 0.0;
-    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
-        double num = *it;
+    unsigned int n = 0;
+    double num;
+    while(cin >> num) {
         s += num;
         ss += num*num;
+        ++n;
     }
     double mean = s/n;
     return ss/n - mean*mean;
 }
 
 // compute the standard deviation of a list of numbers
-double stdev( const list<double> & nums ) {
-    return pow(var(nums),0.5);
+double stdev() {
+    return pow(var(),0.5);
 }
 
 // delimit the numbers using delimiter
-void dlm( const list<double> & nums, const string & delimiter) {
-    list<double>::const_iterator it = nums.begin();
-    cout << *it;
-    ++it;
-    for(list<double>::const_iterator end = nums.end(); it != end; ++it) {
-        cout << delimiter << *it;
+void dlm( const string & delimiter ) {
+    double num;
+    if(cin >> num) {
+        cout << num;
+    }
+    else {
+        return;
+    }
+    while(cin >> num) {
+        cout << delimiter << num;
     }
     cout << endl;
 }
 
 // print the list of numbers as comma-separated
-void csv( const list<double> & nums ) {
-    dlm(nums,",");
+void csv() {
+    dlm(",");
 }
 
 // print the list of numbers as tab-separated
-void tsv( const list<double> & nums ) {
-    dlm(nums,"\t");
+void tsv() {
+    dlm("\t");
 }
 
 // print the list of numbers as integers
-void Int( const list<double> & nums ) {
-    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
-        cout << (int)(*it) << endl;
+void Int() {
+    double num;
+    while(cin >> num) {
+        cout << (int)num << endl;
     }
 }
 
 // find the max of a list of numbers
-double max( const list<double> & nums ) {
-    list<double>::const_iterator it = nums.begin();
-    double out = *it;
-    ++it;
-    for(list<double>::const_iterator end = nums.end(); it != end; ++it) {
-        double num = *it;
+double max() {
+    double out;
+    double num;
+    if(cin >> num) {
+        out = num;
+    }
+    else {
+        cerr << "ERROR: Can't find max of empty list" << endl;
+        exit(-1);
+    }
+    while(cin >> num) {
         if(num > out) {
             out = num;
         }
@@ -126,12 +155,17 @@ double max( const list<double> & nums ) {
 }
 
 // find the min of a list of numbers
-double min( const list<double> & nums ) {
-    list<double>::const_iterator it = nums.begin();
-    double out = *it;
-    ++it;
-    for(list<double>::const_iterator end = nums.end(); it != end; ++it) {
-        double num = *it;
+double min() {
+    double out;
+    double num;
+    if(cin >> num) {
+        out = num;
+    }
+    else {
+        cerr << "ERROR: Can't find min of empty list" << endl;
+        exit(-1);
+    }
+    while(cin >> num) {
         if(num < out) {
             out = num;
         }
@@ -140,7 +174,14 @@ double min( const list<double> & nums ) {
 }
 
 // find the median of a list of numbers
-double med( const list<double> & nums ) {
+double med() {
+    // read in numbers
+    list<double> nums;
+    double num;
+    while(cin >> num) {
+        nums.push_back(num);
+    }
+
     // sort list
     unsigned int n = nums.size();
     vector<double> numsVec(n,0);
@@ -163,7 +204,14 @@ double med( const list<double> & nums ) {
 }
 
 // find the first quartile of a list of numbers
-double q1( const list<double> & nums ) {
+double q1() {
+    // read in numbers
+    list<double> nums;
+    double num;
+    while(cin >> num) {
+        nums.push_back(num);
+    }
+
     // sort list
     unsigned int n = nums.size();
     vector<double> numsVec(n,0);
@@ -195,7 +243,14 @@ double q1( const list<double> & nums ) {
 }
 
 // find the third quartile of a list of numbers
-double q3( const list<double> & nums ) {
+double q3() {
+    // read in numbers
+    list<double> nums;
+    double num;
+    while(cin >> num) {
+        nums.push_back(num);
+    }
+
     // sort list
     unsigned int n = nums.size();
     vector<double> numsVec(n,0);
@@ -231,10 +286,24 @@ double Lerp(double v0, double v1, double t)
 {
     return (1 - t)*v0 + t*v1;
 }
-double quant( const list<double> & nums, const float & q ) {
-    if (nums.size() <= 2)
+double quant( const float & q ) {
+    // check for validity of q
+    if(q < 0 || q > 1) {
+        cerr << "ERROR: <NUM> must be between 0 and 1" << endl;
+        exit(-1);
+    }
+
+    // read in numbers
+    list<double> nums;
+    double num;
+    while(cin >> num) {
+        nums.push_back(num);
+    }
+
+    // check for validity of list
+    if(nums.size() <= 2)
     {
-        cerr << "Can't compute quantiles on a list of numbers with less than 2 elements." << endl;
+        cerr << "ERROR: Can't compute quantiles on a list of numbers with less than 2 elements." << endl;
         exit(-1);
     }
 
@@ -257,9 +326,9 @@ double quant( const list<double> & nums, const float & q ) {
 }
 
 // output all numbers greater than the threshold
-void gt( const list<double> & nums, const double & thresh ) {
-    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
-        double num = *it;
+void gt( const double & thresh ) {
+    double num;
+    while(cin >> num) {
         if(num > thresh) {
             cout << num << endl;
         }
@@ -267,9 +336,9 @@ void gt( const list<double> & nums, const double & thresh ) {
 }
 
 // output all numbers greater than or equal to the threshold
-void gte( const list<double> & nums, const double & thresh ) {
-    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
-        double num = *it;
+void gte( const double & thresh ) {
+    double num;
+    while(cin >> num) {
         if(num >= thresh) {
             cout << num << endl;
         }
@@ -277,9 +346,9 @@ void gte( const list<double> & nums, const double & thresh ) {
 }
 
 // output all numbers less than the threshold
-void lt( const list<double> & nums, const double & thresh ) {
-    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
-        double num = *it;
+void lt( const double & thresh ) {
+    double num;
+    while(cin >> num) {
         if(num < thresh) {
             cout << num << endl;
         }
@@ -287,9 +356,9 @@ void lt( const list<double> & nums, const double & thresh ) {
 }
 
 // output all numbers less than or equal to the threshold
-void lte( const list<double> & nums, const double & thresh ) {
-    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
-        double num = *it;
+void lte( const double & thresh ) {
+    double num;
+    while(cin >> num) {
         if(num <= thresh) {
             cout << num << endl;
         }
@@ -297,37 +366,42 @@ void lte( const list<double> & nums, const double & thresh ) {
 }
 
 // add num to all numbers
-void add( const list<double> & nums, const double & num ) {
-    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
-        cout << (*it)+num << endl;
+void add( const double & i ) {
+    double num;
+    while(cin >> num) {
+        cout << num+i << endl;
     }
 }
 
 // subtract num from all numbers
-void sub( const list<double> & nums, const double & num ) {
-    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
-        cout << (*it)-num << endl;
+void sub( const double & i ) {
+    double num;
+    while(cin >> num) {
+        cout << num-i << endl;
     }
 }
 
 // divide all numbers by num
-void div( const list<double> & nums, const double & num ) {
-    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
-        cout << (*it)/num << endl;
+void div( const double & i ) {
+    double num;
+    while(cin >> num) {
+        cout << num/i << endl;
     }
 }
 
 // multiply all numbers by num
-void mult( const list<double> & nums, const double & num ) {
-    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
-        cout << (*it)*num << endl;
+void mult( const double & i ) {
+    double num;
+    while(cin >> num) {
+        cout << num*i << endl;
     }
 }
 
 // raise all numbers to the power of "exponent"
-void power( const list<double> & nums, const double & exponent ) {
-    for(list<double>::const_iterator it = nums.begin(), end = nums.end(); it != end; ++it) {
-        cout << pow(*it,exponent) << endl;
+void power( const double & exponent ) {
+    double num;
+    while(cin >> num) {
+        cout << pow(num,exponent) << endl;
     }
 }
 
@@ -341,7 +415,14 @@ void replace(string & subject, const string & search, const string & replace) {
 }
 
 // print list in ascending order
-void sortA( const list<double> & nums ) {
+void sortA() {
+    // read in numbers
+    list<double> nums;
+    double num;
+    while(cin >> num) {
+        nums.push_back(num);
+    }
+
     unsigned int n = nums.size();
     vector<double> numsVec(n,0);
     unsigned int i = 0;
@@ -355,7 +436,14 @@ void sortA( const list<double> & nums ) {
 }
 
 // print list in descending order
-void sortD( const list<double> & nums ) {
+void sortD() {
+    // read in numbers
+    list<double> nums;
+    double num;
+    while(cin >> num) {
+        nums.push_back(num);
+    }
+
     unsigned int n = nums.size();
     vector<double> numsVec(n,0);
     unsigned int i = 0;
@@ -369,7 +457,14 @@ void sortD( const list<double> & nums ) {
 }
 
 // compute various stats on list of numbers
-void stats( const list<double> & nums ) {
+void stats() {
+    // read in numbers
+    list<double> nums;
+    double num;
+    while(cin >> num) {
+        nums.push_back(num);
+    }
+
     // sort list
     unsigned int n = nums.size();
     vector<double> numsVec(n,0);
@@ -458,26 +553,19 @@ int main( int argc, char* argv[] ) {
         exit(0);
     }
 
-    // read in numbers
-    list<double> nums;
-    double num;
-    while(cin >> num) {
-        nums.push_back(num);
-    }
-
     // perform task
     if(argv[1][1] == 'a' && argv[1][2] == 'd' && argv[1][3] == 'd') {
-        add(nums,strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
+        add(strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
     }
     else if(strcmp(argv[1],"-avg") == 0) {
-        cout << avg(nums) << endl;
+        cout << avg() << endl;
     }
     else if(strcmp(argv[1],"-csv") == 0) {
-        csv(nums);
+        csv();
     }
     else if(argv[1][1] == 'd') {
         if(argv[1][2] == 'i' && argv[1][3] == 'v') {
-            div(nums, strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
+            div(strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
         }
         else if(argv[1][2] == 'l' && argv[1][3] == 'm') {
             string delimiter = argv[1];
@@ -487,7 +575,7 @@ int main( int argc, char* argv[] ) {
             replace(delimiter,"\\n","\n");
             replace(delimiter,"\\r","\r");
             replace(delimiter,"\\t","\t");
-            dlm(nums,delimiter);
+            dlm(delimiter);
          }
          else {
              cerr << "ERROR: Invalid argument: " << argv[1] << endl;
@@ -497,76 +585,76 @@ int main( int argc, char* argv[] ) {
     }
     else if(argv[1][1] == 'g' && argv[1][2] == 't') {
         if(argv[1][3] == 'e') {
-            gte(nums, strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
+            gte(strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
         }
         else {
-            gt(nums, strtod(((string)argv[1]).substr(3).c_str(),(char**)0));
+            gt(strtod(((string)argv[1]).substr(3).c_str(),(char**)0));
         }
     }
     else if(strcmp(argv[1],"-int") == 0) {
-        Int(nums);
+        Int();
     }
     else if(strcmp(argv[1],"-len") == 0) {
-        cout << nums.size() << endl;
+        cout << len() << endl;
     }
     else if(argv[1][1] == 'l' && argv[1][2] == 't') {
         if(argv[1][3] == 'e') {
-            lte(nums, strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
+            lte(strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
         }
         else {
-            lt(nums, strtod(((string)argv[1]).substr(3).c_str(),(char**)0));
+            lt(strtod(((string)argv[1]).substr(3).c_str(),(char**)0));
         }
     }
     else if(strcmp(argv[1],"-max") == 0) {
-        cout << max(nums) << endl;
+        cout << max() << endl;
     }
     else if(strcmp(argv[1],"-med") == 0) {
-        cout << med(nums) << endl;
+        cout << med() << endl;
     }
     else if(strcmp(argv[1],"-min") == 0) {
-        cout << min(nums) << endl;
+        cout << min() << endl;
     }
     else if(argv[1][1] == 'm' && argv[1][2] == 'u' && argv[1][3] == 'l' && argv[1][4] == 't') {
-        mult(nums, strtod(((string)argv[1]).substr(5).c_str(),(char**)0));
+        mult(strtod(((string)argv[1]).substr(5).c_str(),(char**)0));
     }
     else if(argv[1][1] == 'p' && argv[1][2] == 'o' && argv[1][3] == 'w') {
-        power(nums,strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
+        power(strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
     }
     else if(argv[1][1] == 'q' && argv[1][2] == 'u' && argv[1][3] == 'a' && argv[1][4] == 'n' && argv[1][5] == 't') {
-        cout << quant(nums,strtod(((string)argv[1]).substr(6).c_str(),(char**)0)) << endl;
+        cout << quant(strtod(((string)argv[1]).substr(6).c_str(),(char**)0)) << endl;
     }
     else if(strcmp(argv[1],"-quart1") == 0) {
-        cout << q1(nums) << endl;
+        cout << q1() << endl;
     }
     else if(strcmp(argv[1],"-quart3") == 0) {
-        cout << q3(nums) << endl;
+        cout << q3() << endl;
     }
     else if(argv[1][1] == 's' && argv[1][2] == 'u' && argv[1][3] == 'b') {
-        sub(nums,strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
+        sub(strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
     }
     else if(strcmp(argv[1],"-sortA") == 0) {
-        sortA(nums);
+        sortA();
     }
     else if(strcmp(argv[1],"-sortD") == 0) {
-        sortD(nums);
+        sortD();
     }
     else if(strcmp(argv[1],"-sqrt") == 0) {
-        power(nums,0.5);
+        power(0.5);
     }
     else if(strcmp(argv[1],"-stats") == 0) {
-        stats(nums);
+        stats();
     }
     else if(strcmp(argv[1],"-std") == 0) {
-        cout << stdev(nums) << endl;
+        cout << stdev() << endl;
     }
     else if(strcmp(argv[1],"-sum") == 0) {
-        cout << sum(nums) << endl;
+        cout << sum() << endl;
     }
     else if(strcmp(argv[1],"-tsv") == 0) {
-        tsv(nums);
+        tsv();
     }
     else if(strcmp(argv[1],"-var") == 0) {
-        cout << var(nums) << endl;
+        cout << var() << endl;
     }
     else {
         cerr << "ERROR: Invalid argument: " << argv[1] << endl;
