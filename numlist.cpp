@@ -36,10 +36,13 @@ const string USAGE_MESSAGE =
 "    -med:        Compute median of list of numbers\n"
 "    -min:        Compute minimum of list of numbers\n"
 "    -mult<NUM>:  Multiply all numbers by <NUM>\n"
+"    -neg:        Get the negative of each number\n"
 "    -pow<NUM>:   Raise all numbers to the power of <NUM>\n"
 "    -quant<NUM>: Compute <NUM>th quantile of list of numbers (0 <= <NUM> <= 1)\n"
 "    -quart1:     Compute first quartile of list of numbers\n"
 "    -quart3:     Compute third quartile of list of numbers\n"
+"    -recip:      Compute the reciprocal of each number\n"
+"    -rev:        Reverse the list of numbers\n"
 "    -sortA:      Print the list in ascending order\n"
 "    -sortD:      Print the list in descending order\n"
 "    -sqrt:       Compute the square root of each number\n"
@@ -397,6 +400,14 @@ void mult( const double & i ) {
     }
 }
 
+// compute the reciprocal of each number
+void reciprocal() {
+    double num;
+    while(cin >> num) {
+        cout << 1.0/num << endl;
+    }
+}
+
 // raise all numbers to the power of "exponent"
 void power( const double & exponent ) {
     double num;
@@ -411,6 +422,18 @@ void replace(string & subject, const string & search, const string & replace) {
     while((pos = subject.find(search, pos)) != string::npos) {
          subject.replace(pos, search.length(), replace);
          pos += replace.length();
+    }
+}
+
+// reverse the list of numbers
+void reverse() {
+    list<double> nums;
+    double num;
+    while(cin >> num) {
+        nums.push_back(num);
+    }
+    for(list<double>::const_iterator it = nums.end(), beg = nums.begin(); it != beg;) {
+        --it; cout << *it << endl;
     }
 }
 
@@ -617,6 +640,9 @@ int main( int argc, char* argv[] ) {
     else if(argv[1][1] == 'm' && argv[1][2] == 'u' && argv[1][3] == 'l' && argv[1][4] == 't') {
         mult(strtod(((string)argv[1]).substr(5).c_str(),(char**)0));
     }
+    else if(strcmp(argv[1],"-neg") == 0) {
+        mult(-1);
+    }
     else if(argv[1][1] == 'p' && argv[1][2] == 'o' && argv[1][3] == 'w') {
         power(strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
     }
@@ -628,6 +654,12 @@ int main( int argc, char* argv[] ) {
     }
     else if(strcmp(argv[1],"-quart3") == 0) {
         cout << q3() << endl;
+    }
+    else if(strcmp(argv[1],"-recip") == 0) {
+        reciprocal();
+    }
+    else if(strcmp(argv[1],"-rev") == 0) {
+        reverse();
     }
     else if(argv[1][1] == 's' && argv[1][2] == 'u' && argv[1][3] == 'b') {
         sub(strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
