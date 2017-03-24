@@ -40,8 +40,8 @@ def readFASTA(stream, alphabet):
 # parse arguments
 def parseArgs():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('-i', '--input', required=False, type=argparse.FileType('r'), default=stdin, help="Input FASTA (default: standard input)")
-    parser.add_argument('-o', '--output', required=False, type=argparse.FileType('w'), default=stdout, help="Output (default: standard output)")
+    parser.add_argument('-i', '--input', required=False, type=argparse.FileType('r'), default=stdin, help="Input FASTA")
+    parser.add_argument('-o', '--output', required=False, type=argparse.FileType('w'), default=stdout, help="Output")
     parser.add_argument('-a', '--alphabet', required=True, type=str, help="Alphabet (DNA, RNA, or AMINO)")
     args = parser.parse_args()
     assert args.alphabet in {"DNA", "RNA", "AMINO"}, "Invalid alphabet: %s" % args.alphabet

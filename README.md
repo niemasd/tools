@@ -1,5 +1,8 @@
 This is a collection of command-line tools I wrote to make various repetitive tasks more convenient. They will typically take input from standard input and will output to standard output. I make an effort to not use external libraries so that compilation requires the least possible dependencies. Note that some other tools/scripts I write for other projects use these tools and assume they can be found in your `PATH`.
 
+* **[fasta2json](fasta2json.py): Convert a FASTA file to JSON**
+    * For help message: `python fasta2json.py -h`
+
 * **[numlist](numlist.cpp): Perform various basic tasks on a list of numbers**
     * The list of numbers must be passed in via standard input
     * Run it without arguments to see the usage message, which contains a list of functions
