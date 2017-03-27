@@ -3,6 +3,9 @@ This is a collection of command-line tools I wrote to make various repetitive ta
 * **[fasta2json](fasta2json.py): Convert a FASTA file to JSON**
     * For help message: `python fasta2json.py -h`
 
+* **[mergebib](mergebib.py): Merge multiple BibTeX files into a single file named `merged.bib`**
+    * Usage: `python mergebib.py <file1.bib> <file2.bib> ...`
+
 * **[numlist](numlist.cpp): Perform various basic tasks on a list of numbers**
     * The list of numbers must be passed in via standard input
     * Run it without arguments to see the usage message, which contains a list of functions
