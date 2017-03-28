@@ -5,6 +5,7 @@ This is a collection of command-line tools I wrote to make various repetitive ta
 
 * **[mergebib](mergebib.py): Merge multiple BibTeX files into a single file named `merged.bib`**
     * Usage: `python mergebib.py <file1.bib> <file2.bib> ...`
+    * Verbose messages are output to standard error, and the merged file is output to standard output
 
 * **[numlist](numlist.cpp): Perform various basic tasks on a list of numbers**
     * The list of numbers must be passed in via standard input
