@@ -3,6 +3,10 @@ This is a collection of command-line tools I wrote to make various repetitive ta
 * **[fasta2json](fasta2json.py): Convert a FASTA file to JSON**
     * For help message: `python fasta2json.py -h`
 
+* **[histogram](histogram.py): Create a histogram from a list of numbers**
+    * The list of numbers must be passed in via standard input
+    * For help message: `python histogram.py -h`
+
 * **[mergebib](mergebib.py): Merge multiple BibTeX files into a single file named `merged.bib`**
     * Usage: `python mergebib.py <file1.bib> <file2.bib> ...`
     * Verbose messages are output to standard error, and the merged file is output to standard output
