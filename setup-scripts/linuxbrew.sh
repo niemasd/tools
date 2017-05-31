@@ -29,16 +29,61 @@ for f in /usr/bin/gfortran*; do ln -s `which $f` $HOME/.linuxbrew/bin/gfortran-`
 rm $HOME/.linuxbrew/bin/*-
 
 # install important packages
-brew install zlib
-brew install binutils --with-default-names
-brew install glibc --with-current-kernel
-# if glibc fails, comment out line 52 of ~/.linuxbrew/Library/Homebrew/os/linux/elf.rb (raise ErrorDuringExecution, command unless $?.success?)
-# then also after everything's done do: cd ~/.linuxbrew && git reset --hard origin/master && cd
-brew install curl # make sure this works so other stuff can download properly
-brew install git
 brew install gcc
-brew install coreutils --with-default-names
-brew install file-formula
-brew tap linuxbrew/xorg
-brew install xorg
-brew install python3 # this needed xorg on debruijn
+brew list | grep -v gcc | grep -v glibc | xargs brew reinstall
+cd ~/.cache/Homebrew && wget http://niema.net/files/curl-7.54.0.tar.bz2 && cd # only needed if system's certificate is too old. curl source on my server might be out-of-date
+brew install curl
+brew install perl
+brew reinstall openssl
+brew reinstall curl
+brew install gnu-tar --with-default-names
+brew install file-formula bsdmainutils binutils coreutils findutils gawk gnu-sed gnu-which grep libpng libxml2 libxslt make ncurses readline
+brew install cmake
+brew install ruby
+brew install git wget htop gzip unzip
+brew install less
+brew install python
+brew install vim --with-override-system-vi
+brew tap linuxbrew/homebrew-science
+brew install openblas openmpi
+
+# compile python3 from source
+mkdir ~/.python3
+wget https://www.python.org/ftp/python/3.2.6/Python-3.2.6.tgz
+tar -zxvf Python-3.2.6.tgz && rm Python-3.2.6.tgz
+cd Python-3.2.6 && ./configure
+make altinstall prefix=$HOME/.python3 exec-prefix=$HOME/.python3
+cd .. && rm -rf Python-3.2.6
+ln -s ~/.python3/bin/python3.2 ~/bin/python3 # assumes ~/bin is in PATH
+curl https://bootstrap.pypa.io/3.2/get-pip.py | ~/bin/python3
+ln -s ~/.python3/bin/pip3 ~/bin/pip3
+wget https://bitbucket.org/pypa/setuptools/raw/0.7.4/ez_setup.py -O - | python3
+pip3 install numpy==1.10.4
+wget https://pypi.python.org/packages/4a/da/4bf81ee31f187553fd12381635dc47d14747817c9196e388cf56209f275e/biopython-1.61.tar.gz
+tar -zxvf biopython-1.61.tar.gz && rm biopython-1.61.tar.gz
+cd biopython-1.61 && python3 setup.py install
+cd .. && rm -rf biopython-1.61
+
+
+
+
+#brew install R
+
+# compile python3 from source
+#wget https://www.python.org/ftp/python/3.6.1/Python-3.6.1.tgz
+#tar -zxvf Python-3.6.1.tgz
+#rm Python-3.6.1.tgz
+#cd Python-3.6.1
+#./configure
+#mkdir -p ~/.python3
+#make altinstall prefix=$HOME/.python3 exec-prefix=$HOME/.python3
+#ln -s ~/.python3/bin/python3.3 ~/bin/python3
+
+
+# trying to install python3
+#brew install libtool --with-default-names
+#brew install bash
+#ln -s ~/.linuxbrew/bin/bash ~/bin/sh # assuming ~/bin is in PATH
+#brew tap linuxbrew/homebrew-xorg
+#brew install xorg
+#brew install python3
