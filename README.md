@@ -21,6 +21,9 @@ This is a collection of command-line tools I wrote to make various repetitive ta
     echo "1,2,3,4,5" | tr ',' ' ' | numlist -sum
     ```
 
+* **[nw_error](nw_error)**: Compute various error metrics on Newick trees
+    * Usage: `nw_error metric tree1 tree2`
+
 * **[touchall.sh](touchall.sh): Recursively touch all files in current directory (and subdirectories)**
     * Run it without arguments
 
