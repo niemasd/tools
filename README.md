@@ -27,7 +27,7 @@ This is a collection of command-line tools I wrote to make various repetitive ta
 
 * **[scatterplot](scatterplot.py): Create a scatterplot from two lists of numbers (x,y)**
     * Reads the list of points from standard input by default, or a file can be passed vi `-i`
-        * Each line should contain a single point in the format `xvalue,yvalue`
+        * Each line should contain a single point in the format `xvalue,yvalue`, e.g.:
             ```
             1,10
             2,9
