@@ -22,7 +22,7 @@ parser.add_argument('-xint', '--xint', action='store_true', help="Integer Ticks 
 parser.add_argument('-yint', '--yint', action='store_true', help="Integer Ticks on Y-Axis")
 args = parser.parse_args()
 
-# create histogram
+# create figure+axes
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import seaborn as sns
