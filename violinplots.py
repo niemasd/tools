@@ -11,8 +11,8 @@ parser.add_argument('-in', '--inner', required=False, type=str, default=None, he
 parser.add_argument('-t', '--title', required=False, type=str, default=None, help="Figure Title")
 parser.add_argument('-xl', '--xlabel', required=False, type=str, default=None, help="X-Axis Label")
 parser.add_argument('-yl', '--ylabel', required=False, type=str, default=None, help="Y-Axis Label")
-parser.add_argument('-ymin', '--ymin', required=False, type=int, default=None, help="Y-Axis Minimum")
-parser.add_argument('-ymax', '--ymax', required=False, type=int, default=None, help="Y-Axis Maximum")
+parser.add_argument('-ymin', '--ymin', required=False, type=float, default=None, help="Y-Axis Minimum")
+parser.add_argument('-ymax', '--ymax', required=False, type=float, default=None, help="Y-Axis Maximum")
 args = parser.parse_args()
 
 # create figure+axes
