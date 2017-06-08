@@ -2,7 +2,9 @@
 
 # parse user arguments
 import argparse
+from sys import stdin
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+parser.add_argument('-i', '--input', required=False, type=file, default=stdin, help="Input file stream")
 parser.add_argument('-t', '--title', required=False, type=str, default=None, help="Figure Title")
 parser.add_argument('-xl', '--xlabel', required=False, type=str, default=None, help="X-Axis Label")
 parser.add_argument('-yl', '--ylabel', required=False, type=str, default=None, help="Y-Axis Label")
@@ -17,11 +19,10 @@ parser.add_argument('-r', '--rug', action='store_true', help="Show Rug Plot")
 args = parser.parse_args()
 
 # create figure+axes
-from sys import stdin
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import seaborn as sns
-data = [float(i) for i in stdin.read().strip().split()]
+data = [float(i) for i in args.input.read().strip().split()]
 fig, ax = plt.subplots()
 
 # set integer ticks (if applicable)

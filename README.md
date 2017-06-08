@@ -4,7 +4,8 @@ This is a collection of command-line tools I wrote to make various repetitive ta
     * For help message: `python fasta2json.py -h`
 
 * **[histogram](histogram.py): Create a histogram from a list of numbers**
-    * The list of numbers must be passed in via standard input
+    * Reads the list of numbers from standard input by default, or a file can be passed via `-i`
+        * The numbers in the list must be whitespace-delimited
     * For help message: `python histogram.py -h`
 
 * **[mergebib](mergebib.py): Merge multiple BibTeX files into a single file named `merged.bib`**
@@ -32,6 +33,10 @@ This is a collection of command-line tools I wrote to make various repetitive ta
 * **[touchall.sh](touchall.sh): Recursively touch all files in current directory (and subdirectories)**
     * Run it without arguments
 
+* **[violinplots](violinplots.py): Create violin plots from data**
+    * Reads the data from standard input by default, or a file can be passed via `-i`
+        * The data must be in the JSON (or Python dictionary) format
+    * For help message: `python fasta2json.py -h`
 
 INSTALLATION
 ===
