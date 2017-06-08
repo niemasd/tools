@@ -3,9 +3,9 @@
 
 # parse user arguments
 import argparse
+from sys import stdin
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument('-x', '--xvals', required=True, type=file, help="File with X values (whitespace-delimited)")
-parser.add_argument('-y', '--yvals', required=True, type=file, help="File with Y values (whitespace-delimited)")
+parser.add_argument('-i', '--input', required=False, type=file, default=stdin, help="Input file stream")
 parser.add_argument('-c', '--color', required=False, type=str, default=None)
 parser.add_argument('-ls', '--linestyle', required=False, type=str, default=None)
 parser.add_argument('-lw', '--linewidth', required=False, type=float, default=None)
@@ -26,9 +26,12 @@ args = parser.parse_args()
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import seaborn as sns
-x = [float(i) for i in args.xvals.read().split()]
-y = [float(i) for i in args.yvals.read().split()]
-assert len(x) == len(y), "X and Y must have the same number of elements"
+x = []
+y = []
+for line in args.input:
+    xval,yval = line.split(',')
+    x.append(xval)
+    y.append(yval)
 fig, ax = plt.subplots()
 
 # set integer ticks (if applicable)
