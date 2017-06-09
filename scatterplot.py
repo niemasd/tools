@@ -5,7 +5,7 @@
 import argparse
 from sys import stdin
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument('-i', '--input', required=False, type=file, default=stdin, help="Input file stream")
+parser.add_argument('-i', '--input', required=False, type=file, default=stdin, help="Input File Stream")
 parser.add_argument('-c', '--color', required=False, type=str, default=None)
 parser.add_argument('-ls', '--linestyle', required=False, type=str, default=None)
 parser.add_argument('-lw', '--linewidth', required=False, type=float, default=None)
