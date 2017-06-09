@@ -1,19 +1,19 @@
 This is a collection of command-line tools I wrote to make various repetitive tasks more convenient. They will typically take input from standard input and will output to standard output. I make an effort to not use external libraries so that compilation requires the least possible dependencies. Note that some other tools/scripts I write for other projects use these tools and assume they can be found in your `PATH`.
 
-* **[boxplots](boxplots.py): Create box plots from data**
+* **[boxplots.py](boxplots.py): Create box plots from data**
     * Reads the data from standard input by default, or a file can be passed via `-i`
         * The data must be in the JSON (or Python dictionary) format
     * For help message: `python boxplots.py -h`
 
-* **[fasta2json](fasta2json.py): Convert a FASTA file to JSON**
+* **[fasta2json.py](fasta2json.py): Convert a FASTA file to JSON**
     * For help message: `python fasta2json.py -h`
 
-* **[histogram](histogram.py): Create a histogram from a list of numbers**
+* **[histogram.py](histogram.py): Create a histogram from a list of numbers**
     * Reads the list of numbers from standard input by default, or a file can be passed via `-i`
         * The numbers in the list must be whitespace-delimited
     * For help message: `python histogram.py -h`
 
-* **[mergebib](mergebib.py): Merge multiple BibTeX files into a single file named `merged.bib`**
+* **[mergebib.py](mergebib.py): Merge multiple BibTeX files into a single file named `merged.bib`**
     * Usage: `python mergebib.py <file1.bib> <file2.bib> ...`
     * Verbose messages are output to standard error, and the merged file is output to standard output
 
@@ -30,7 +30,7 @@ This is a collection of command-line tools I wrote to make various repetitive ta
 * **[nw_error](nw_error)**: Compute various error metrics on Newick trees
     * Usage: `nw_error metric tree1 tree2`
 
-* **[scatterplot](scatterplot.py): Create a scatterplot from two lists of numbers (x,y)**
+* **[scatterplot.py](scatterplot.py): Create a scatterplot from two lists of numbers (x,y)**
     * Reads the list of points from standard input by default, or a file can be passed vi `-i`
         * Each line should contain a single point in the format `xvalue,yvalue`, e.g.:
             ```
@@ -43,7 +43,7 @@ This is a collection of command-line tools I wrote to make various repetitive ta
 * **[touchall.sh](touchall.sh): Recursively touch all files in current directory (and subdirectories)**
     * Run it without arguments
 
-* **[violinplots](violinplots.py): Create violin plots from data**
+* **[violinplots.py](violinplots.py): Create violin plots from data**
     * Reads the data from standard input by default, or a file can be passed via `-i`
         * The data must be in the JSON (or Python dictionary) format
     * For help message: `python violinplots.py -h`
