@@ -8,8 +8,9 @@ set autoindent
 " Visual
 syntax enable                  " syntax highlighting
 set showmatch                  " highlight matching [{()}]
-set hlsearch                   " highlight matches
-set nowrap
+set hlsearch                   " highlight matches of search results
+set incsearch                  " highlight matches of search results in realtime
+set nowrap                     " don't wrap text around
 
 " Other
 set mouse-=a                   " disable switching to Visual mode on mouse highlighting
