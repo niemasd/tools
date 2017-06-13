@@ -120,16 +120,6 @@ void dlm( const string & delimiter ) {
     cout << endl;
 }
 
-// print the list of numbers as comma-separated
-void csv() {
-    dlm(",");
-}
-
-// print the list of numbers as tab-separated
-void tsv() {
-    dlm("\t");
-}
-
 // print the list of numbers as integers
 void Int() {
     double num;
@@ -584,7 +574,7 @@ int main( int argc, char* argv[] ) {
         cout << avg() << endl;
     }
     else if(strcmp(argv[1],"-csv") == 0) {
-        csv();
+        dlm(",")
     }
     else if(argv[1][1] == 'd') {
         if(argv[1][2] == 'i' && argv[1][3] == 'v') {
@@ -683,7 +673,7 @@ int main( int argc, char* argv[] ) {
         cout << sum() << endl;
     }
     else if(strcmp(argv[1],"-tsv") == 0) {
-        tsv();
+        dlm("\t");
     }
     else if(strcmp(argv[1],"-var") == 0) {
         cout << var() << endl;
