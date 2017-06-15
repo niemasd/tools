@@ -1,0 +1,5 @@
+altscreen on
+screen -t "HOME"
+unsetenv LD_LIBRARY_PATH
+stuff "source ~/.bash_profile"
+stuff "clear"
