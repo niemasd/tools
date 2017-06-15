@@ -574,7 +574,7 @@ int main( int argc, char* argv[] ) {
         cout << avg() << endl;
     }
     else if(strcmp(argv[1],"-csv") == 0) {
-        dlm(",")
+        dlm(",");
     }
     else if(argv[1][1] == 'd') {
         if(argv[1][2] == 'i' && argv[1][3] == 'v') {
