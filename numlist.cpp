@@ -30,12 +30,14 @@ const string USAGE_MESSAGE =
 "    -help:       Print this help message\n"
 "    -int:        Print the list as integers\n"
 "    -len:        Print length of list of numbers\n"
+"    -ln          Take the natural log of each number\n"
+"    -log<NUM>    Take the log base <NUM> of each number\n"
 "    -lt<NUM>:    Print all numbers less than <NUM>\n"
 "    -lte<NUM>:   Print all numbers less than or equal to <NUM>\n"
 "    -max:        Compute maximum of list of numbers\n"
 "    -med:        Compute median of list of numbers\n"
 "    -min:        Compute minimum of list of numbers\n"
-"    -mult<NUM>:  Multiply all numbers by <NUM>\n"
+"    -mul<NUM>:  Multiply all numbers by <NUM>\n"
 "    -neg:        Get the negative of each number\n"
 "    -pow<NUM>:   Raise all numbers to the power of <NUM>\n"
 "    -quant<NUM>: Compute <NUM>th quantile of list of numbers (0 <= <NUM> <= 1)\n"
@@ -406,6 +408,23 @@ void power( const double & exponent ) {
     }
 }
 
+// take the natural log of each number
+void ln() {
+    double num;
+    while(cin >> num) {
+        cout << log(num) << endl;
+    }
+}
+
+// take the log base "base" of each number
+void Log( const double & base) {
+    const double convert = log10(base);
+    double num;
+    while(cin >> num) {
+        cout << log10(num)/convert << endl;
+    }
+}
+
 // replace all instances of "search" with "replace" in "subject"
 void replace(string & subject, const string & search, const string & replace) {
     size_t pos = 0;
@@ -553,6 +572,26 @@ void stats() {
     cout << "stdev:     " << pow(outVar,0.5) << endl;
 }
 
+// check argument string for valid number (arg = argv[1], l = length of stuff before number)
+double check_num( const string & arg, const unsigned int & l ) {
+    if(arg.length() == l) {
+        cerr << "ERROR: No number specified" << endl;
+        cerr << USAGE_MESSAGE << endl;
+        exit(-1);
+    }
+    string numstr = arg.substr(l).c_str();
+    char* p;
+    double num = strtod(numstr.c_str(), &p);
+    if(*p) {
+        cerr << "ERROR: Invalid number specified: " << arg.substr(l).c_str() << endl;
+        cerr << USAGE_MESSAGE << endl;
+        exit(-1);
+    }
+    else {
+        return num;
+    }
+}
+
 // main function
 int main( int argc, char* argv[] ) {
     // check arguments
@@ -568,6 +607,7 @@ int main( int argc, char* argv[] ) {
 
     // perform task
     if(argv[1][1] == 'a' && argv[1][2] == 'd' && argv[1][3] == 'd') {
+        check_num(argv[1],4);
         add(strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
     }
     else if(strcmp(argv[1],"-avg") == 0) {
@@ -578,7 +618,7 @@ int main( int argc, char* argv[] ) {
     }
     else if(argv[1][1] == 'd') {
         if(argv[1][2] == 'i' && argv[1][3] == 'v') {
-            div(strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
+            div(check_num(argv[1],4));
         }
         else if(argv[1][2] == 'l' && argv[1][3] == 'm') {
             string delimiter = argv[1];
@@ -598,10 +638,10 @@ int main( int argc, char* argv[] ) {
     }
     else if(argv[1][1] == 'g' && argv[1][2] == 't') {
         if(argv[1][3] == 'e') {
-            gte(strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
+            gte(check_num(argv[1],4));
         }
         else {
-            gt(strtod(((string)argv[1]).substr(3).c_str(),(char**)0));
+            gt(check_num(argv[1],3));
         }
     }
     else if(strcmp(argv[1],"-int") == 0) {
@@ -610,12 +650,25 @@ int main( int argc, char* argv[] ) {
     else if(strcmp(argv[1],"-len") == 0) {
         cout << len() << endl;
     }
-    else if(argv[1][1] == 'l' && argv[1][2] == 't') {
-        if(argv[1][3] == 'e') {
-            lte(strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
+    else if(strcmp(argv[1],"-ln") == 0) {
+        ln();
+    }
+    else if(argv[1][1] == 'l') {
+        if(argv[1][2] == 'o' && argv[1][3] == 'g') {
+            Log(check_num(argv[1],4));
+        }
+        else if(argv[1][2] == 't') {
+            if(argv[1][3] == 'e') {
+                lte(check_num(argv[1],4));
+            }
+            else {
+                lt(check_num(argv[1],3));
+            }
         }
         else {
-            lt(strtod(((string)argv[1]).substr(3).c_str(),(char**)0));
+            cerr << "ERROR: Invalid argument: " << argv[1] << endl;
+            cerr << USAGE_MESSAGE << endl;
+            exit(-1);
         }
     }
     else if(strcmp(argv[1],"-max") == 0) {
@@ -627,17 +680,17 @@ int main( int argc, char* argv[] ) {
     else if(strcmp(argv[1],"-min") == 0) {
         cout << min() << endl;
     }
-    else if(argv[1][1] == 'm' && argv[1][2] == 'u' && argv[1][3] == 'l' && argv[1][4] == 't') {
-        mult(strtod(((string)argv[1]).substr(5).c_str(),(char**)0));
+    else if(argv[1][1] == 'm' && argv[1][2] == 'u' && argv[1][3] == 'l') {
+        mult(check_num(argv[1],4));
     }
     else if(strcmp(argv[1],"-neg") == 0) {
         mult(-1);
     }
     else if(argv[1][1] == 'p' && argv[1][2] == 'o' && argv[1][3] == 'w') {
-        power(strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
+        power(check_num(argv[1],4));
     }
     else if(argv[1][1] == 'q' && argv[1][2] == 'u' && argv[1][3] == 'a' && argv[1][4] == 'n' && argv[1][5] == 't') {
-        cout << quant(strtod(((string)argv[1]).substr(6).c_str(),(char**)0)) << endl;
+        cout << quant(check_num(argv[1],6)) << endl;
     }
     else if(strcmp(argv[1],"-quart1") == 0) {
         cout << q1() << endl;
@@ -652,7 +705,7 @@ int main( int argc, char* argv[] ) {
         reverse();
     }
     else if(argv[1][1] == 's' && argv[1][2] == 'u' && argv[1][3] == 'b') {
-        sub(strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
+        sub(check_num(argv[1],4));
     }
     else if(strcmp(argv[1],"-sortA") == 0) {
         sortA();
