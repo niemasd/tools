@@ -33,6 +33,9 @@ This is a collection of command-line tools I wrote to make various repetitive ta
 * **[nw_error](nw_error)**: Compute various error metrics on Newick trees
     * Usage: `nw_error metric tree1 tree2`
 
+* **[ranDNA.py](ranDNA.py): Generate random DNA sequences**
+    * For help message: `python ranDNA.py -h`
+
 * **[scatterplot.py](scatterplot.py): Create a scatterplot from two lists of numbers (x,y)**
     * Reads the list of points from standard input by default, or a file can be passed vi `-i`
         * Each line should contain a single point in the format `xvalue,yvalue`, e.g.:
