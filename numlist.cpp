@@ -19,41 +19,43 @@ using namespace std;
 // usage message
 const string USAGE_MESSAGE =
 "\nUSAGE: numlist -ARG\n"
-"    -add<NUM>:   Add <NUM> to all numbers\n"
-"    -avg:        Compute average of list of numbers\n"
-"    -csv:        Print the list as comma-separated values\n"
-"    -div<NUM>:   Divide all numbers by <NUM>\n"
-"    -dlm<STR>:   Print the list, but delimited by <STR>\n"
-"    -gt<NUM>:    Print all numbers greater than <NUM>\n"
-"    -gte<NUM>:   Print all numbers greater than or equal to <NUM>\n"
-"    -h:          Print this help message\n"
-"    -help:       Print this help message\n"
-"    -int:        Print the list as integers\n"
-"    -len:        Print length of list of numbers\n"
-"    -ln          Take the natural log of each number\n"
-"    -log<NUM>    Take the log base <NUM> of each number\n"
-"    -lt<NUM>:    Print all numbers less than <NUM>\n"
-"    -lte<NUM>:   Print all numbers less than or equal to <NUM>\n"
-"    -max:        Compute maximum of list of numbers\n"
-"    -med:        Compute median of list of numbers\n"
-"    -min:        Compute minimum of list of numbers\n"
-"    -mul<NUM>:  Multiply all numbers by <NUM>\n"
-"    -neg:        Get the negative of each number\n"
-"    -pow<NUM>:   Raise all numbers to the power of <NUM>\n"
-"    -quant<NUM>: Compute <NUM>th quantile of list of numbers (0 <= <NUM> <= 1)\n"
-"    -quart1:     Compute first quartile of list of numbers\n"
-"    -quart3:     Compute third quartile of list of numbers\n"
-"    -recip:      Compute the reciprocal of each number\n"
-"    -rev:        Reverse the list of numbers\n"
-"    -sortA:      Print the list in ascending order\n"
-"    -sortD:      Print the list in descending order\n"
-"    -sqrt:       Compute the square root of each number\n"
-"    -stats:      Compute various statistics on list of numbers\n"
-"    -std:        Compute standard deviation of list of numbers\n"
-"    -sub<NUM>:   Subtract <NUM> from all numbers\n"
-"    -sum:        Compute sum of list of numbers\n"
-"    -tsv:        Print the list as tab-separated values\n"
-"    -var:        Compute variance of list of numbers\n";
+"    -abs           Compute the absolute value of each number"
+"    -add<NUM>      Add <NUM> to each number\n"
+"    -avg           Compute the average of the list\n"
+"    -csv           Print the list as comma-separated values\n"
+"    -div<NUM>      Divide each number by <NUM>\n"
+"    -dlm<STR>      Print the list, but delimited by <STR>\n"
+"    -gt<NUM>       Print all numbers greater than <NUM>\n"
+"    -gte<NUM>      Print all numbers greater than or equal to <NUM>\n"
+"    -h             Print this help message\n"
+"    -help          Print this help message\n"
+"    -int           Cast each number as an integer\n"
+"    -len           Print the length of the list\n"
+"    -ln            Take the natural log of each number\n"
+"    -log<NUM>      Take the log base-<NUM> of each number\n"
+"    -lt<NUM>       Print all numbers less than <NUM>\n"
+"    -lte<NUM>      Print all numbers less than or equal to <NUM>\n"
+"    -max           Compute the maximum of the list\n"
+"    -med           Compute the median of the list\n"
+"    -min           Compute the minimum of the list\n"
+"    -mul<NUM>      Multiply each number by <NUM>\n"
+"    -neg           Multiply each number by -1\n"
+"    -pow<NUM>      Raise each number to the power of <NUM>\n"
+"    -quant<NUM>    Compute the <NUM>th quantile of the list (0 <= <NUM> <= 1)\n"
+"    -quart1        Compute the first quartile of the list\n"
+"    -quart3        Compute the third quartile of the list\n"
+"    -recip         Compute the reciprocal of each number\n"
+"    -rev           Reverse the list\n"
+"    -sort          Print the list in ascending order\n"
+"    -sortA         Print the list in ascending order\n"
+"    -sortD         Print the list in descending order\n"
+"    -sqrt          Compute the square root of each number\n"
+"    -stats         Compute various statistics on the list\n"
+"    -std           Compute the standard deviation of the list\n"
+"    -sub<NUM>      Subtract <NUM> from each number\n"
+"    -sum           Compute the sum of the list\n"
+"    -tsv           Print the list as tab-separated values\n"
+"    -var           Compute the variance of the list\n";
 
 // compute the sum of a list of numers
 double sum() {
@@ -400,6 +402,20 @@ void reciprocal() {
     }
 }
 
+// compute the absolute value of each number
+void abs() {
+    double num;
+    while(cin >> num) {
+        if(num == 0) { // change -0 to 0
+            num = 0;
+        }
+        else if(num < 0) {
+            num *= -1;
+        }
+        cout << num << endl;
+    }
+}
+
 // raise all numbers to the power of "exponent"
 void power( const double & exponent ) {
     double num;
@@ -606,7 +622,11 @@ int main( int argc, char* argv[] ) {
     }
 
     // perform task
-    if(argv[1][1] == 'a' && argv[1][2] == 'd' && argv[1][3] == 'd') {
+    if(strcmp(argv[1],"-abs") == 0) {
+        abs();
+    }
+
+    else if(argv[1][1] == 'a' && argv[1][2] == 'd' && argv[1][3] == 'd') {
         check_num(argv[1],4);
         add(strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
     }
@@ -707,7 +727,7 @@ int main( int argc, char* argv[] ) {
     else if(argv[1][1] == 's' && argv[1][2] == 'u' && argv[1][3] == 'b') {
         sub(check_num(argv[1],4));
     }
-    else if(strcmp(argv[1],"-sortA") == 0) {
+    else if(strcmp(argv[1],"-sortA") == 0 || strcmp(argv[1],"-sort") == 0) {
         sortA();
     }
     else if(strcmp(argv[1],"-sortD") == 0) {
