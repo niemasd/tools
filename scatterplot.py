@@ -18,6 +18,8 @@ parser.add_argument('-xmin', '--xmin', required=False, type=float, default=None,
 parser.add_argument('-xmax', '--xmax', required=False, type=float, default=None, help="X-Axis Maximum")
 parser.add_argument('-ymin', '--ymin', required=False, type=float, default=None, help="Y-Axis Minimum")
 parser.add_argument('-ymax', '--ymax', required=False, type=float, default=None, help="Y-Axis Maximum")
+parser.add_argument('-xlog', '--xlog', action='store_true', help="Log-Scaled X-Axis")
+parser.add_argument('-ylog', '--ylog', action='store_true', help="Log-Scaled Y-Axis")
 parser.add_argument('-xint', '--xint', action='store_true', help="Integer Ticks on X-Axis")
 parser.add_argument('-yint', '--yint', action='store_true', help="Integer Ticks on Y-Axis")
 args = parser.parse_args()
@@ -50,6 +52,12 @@ if args.xlabel is not None:
     plt.xlabel(args.xlabel)
 if args.ylabel is not None:
     plt.ylabel(args.ylabel)
+
+# log-scale the axes (if applicable)
+if args.xlog:
+    ax.set_xscale('log')
+if args.ylog:
+    ax.set_yscale('log')
 
 # set X-axis range (if applicable)
 if args.xmin is not None and args.xmax is not None:
