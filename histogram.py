@@ -1,10 +1,10 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 # parse user arguments
 import argparse
 from sys import stdin
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument('-i', '--input', required=False, type=file, default=stdin, help="Input file stream")
+parser.add_argument('-i', '--input', required=False, type=str, default='stdin', help="Input File Stream")
 parser.add_argument('-t', '--title', required=False, type=str, default=None, help="Figure Title")
 parser.add_argument('-xl', '--xlabel', required=False, type=str, default=None, help="X-Axis Label")
 parser.add_argument('-yl', '--ylabel', required=False, type=str, default=None, help="Y-Axis Label")
@@ -19,6 +19,10 @@ parser.add_argument('-yint', '--yint', action='store_true', help="Integer Ticks 
 parser.add_argument('-k', '--kde', action='store_true', help="Show Kernel Density Estimation")
 parser.add_argument('-r', '--rug', action='store_true', help="Show Rug Plot")
 args = parser.parse_args()
+if args.input == 'stdin':
+    args.input = stdin
+else:
+    args.input = open(args.input)
 
 # create figure+axes
 import matplotlib.pyplot as plt

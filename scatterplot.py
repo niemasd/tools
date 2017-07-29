@@ -1,11 +1,11 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 # see pyplot documentation for help: https://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.plot
 
 # parse user arguments
 import argparse
 from sys import stdin
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument('-i', '--input', required=False, type=file, default=stdin, help="Input File Stream")
+parser.add_argument('-i', '--input', required=False, type=str, default='stdin', help="Input File Stream")
 parser.add_argument('-c', '--color', required=False, type=str, default=None)
 parser.add_argument('-ls', '--linestyle', required=False, type=str, default=None)
 parser.add_argument('-lw', '--linewidth', required=False, type=float, default=None)
@@ -23,6 +23,10 @@ parser.add_argument('-ylog', '--ylog', action='store_true', help="Log-Scaled Y-A
 parser.add_argument('-xint', '--xint', action='store_true', help="Integer Ticks on X-Axis")
 parser.add_argument('-yint', '--yint', action='store_true', help="Integer Ticks on Y-Axis")
 args = parser.parse_args()
+if args.input == 'stdin':
+    args.input = stdin
+else:
+    args.input = open(args.input)
 
 # create figure+axes
 import matplotlib.pyplot as plt

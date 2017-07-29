@@ -1,10 +1,10 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 # parse user arguments
 from sys import stdin
 import argparse
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument('-i', '--input', required=False, type=file, default=stdin, help="Input File Stream (JSON)")
+parser.add_argument('-i', '--input', required=False, type=str, default='stdin', help="Input File Stream (JSON)")
 parser.add_argument('-x', '--x', required=True, type=str, help="Key for X Values")
 parser.add_argument('-y', '--y', required=True, type=str, help="Key for Y Values")
 parser.add_argument('-in', '--inner', required=False, type=str, default=None, help="Violen interior")
@@ -16,6 +16,10 @@ parser.add_argument('-ymax', '--ymax', required=False, type=float, default=None,
 parser.add_argument('-xlog', '--xlog', action='store_true', help="Log-Scaled X-Axis")
 parser.add_argument('-ylog', '--ylog', action='store_true', help="Log-Scaled Y-Axis")
 args = parser.parse_args()
+if args.input == 'stdin':
+    args.input = stdin
+else:
+    args.input = open(args.input)
 
 # create figure+axes
 import matplotlib.pyplot as plt
