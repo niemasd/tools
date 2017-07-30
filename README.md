@@ -11,6 +11,9 @@ This is a collection of command-line tools I wrote to make various repetitive ta
 * **[fastq_header_rename_illumina.py](fastq_header_rename_illumina.py): Rename the read identifiers of a FASTQ file to follow the Illumina standard**
     * For help message: `python fastq_header_rename_illumina.py -h`
 
+* **[fastq2fasta.py](fastq2fasta.py): Convert a FASTQ file to FASTA**
+    * For help message: `python fastq2fasta.py -h`
+
 * **[histogram.py](histogram.py): Create a histogram from a list of numbers**
     * Reads the list of numbers from standard input by default, or a file can be passed via `-i`
         * The numbers in the list must be whitespace-delimited
