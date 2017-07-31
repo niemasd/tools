@@ -8,6 +8,9 @@ This is a collection of command-line tools I wrote to make various repetitive ta
 * **[fasta2json.py](fasta2json.py): Convert a FASTA file to JSON**
     * For help message: `python fasta2json.py -h`
 
+* **[fasta2phylip.py](fasta2json.py): Convert a FASTA multiple sequence alignment to Phylip**
+    * For help message: `python fasta2phylip.py -h`
+
 * **[fastq_header_rename_illumina.py](fastq_header_rename_illumina.py): Rename the read identifiers of a FASTQ file to follow the Illumina standard**
     * For help message: `python fastq_header_rename_illumina.py -h`
 
