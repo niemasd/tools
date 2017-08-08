@@ -7,16 +7,15 @@
 
 // include statements
 #include <algorithm>
+#include <cfloat>
 #include <cmath>
 #include <cstring>
 #include <iostream>
-#include <limits>
 #include <list>
 #include <stdlib.h>
 #include <string>
 #include <vector>
 using namespace std;
-typedef numeric_limits<double> dbl;
 
 // usage message
 const string USAGE_MESSAGE =
@@ -671,7 +670,7 @@ int main( int argc, char* argv[] ) {
         cout << USAGE_MESSAGE << endl;
         exit(0);
     }
-    cout.precision(dbl::max_digits10);
+    cout.precision(DBL_DECIMAL_DIG);
 
     // perform task
     if(strcmp(argv[1],"-abs") == 0) {
