@@ -7,10 +7,10 @@
 
 // include statements
 #include <algorithm>
-#include <cfloat>
 #include <cmath>
 #include <cstring>
 #include <iostream>
+#include <limits>
 #include <list>
 #include <stdlib.h>
 #include <string>
@@ -670,7 +670,7 @@ int main( int argc, char* argv[] ) {
         cout << USAGE_MESSAGE << endl;
         exit(0);
     }
-    cout.precision(DECIMAL_DIG);
+    cout.precision(numeric_limits<double>::digits10);
 
     // perform task
     if(strcmp(argv[1],"-abs") == 0) {
