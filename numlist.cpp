@@ -670,7 +670,7 @@ int main( int argc, char* argv[] ) {
         cout << USAGE_MESSAGE << endl;
         exit(0);
     }
-    cout.precision(DBL_DECIMAL_DIG);
+    cout.precision(DECIMAL_DIG);
 
     // perform task
     if(strcmp(argv[1],"-abs") == 0) {
