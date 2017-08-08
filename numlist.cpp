@@ -10,11 +10,13 @@
 #include <cmath>
 #include <cstring>
 #include <iostream>
+#include <limits>
 #include <list>
 #include <stdlib.h>
 #include <string>
 #include <vector>
 using namespace std;
+typedef numeric_limits<double> dbl;
 
 // usage message
 const string USAGE_MESSAGE =
@@ -42,6 +44,7 @@ const string USAGE_MESSAGE =
 "    -mul<NUM>      Multiply each number by <NUM>\n"
 "    -neg           Multiply each number by -1\n"
 "    -pow<NUM>      Raise each number to the power of <NUM>\n"
+"    -prod          Compute the product of the list\n"
 "    -quant<NUM>    Compute the <NUM>th quantile of the list (0 <= <NUM> <= 1)\n"
 "    -quart1        Compute the first quartile of the list\n"
 "    -quart3        Compute the third quartile of the list\n"
@@ -60,12 +63,22 @@ const string USAGE_MESSAGE =
 "    -tsv           Print the list as tab-separated values\n"
 "    -var           Compute the variance of the list\n";
 
-// compute the sum of a list of numers
+// compute the sum of a list of numbers
 double sum() {
     double out = 0.0;
     double num;
     while(cin >> num) {
         out += num;
+    }
+    return out;
+}
+
+// compute the product of a list of numbers
+double prod() {
+    double out = 1.0;
+    double num;
+    while(cin >> num) {
+        out *= num;
     }
     return out;
 }
@@ -658,6 +671,7 @@ int main( int argc, char* argv[] ) {
         cout << USAGE_MESSAGE << endl;
         exit(0);
     }
+    cout.precision(dbl::max_digits10);
 
     // perform task
     if(strcmp(argv[1],"-abs") == 0) {
@@ -748,6 +762,9 @@ int main( int argc, char* argv[] ) {
     }
     else if(argv[1][1] == 'p' && argv[1][2] == 'o' && argv[1][3] == 'w') {
         power( check_num_double(argv[1],4));
+    }
+    else if(strcmp(argv[1],"-prod") == 0) {
+        cout << prod() << endl;
     }
     else if(argv[1][1] == 'q' && argv[1][2] == 'u' && argv[1][3] == 'a' && argv[1][4] == 'n' && argv[1][5] == 't') {
         cout << quant( check_num_double(argv[1],6)) << endl;
