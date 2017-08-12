@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 from random import choice,uniform
 
 # roll a weighted die (keys = faces, values = probabilities)
