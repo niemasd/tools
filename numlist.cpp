@@ -26,6 +26,7 @@ const string USAGE_MESSAGE =
 "    -csv           Print the list as comma-separated values\n"
 "    -div<NUM>      Divide each number by <NUM>\n"
 "    -dlm<STR>      Print the list, but delimited by <STR>\n"
+"    -exp           Compute e to the power of each number\n"
 "    -gt<NUM>       Print all numbers greater than <NUM>\n"
 "    -gte<NUM>      Print all numbers greater than or equal to <NUM>\n"
 "    -h             Print this help message\n"
@@ -455,6 +456,14 @@ void ln() {
     }
 }
 
+// raise e to the power of each number
+void Exp() {
+    double num;
+    while(cin >> num) {
+        cout << exp(num) << endl;
+    }
+}
+
 // take the log base "base" of each number
 void Log( const double & base) {
     const double convert = log10(base);
@@ -705,6 +714,9 @@ int main( int argc, char* argv[] ) {
              cerr << USAGE_MESSAGE << endl;
              exit(-1);
          }
+    }
+    else if(strcmp(argv[1],"-exp") == 0) {
+        Exp();
     }
     else if(argv[1][1] == 'g' && argv[1][2] == 't') {
         if(argv[1][3] == 'e') {
