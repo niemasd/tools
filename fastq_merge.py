@@ -10,7 +10,7 @@ for f in argv[1:]:
     i = 0
     for line in open(f):
         if i % 4 == 0: # header line
-            print("%s_%d" % (name,i/4))
+            print("@%s_%d" % (name,i/4))
         else:
             print(line.strip())
         i += 1
