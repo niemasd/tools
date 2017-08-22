@@ -14,6 +14,9 @@ This is a collection of command-line tools I wrote to make various repetitive ta
 * **[fastq_header_rename_illumina.py](fastq_header_rename_illumina.py): Rename the read identifiers of a FASTQ file to follow the Illumina standard**
     * For help message: `python fastq_header_rename_illumina.py -h`
 
+* **[fastq_merge.py](fastq_merge.py): Merge multiple FASTQ files**
+    * Usage: `fastq_merge.py <fastq_files>`
+
 * **[fastq2fasta.py](fastq2fasta.py): Convert a FASTQ file to FASTA**
     * For help message: `python fastq2fasta.py -h`
 
