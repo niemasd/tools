@@ -5,6 +5,9 @@ This is a collection of command-line tools I wrote to make various repetitive ta
         * The data must be in the JSON (or Python dictionary) format
     * For help message: `python boxplots.py -h`
 
+* **[fasta1ln.py](fasta1ln.py): Convert a multiline FASTA file to one-line**
+    * For help message: `python fasta1ln.py -h`
+
 * **[fasta2json.py](fasta2json.py): Convert a FASTA file to JSON**
     * For help message: `python fasta2json.py -h`
 
