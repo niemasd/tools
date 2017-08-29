@@ -20,7 +20,7 @@ def convert(stream):
             seq = ''
         else:
             seq += l.strip()
-        print(seq)
+    print(seq)
 
 # parse arguments
 def parseArgs():
