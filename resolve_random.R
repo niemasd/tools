@@ -5,6 +5,8 @@ if (length(args)!=0) {
   stop("USAGE: ./resolve_random.R < UNRESOLVED.tre > RESOLVED.tre\n", call.=FALSE)
 }
 library(ape);
-unresolved <- read.tree(file=file('stdin', 'r'))
+stdin <- file('stdin','r')
+unresolved <- read.tree(file=stdin)
+close(stdin)
 resolved <- multi2di(unresolved)
-write.tree(resolved)
+cat(write.tree(resolved),'\n')
