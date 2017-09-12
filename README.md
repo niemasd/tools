@@ -51,6 +51,10 @@ This is a collection of command-line tools I wrote to make various repetitive ta
 * **[ranDNA.py](ranDNA.py): Generate random DNA sequences**
     * For help message: `python ranDNA.py -h`
 
+* **[resolve_random.R](resolve_random.R): Randomly resolve a multifurcating tree**
+    * Reads multifurcating tree from STDIN and writes resolved tree to STDOUT
+    * Usage: `resolve_random.R < UNRESOLVED.tre > RESOLVED.tre`
+
 * **[scatterplot.py](scatterplot.py): Create a scatterplot from two lists of numbers (x,y)**
     * Reads the list of points from standard input by default, or a file can be passed vi `-i`
         * Each line should contain a single point in the format `xvalue,yvalue`, e.g.:
