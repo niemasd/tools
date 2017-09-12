@@ -14,7 +14,7 @@ This is a collection of command-line tools I wrote to make various repetitive ta
 * **[fasta2phylip.py](fasta2json.py): Convert a FASTA multiple sequence alignment to Phylip**
     * For help message: `python fasta2phylip.py -h`
 
-* **[fasta_subsample.py]): Subsample a given FASTA file**
+* **[fasta_subsample.py](fasta_subsample.py): Subsample a given FASTA file**
     * For help message: `python fasta_subsample.py -h`
 
 * **[fastq_header_rename_illumina.py](fastq_header_rename_illumina.py): Rename the read identifiers of a FASTQ file to follow the Illumina standard**
