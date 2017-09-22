@@ -5,6 +5,7 @@ import argparse
 from sys import stdin
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument('-i', '--input', required=False, type=str, default='stdin', help="Input File Stream")
+parser.add_argument('-b', '--binsize', required=False, type=float, default=None, help="Bin Size")
 parser.add_argument('-t', '--title', required=False, type=str, default=None, help="Figure Title")
 parser.add_argument('-xl', '--xlabel', required=False, type=str, default=None, help="X-Axis Label")
 parser.add_argument('-yl', '--ylabel', required=False, type=str, default=None, help="Y-Axis Label")
@@ -37,8 +38,17 @@ if args.xint:
 if args.yint:
     ax.yaxis.set_major_locator(ticker.MaxNLocator(integer=True))
 
+# create custom bins (if applicable)
+MIN = min(data); MAX = max(data)
+if args.binsize:
+    bins = [MIN]
+    while bins[-1] < MAX:
+        bins.append(bins[-1] + args.binsize)
+else:
+    bins = None
+
 # plot the histogram
-sns.distplot(data, kde=args.kde, rug=args.rug)
+sns.distplot(data, bins=bins, kde=args.kde, rug=args.rug)
 
 # set figure title and labels (if applicable)
 if args.title is not None:
