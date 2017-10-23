@@ -7,10 +7,11 @@ from sys import stdin
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument('-i', '--input', required=False, type=str, default='stdin', help="Input File Stream")
 parser.add_argument('-c', '--color', required=False, type=str, default=None)
+parser.add_argument('-l', '--lowess', action='store_true', help="Lowess")
 parser.add_argument('-ls', '--linestyle', required=False, type=str, default=None)
 parser.add_argument('-lw', '--linewidth', required=False, type=float, default=None)
 parser.add_argument('-m', '--marker', required=False, type=str, default=None)
-parser.add_argument('-ms', '--markersize', required=False, type=float, default=None)
+parser.add_argument('-r', '--reg', action='store_true', help="Fit Regression")
 parser.add_argument('-t', '--title', required=False, type=str, default=None, help="Figure Title")
 parser.add_argument('-xl', '--xlabel', required=False, type=str, default=None, help="X-Axis Label")
 parser.add_argument('-yl', '--ylabel', required=False, type=str, default=None, help="Y-Axis Label")
@@ -31,13 +32,14 @@ else:
 # create figure+axes
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+import numpy as np
 import seaborn as sns
 x = []
 y = []
 for line in args.input:
     xval,yval = line.split(',')
-    x.append(xval)
-    y.append(yval)
+    x.append(float(xval))
+    y.append(float(yval))
 fig, ax = plt.subplots()
 
 # set integer ticks (if applicable)
@@ -46,8 +48,15 @@ if args.xint:
 if args.yint:
     ax.yaxis.set_major_locator(ticker.MaxNLocator(integer=True))
 
+# parse line kws
+line_kws = {}
+if args.linestyle:
+    line_kws['linestyle'] = args.linestyle
+if args.linewidth:
+    line_kws['linewidth'] = args.linewidth
+
 # plot the scatterplot
-plt.plot(x, y, linestyle=args.linestyle, linewidth=args.linewidth, marker=args.marker, markersize=args.markersize, color=args.color)
+sns.regplot(x=np.array(x), y=np.array(y), lowess=args.lowess, fit_reg=args.reg, marker=args.marker, color=args.color, line_kws=line_kws)
 
 # set figure title and labels (if applicable)
 if args.title is not None:
