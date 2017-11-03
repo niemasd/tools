@@ -7,28 +7,7 @@ Subsample the sequences of a given FASTA file
 import argparse
 from random import sample
 from sys import stdin,stdout
-
-# read FASTA stream
-def readFASTA(stream):
-    seqs = {}
-    name = None
-    seq = ''
-    for line in stream:
-        l = line.strip()
-        if len(l) == 0:
-            continue
-        if l[0] == '>':
-            if name is not None:
-                assert len(seq) != 0, "Malformed FASTA"
-                seqs[name] = seq
-            name = l[1:]
-            assert name not in seqs, "Duplicate sequence ID: %s" % name
-            seq = ''
-        else:
-            seq += l
-    assert name is not None and len(seq) != 0, "Malformed FASTA"
-    seqs[name] = seq
-    return seqs
+from common import readFASTA
 
 # parse arguments
 def parseArgs():
@@ -47,14 +26,13 @@ def parseArgs():
     return args.input, args.output, args.proportion, args.number
 
 # main code execution
-if __name__ == "__main__":
-    infile, outfile, p, n = parseArgs()
-    seqs = readFASTA(infile)
-    infile.close()
-    if p is not None:
-        out_keys = sample(seqs.keys(),int(p*len(seqs)))
-    else:
-        out_keys = sample(seqs.keys(),n)
-    for key in out_keys:
-        outfile.write('>%s\n%s\n' % (key,seqs[key]))
-    outfile.close()
+infile, outfile, p, n = parseArgs()
+seqs = readFASTA(infile)
+infile.close()
+if p is not None:
+    out_keys = sample(seqs.keys(),int(p*len(seqs)))
+else:
+    out_keys = sample(seqs.keys(),n)
+for key in out_keys:
+    outfile.write('>%s\n%s\n' % (key,seqs[key]))
+outfile.close()

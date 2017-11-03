@@ -1,18 +1,6 @@
 #! /usr/bin/env python3
-from random import choice,uniform
-
-# roll a weighted die (keys = faces, values = probabilities)
-def roll(die):
-    faces = sorted(die.keys())
-    probs = [die[key] for key in faces]
-    cdf = [probs[0]]
-    while len(cdf) < len(probs):
-        cdf.append(cdf[-1] + probs[len(cdf)])
-    num = uniform(0, 1)
-    index = 0
-    while cdf[index] < num:
-        index += 1
-    return faces[index]
+from random import choice
+from common import roll
 
 # parse user arguments
 import argparse

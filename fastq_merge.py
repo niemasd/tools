@@ -2,7 +2,7 @@
 '''
 Niema Moshiri 2017
 
-Merge multiple FASTQ files
+Merge multiple FASTQ files (handle fixing duplicate IDs)
 '''
 from sys import argv
 for f in argv[1:]:

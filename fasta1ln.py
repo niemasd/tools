@@ -6,21 +6,7 @@ Convert multiline FASTA to one-line
 '''
 import argparse
 from sys import stdin
-
-# convert multiline FASTA to one-line
-def convert(stream):
-    seq = ''
-    for line in stream:
-        l = line.strip()
-        if len(l) == 0:
-            continue
-        if l[0] == '>':
-            print(seq)
-            print(l)
-            seq = ''
-        else:
-            seq += l.strip()
-    print(seq)
+from common import convert_fasta_1ln
 
 # parse arguments
 def parseArgs():
@@ -30,6 +16,5 @@ def parseArgs():
     return args.input
 
 # main code execution
-if __name__ == "__main__":
-    infile = parseArgs()
-    convert(infile)
+infile = parseArgs()
+convert_fasta_1ln(infile)
