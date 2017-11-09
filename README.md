@@ -14,6 +14,9 @@ This is a collection of command-line tools I wrote to make various repetitive ta
 * **[fasta2phylip.py](fasta2json.py): Convert a FASTA multiple sequence alignment to Phylip**
     * For help message: `python fasta2phylip.py -h`
 
+* **[fasta_cut_seqs.py](fasta_cut_seqs.py): Cut the sequences of a given FASTA file to be a given length**
+    * For help message: `python fasta_cut_seqs.py -h`
+
 * **[fasta_subsample.py](fasta_subsample.py): Subsample a given FASTA file**
     * For help message: `python fasta_subsample.py -h`
 
@@ -54,6 +57,14 @@ This is a collection of command-line tools I wrote to make various repetitive ta
 * **[resolve_random.R](resolve_random.R): Randomly resolve a multifurcating tree**
     * Reads multifurcating tree from STDIN and writes resolved tree to STDOUT
     * Usage: `resolve_random.R < UNRESOLVED.tre > RESOLVED.tre`
+
+* **[rmdup.sh](rmdup.sh): Remove consecutive identical files (keep first instance)**
+    * Usage: `rmdup.sh`
+
+* **[safenames.py](safenames.py): Convert the identifiers of a FASTA file to random safe names**
+    * Safename FASTA is output to STDOUT
+    * Dictionary of name mappings is output to STDERR
+    * For help message: `python safenames.py -h`
 
 * **[scatterplot.py](scatterplot.py): Create a scatterplot from two lists of numbers (x,y)**
     * Reads the list of points from standard input by default, or a file can be passed vi `-i`
