@@ -50,6 +50,7 @@ if __name__ == "__main__":
                     node.confidence *= 100
                 elif args.format == 'd' and not decimal:
                     node.confidence /= 100
-
-    # output trees
-    Phylo.write(trees,outfile,args.out_schema); outfile.close()
+        treestr = tree.format(args.out_schema)
+        if args.out_schema == 'newick':
+            treestr = treestr.replace('):',')') # not sure why it adds an extra colon
+        outfile.write(treestr)
