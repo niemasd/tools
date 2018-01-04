@@ -5,6 +5,12 @@ This is a collection of command-line tools I wrote to make various repetitive ta
         * The data must be in the JSON (or Python dictionary) format
     * For help message: `python boxplots.py -h`
 
+* **[convert_trees.py](convert_trees.py): Convert input tree(s) to different formats**
+    * Can convert branch support values from decimal to percentage (and vice-versa)
+    * Can convert tree schema between formats: {'newick','nexus','phyloxml','nexml'}
+    * For branches without support values, can give them a default value (e.g. 100), or keep them empty by default
+    * For help message: `python convert_trees.py`
+
 * **[fasta1ln.py](fasta1ln.py): Convert a multiline FASTA file to one-line**
     * For help message: `python fasta1ln.py -h`
 
