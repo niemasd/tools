@@ -18,8 +18,9 @@ parser.add_argument('-ylog', '--ylog', action='store_true', help="Log-Scaled Y-A
 parser.add_argument('-xint', '--xint', action='store_true', help="Integer Ticks on X-Axis")
 parser.add_argument('-yint', '--yint', action='store_true', help="Integer Ticks on Y-Axis")
 parser.add_argument('-k', '--kde', action='store_true', help="Show Kernel Density Estimation")
-parser.add_argument('-r', '--rug', action='store_true', help="Show Rug Plot")
+parser.add_argument('-nh', '--nohist', action='store_true', help="Hide Histogram")
 args = parser.parse_args()
+assert args.kde or not args.nohist, "Must show either Histogram or Kernel Density Estimation (or both)"
 if args.input == 'stdin':
     args.input = stdin
 else:
@@ -48,7 +49,7 @@ else:
     bins = None
 
 # plot the histogram
-sns.distplot(data, bins=bins, kde=args.kde, rug=args.rug)
+sns.distplot(data, bins=bins, kde=args.kde, hist=(not args.nohist))
 
 # set figure title and labels (if applicable)
 if args.title is not None:
