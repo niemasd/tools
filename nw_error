@@ -1,11 +1,6 @@
 #!/bin/bash
 
-if [ $# != 3 ]; then
-	echo "usage: $0 metric tree1 tree2"
-	exit
-fi
-
-if [ $1 == "RF" ]; then
+if [ "$1" == "RF" ]; then
     echo $(echo -n '(' && echo -n `compareTrees.missingBranch $2 $3 | cut -d' ' -f3` && echo -n ' + ' && echo -n `compareTrees.missingBranch $3 $2 | cut -d' ' -f3` && echo -n ') / 2') | bc -l
 else
     echo "Invalid option for metric"
