@@ -14,7 +14,7 @@ if __name__ == "__main__":
     parser.add_argument('-t1', '--tree1', required=True, type=str, help="Tree 1")
     parser.add_argument('-t2', '--tree2', required=True, type=str, help="Tree 2")
     parser.add_argument('-m', '--metric', required=True, type=str, help="Distance Metric (%s)" % ', '.join(sorted(METRICS.keys())))
-    parser.add_argument('-n', '--normalize', action='store_true', help="Normalize (divide by 2n-3)")
+    parser.add_argument('-n', '--normalize', action='store_true', help="Normalize")
     args = parser.parse_args()
     assert args.metric in METRICS, "Invalid distance metric: %s" % args.metric
     assert isfile(args.tree1), "Invalid file: %s" % args.tree1
@@ -26,5 +26,8 @@ if __name__ == "__main__":
     t2.encode_bipartitions()
     d = METRICS[args.metric](t1,t2)
     if args.normalize:
-        d /= 2*len(tns)-3
+        if args.metric == 'URF':
+            d /= 2*len(tns)-3
+        else:
+            raise ValueError("Cannot normalize metric: %s" % args.metric)
     print(d)
