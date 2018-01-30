@@ -47,16 +47,16 @@ def hmmer2pom(hmm):
     # create all transitions
     for l in range(1,len(hmmlines),3):
         k = int(l/3); parts = hmmlines[l].split()
-        model.add_transition(name2state["M%d"%k], name2state["M%d"%(k+1)], float(parts[0]))     # 0: M_k -> M_k+1
-        model.add_transition(name2state["M%d"%k], name2state["I%d"%k],     float(parts[1]))     # 1: M_k -> I_k
+        model.add_transition(name2state["M%d"%k], name2state["M%d"%(k+1)], exp(-1*float(parts[0])))     # 0: M_k -> M_k+1
+        model.add_transition(name2state["M%d"%k], name2state["I%d"%k],     exp(-1*float(parts[1])))     # 1: M_k -> I_k
         if parts[2] != '*': # no D_k+1 in last row
-            model.add_transition(name2state["M%d"%k], name2state["D%d"%(k+1)], float(parts[2])) # 2: M_k -> D_k+1
-        model.add_transition(name2state["I%d"%k], name2state["M%d"%(k+1)], float(parts[3]))     # 3: I_k -> M_k+1
-        model.add_transition(name2state["I%d"%k], name2state["I%d"%k],     float(parts[4]))     # 4: I_k -> I_k
+            model.add_transition(name2state["M%d"%k], name2state["D%d"%(k+1)], exp(-1*float(parts[2]))) # 2: M_k -> D_k+1
+        model.add_transition(name2state["I%d"%k], name2state["M%d"%(k+1)], exp(-1*float(parts[3])))     # 3: I_k -> M_k+1
+        model.add_transition(name2state["I%d"%k], name2state["I%d"%k],     exp(-1*float(parts[4])))     # 4: I_k -> I_k
         if k != 0: # no D0 state
-            model.add_transition(name2state["D%d"%k], name2state["M%d"%(k+1)], float(parts[5])) # 5: D_k -> M_k+1
+            model.add_transition(name2state["D%d"%k], name2state["M%d"%(k+1)], exp(-1*float(parts[5]))) # 5: D_k -> M_k+1
         if parts[6] != '*': # no D0 state and no D_k+1 in last row
-            model.add_transition(name2state["D%d"%k], name2state["D%d"%(k+1)], float(parts[6])) # 6: D_k -> D_k+1
+            model.add_transition(name2state["D%d"%k], name2state["D%d"%(k+1)], exp(-1*float(parts[6]))) # 6: D_k -> D_k+1
     model.bake()
     return model.to_json()
 
