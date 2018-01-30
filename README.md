@@ -40,6 +40,9 @@ This is a collection of command-line tools I wrote to make various repetitive ta
         * The numbers in the list must be whitespace-delimited
     * For help message: `python histogram.py -h`
 
+* **[hmmer_to_pomegranate.py](hmmer_to_pomegranate.py): Convert a profile HMM from the HMMER-3 format to the pomegranate serialized JSON format**
+    * For help message: `python hmmer_to_pomegranate.py -h`
+
 * **[mergebib.py](mergebib.py): Merge multiple BibTeX files into a single file named `merged.bib`**
     * Usage: `python mergebib.py <file1.bib> <file2.bib> ...`
     * Verbose messages are output to standard error, and the merged file is output to standard output
