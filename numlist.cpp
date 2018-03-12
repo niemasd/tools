@@ -482,8 +482,8 @@ void fact() {
             cerr << "ERROR: Cannot compute the factorial of a negative integer: " << num << endl;
             exit(-1);
         }
-        unsigned int f = 1;
-        for(unsigned int i = 2; i <= num; ++i) {
+        unsigned long f = 1;
+        for(unsigned long i = 2; i <= num; ++i) {
             f *= i;
         }
         cout << f << endl;
