@@ -27,6 +27,7 @@ const string USAGE_MESSAGE =
 "    -div<NUM>      Divide each number by <NUM>\n"
 "    -dlm<STR>      Print the list, but delimited by <STR>\n"
 "    -exp           Compute e to the power of each number\n"
+"    -fact          Compute the factorial of each number\n"
 "    -gt<NUM>       Print all numbers greater than <NUM>\n"
 "    -gte<NUM>      Print all numbers greater than or equal to <NUM>\n"
 "    -h             Print this help message\n"
@@ -473,6 +474,22 @@ void Log( const double & base) {
     }
 }
 
+// compute the factorial of each number
+void fact() {
+    double num;
+    while(cin >> num) {
+        if(num < 0) {
+            cerr << "ERROR: Cannot compute the factorial of a negative integer: " << num << endl;
+            exit(-1);
+        }
+        unsigned int f = 1;
+        for(unsigned int i = 2; i <= num; ++i) {
+            f *= i;
+        }
+        cout << f << endl;
+    }
+}
+
 // replace all instances of "search" with "replace" in "subject"
 void replace(string & subject, const string & search, const string & replace) {
     size_t pos = 0;
@@ -717,6 +734,9 @@ int main( int argc, char* argv[] ) {
     }
     else if(strcmp(argv[1],"-exp") == 0) {
         Exp();
+    }
+    else if(strcmp(argv[1],"-fact") == 0) {
+        fact();
     }
     else if(argv[1][1] == 'g' && argv[1][2] == 't') {
         if(argv[1][3] == 'e') {
