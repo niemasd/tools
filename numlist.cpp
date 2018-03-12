@@ -541,9 +541,11 @@ void nCk() {
         for(unsigned long i = n-k+1; i <= (unsigned long)n; ++i) {
             p *= i;
         }
+        unsigned long den = 1;
         for(unsigned long i = 2; i <= (unsigned long)k; ++i) {
-            p /= i;
+            den *= i;
         }
+        p /= den;
         cout << p << endl;
     }
 }
