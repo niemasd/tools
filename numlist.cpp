@@ -12,6 +12,7 @@
 #include <iostream>
 #include <limits>
 #include <list>
+#include <sstream>
 #include <stdlib.h>
 #include <string>
 #include <vector>
@@ -43,7 +44,9 @@ const string USAGE_MESSAGE =
 "    -min           Compute the minimum of the list\n"
 "    -mod<NUM>      Mod each number by <NUM>\n"
 "    -mul<NUM>      Multiply each number by <NUM>\n"
+"    -nCk           For each line of '<n> <k>' input, compute nCk\n"
 "    -neg           Multiply each number by -1\n"
+"    -nPk           For each line of '<n> <k>' input, compute nPk\n"
 "    -pow<NUM>      Raise each number to the power of <NUM>\n"
 "    -prod          Compute the product of the list\n"
 "    -quant<NUM>    Compute the <NUM>th quantile of the list (0 <= <NUM> <= 1)\n"
@@ -479,7 +482,7 @@ void fact() {
     double num;
     while(cin >> num) {
         if(num < 0) {
-            cerr << "ERROR: Cannot compute the factorial of a negative integer: " << num << endl;
+            cerr << "ERROR: Cannot compute the factorial of a negative number: " << num << endl;
             exit(-1);
         }
         unsigned long f = 1;
@@ -487,6 +490,61 @@ void fact() {
             f *= i;
         }
         cout << f << endl;
+    }
+}
+
+// compute nPk for each line of two integers
+void nPk() {
+    string line;
+    while(getline(cin, line)) {
+        istringstream iss(line);
+        long n; long k; iss >> n; iss >> k;
+        if(n < 0) {
+            cerr << "ERROR: For nPk, n cannot be a negative number: " << n << endl;
+            exit(-1);
+        }
+        else if(k < 0) {
+            cerr << "ERROR: For nPk, k cannot be a negative number: " << k << endl;
+            exit(-1);
+        }
+        else if(k > n) {
+            cerr << "ERROR: For nPk, n must be larger than k: n=" << n << " and k=" << k << endl;
+            exit(-1);
+        }
+        unsigned long p = 1;
+        for(unsigned long i = n-k+1; i <= n; ++i) {
+            p *= i;
+        }
+        cout << p << endl;
+    }
+}
+
+// compute nCk for each line of two integers
+void nCk() {
+    string line;
+    while(getline(cin, line)) {
+        istringstream iss(line);
+        long n; long k; iss >> n; iss >> k;
+        if(n < 0) {
+            cerr << "ERROR: For nCk, n cannot be a negative number: " << n << endl;
+            exit(-1);
+        }
+        else if(k < 0) {
+            cerr << "ERROR: For nCk, k cannot be a negative number: " << k << endl;
+            exit(-1);
+        }
+        else if(k > n) {
+            cerr << "ERROR: For nCk, n must be larger than k: n=" << n << " and k=" << k << endl;
+            exit(-1);
+        }
+        unsigned long p = 1;
+        for(unsigned long i = n-k+1; i <= n; ++i) {
+            p *= i;
+        }
+        for(unsigned long i = 2; i <= k; ++i) {
+            p /= i;
+        }
+        cout << p << endl;
     }
 }
 
@@ -788,8 +846,21 @@ int main( int argc, char* argv[] ) {
     else if(argv[1][1] == 'm' && argv[1][2] == 'u' && argv[1][3] == 'l') {
         mult( check_num_double(argv[1],4));
     }
-    else if(strcmp(argv[1],"-neg") == 0) {
-        mult(-1);
+    else if(argv[1][1] == 'n') {
+        if(argv[1][2] == 'e' && argv[1][3] == 'g') {
+            mult(-1);
+        }
+        else if(argv[1][2] == 'P' && argv[1][3] == 'k') {
+            nPk();
+        }
+        else if(argv[1][2] == 'C' && argv[1][3] == 'k') {
+            nCk();
+        }
+        else {
+            cerr << "ERROR: Invalid argument: " << argv[1] << endl;
+            cerr << USAGE_MESSAGE << endl;
+            exit(-1);
+        }
     }
     else if(argv[1][1] == 'p' && argv[1][2] == 'o' && argv[1][3] == 'w') {
         power( check_num_double(argv[1],4));
