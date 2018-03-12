@@ -12,17 +12,17 @@ if __name__ == "__main__":
     parser.add_argument('-is', '--in_schema', required=False, type=str, default='newick', help="Input Tree Schema")
     parser.add_argument('-o', '--output', required=False, type=str, default='stdout', help="Output Tree File")
     parser.add_argument('-os', '--out_schema', required=False, type=str, default='newick', help="Output Tree Schema")
-    parser.add_argument('-f', '--format', required=True, type=str, help="Format: (d)ecimal or (p)ercentage")
+    parser.add_argument('-sf', '--support_format', required=False, type=str, default='d', help="Support Format: (d)ecimal or (p)ercentage")
     parser.add_argument('-d', '--default', required=False, type=int, default=None, help="Default Support for Missing (percentage as int)")
     args = parser.parse_args()
     args.in_schema = args.in_schema.lower()
     assert args.in_schema in SCHEMA, "Input Schema must be one of the following: %s" % str(SCHEMA)
     args.out_schema = args.out_schema.lower()
     assert args.out_schema in SCHEMA, "Output Schema must be one of the following: %s" % str(SCHEMA)
-    args.format = args.format.lower()[0]
-    assert args.format in {'d','p'}, "Format must be either (d)ecimal (-f d) or (p)ercentage (-f p)"
+    args.support_format = args.support_format.lower()[0]
+    assert args.support_format in {'d','p'}, "Format must be either (d)ecimal (-f d) or (p)ercentage (-f p)"
     assert args.default is None or (args.default >= 0 and args.default <= 100), "Default support value must be an integer between 0 and 1"
-    if args.format == 'd' and args.default is not None:
+    if args.support_format == 'd' and args.default is not None:
         args.default /= 100.
     if args.input == 'stdin':
         from sys import stdin; infile = stdin
@@ -46,9 +46,9 @@ if __name__ == "__main__":
             if not node.is_terminal():
                 if node.confidence is None:
                     node.confidence = args.default
-                elif args.format == 'p' and decimal:
+                elif args.support_format == 'p' and decimal:
                     node.confidence *= 100
-                elif args.format == 'd' and not decimal:
+                elif args.support_format == 'd' and not decimal:
                     node.confidence /= 100
         treestr = tree.format(args.out_schema)
         if args.out_schema == 'newick':
