@@ -512,7 +512,7 @@ void nPk() {
             exit(-1);
         }
         unsigned long p = 1;
-        for(unsigned long i = n-k+1; i <= n; ++i) {
+        for(unsigned long i = n-k+1; i <= (unsigned long)n; ++i) {
             p *= i;
         }
         cout << p << endl;
@@ -538,10 +538,10 @@ void nCk() {
             exit(-1);
         }
         unsigned long p = 1;
-        for(unsigned long i = n-k+1; i <= n; ++i) {
+        for(unsigned long i = n-k+1; i <= (unsigned long)n; ++i) {
             p *= i;
         }
-        for(unsigned long i = 2; i <= k; ++i) {
+        for(unsigned long i = 2; i <= (unsigned long)k; ++i) {
             p /= i;
         }
         cout << p << endl;
