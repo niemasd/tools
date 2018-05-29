@@ -93,16 +93,8 @@ function zippydownload()
     echo "${filename}"
 
     # Start download file
-    echo "${dl}" | \
-    wget -c \
-    -i - \
-    #-O "${filename}" "${dl}" \
-    -q \
-    #--show-progress \
-    --referer="${ref}" \
-    --cookies=off --header "Cookie: JSESSIONID=${jsessionid}" \
-    --user-agent="${agent}" \
-    > "${filename}"
+    #wget -c -O "${filename}" "${dl}" -q  --referer="${ref}" --cookies=off --header "Cookie: JSESSIONID=${jsessionid}" --user-agent="${agent}"
+    echo "${dl}" | wget -c -O - -i - -q  --referer="${ref}" --cookies=off --header "Cookie: JSESSIONID=${jsessionid}" --user-agent="${agent}" > "${filename}"
 
     rm -f "${cookiefile}" 2> /dev/null
     rm -f "${infofile}" 2> /dev/null
