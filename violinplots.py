@@ -56,4 +56,4 @@ elif args.ymax is not None:
 
 # clean up the figure and show
 plt.tight_layout()
-sns.plt.show()
+plt.show()
