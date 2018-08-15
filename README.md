@@ -88,6 +88,9 @@ This is a collection of command-line tools I wrote to make various repetitive ta
 * **[touchall.sh](touchall.sh): Recursively touch all files in current directory (and subdirectories)**
     * Run it without arguments
 
+* **[tree_subsample.py](tree_subsample.py): Subsample a given Newick file**
+    * For help message: ``python tree_subsample.py -h``
+
 * **[violinplots.py](violinplots.py): Create violin plots from data**
     * Reads the data from standard input by default, or a file can be passed via `-i`
         * The data must be in the JSON (or Python dictionary) format
