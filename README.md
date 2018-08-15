@@ -35,6 +35,9 @@ This is a collection of command-line tools I wrote to make various repetitive ta
 * **[fastq2fasta.py](fastq2fasta.py): Convert a FASTQ file to FASTA**
     * For help message: `python fastq2fasta.py -h`
 
+* **[hamming.py](hamming.py): Compute all pairwise Hamming distances from a given multiple sequence alignment**
+    * For help message: `python hamming.py -h`
+
 * **[histogram.py](histogram.py): Create a histogram from a list of numbers**
     * Reads the list of numbers from standard input by default, or a file can be passed via `-i`
         * The numbers in the list must be whitespace-delimited
