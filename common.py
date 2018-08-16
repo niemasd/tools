@@ -18,11 +18,11 @@ def convert_fasta_1ln(stream):
             continue
         if l[0] == '>':
             if len(seq) != 0:
-                print(seq.replace(' ',''))
+                print(seq)
             print(l)
             seq = ''
         else:
-            seq += l.strip()
+            seq += l.strip().replace(' ','')
     if len(seq) != 0:
         print(seq)
 
