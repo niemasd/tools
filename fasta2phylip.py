@@ -5,6 +5,7 @@ Niema Moshiri 2016
 Convert MSA from FASTA to Phylip
 '''
 import argparse
+from common import readFASTA
 from sys import stdin,stdout
 
 # parse arguments
