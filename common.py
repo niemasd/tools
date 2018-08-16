@@ -26,6 +26,15 @@ def convert_fasta_1ln(stream):
     if len(seq) != 0:
         print(seq)
 
+# compute the hamming distance of a pair of sequences
+def hamming(x,y,prop=True):
+    assert len(x) == len(y), "x and y must be the same length"
+    h = sum(x[i] != y[i] for i in range(len(x)))
+    if prop:
+        return h/float(len(x))
+    else:
+        return h
+
 # read FASTA stream and return (ID,seq) dictionary
 def readFASTA(stream):
     seqs = {}

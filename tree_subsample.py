@@ -12,10 +12,10 @@ from treeswift import read_tree_newick
 # parse arguments
 def parseArgs():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('-i', '--input', required=False, type=argparse.FileType('r'), default=stdin, help="Input FASTA")
+    parser.add_argument('-i', '--input', required=False, type=argparse.FileType('r'), default=stdin, help="Input Newick Tree")
     parser.add_argument('-o', '--output', required=False, type=argparse.FileType('w'), default=stdout, help="Output")
-    parser.add_argument('-p', '--proportion', required=False, type=float, default=None, help="Proportion of Original FASTA to Sample")
-    parser.add_argument('-n', '--number', required=False, type=int, default=None, help="Number of Sequences to Sample")
+    parser.add_argument('-p', '--proportion', required=False, type=float, default=None, help="Proportion of Original Leaves to Sample")
+    parser.add_argument('-n', '--number', required=False, type=int, default=None, help="Number of Leaves to Sample")
     args = parser.parse_args()
     assert args.proportion is not None or args.number is not None, "Must specify either proportion or number"
     assert args.proportion is None or args.number is None, "Cannot specify both proportion and number"
