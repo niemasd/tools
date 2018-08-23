@@ -6,6 +6,7 @@ Compute various tree distance metrics on two given Newick-format trees.
 '''
 from dendropy.calculate.treecompare import unweighted_robinson_foulds_distance,weighted_robinson_foulds_distance
 from dendropy import TaxonNamespace,Tree
+from gzip import open as gopen
 from os.path import isfile
 METRICS = {'URF':unweighted_robinson_foulds_distance, 'WRF':weighted_robinson_foulds_distance}
 if __name__ == "__main__":
@@ -19,9 +20,17 @@ if __name__ == "__main__":
     assert args.metric in METRICS, "Invalid distance metric: %s" % args.metric
     assert isfile(args.tree1), "Invalid file: %s" % args.tree1
     assert isfile(args.tree2), "Invalid file: %s" % args.tree2
+    if args.tree1.lower().endswith('.gz'):
+        t1_str = gopen(args.tree1).read().decode().strip()
+    else:
+        t1_str = gopen(args.tree1).read().strip()
+    if args.tree2.lower().endswith('.gz'):
+        t2_str = gopen(args.tree2).read().decode().strip()
+    else:
+        t2_str = gopen(args.tree2).read().strip()
     tns = TaxonNamespace()
-    t1 = Tree.get(path=args.tree1, schema='newick', taxon_namespace=tns)
-    t2 = Tree.get(path=args.tree2, schema='newick', taxon_namespace=tns)
+    t1 = Tree.get(data=t1_str, schema='newick', taxon_namespace=tns)
+    t2 = Tree.get(data=t2_str, schema='newick', taxon_namespace=tns)
     t1.encode_bipartitions()
     t2.encode_bipartitions()
     d = METRICS[args.metric](t1,t2)
