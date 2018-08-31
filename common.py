@@ -2,6 +2,7 @@
 Common functions used by multiple tools
 Niema Moshiri 2017
 '''
+from math import log
 from random import choice,uniform
 
 # constants
@@ -39,6 +40,16 @@ def hamming(x,y,prop=True):
         return d/float(l)
     else:
         return d
+
+# compute the JC69 distance of a pair of sequences
+def jc69(x,y,a):
+    assert len(x) == len(y), "x and y must be the same length"
+    assert a > 0, "Gamma alpha parameter must be positive"
+    d = hamming(x,y,prop=True)
+    if a == float('inf'):
+        return -3*log(1-(4*d/3))/4
+    else:
+        return (3*a/4.)*(((1-(4*d/3.))**(-1./a))-1)
 
 # read FASTA stream and return (ID,seq) dictionary
 def readFASTA(stream):
