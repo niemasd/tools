@@ -29,11 +29,16 @@ def convert_fasta_1ln(stream):
 # compute the hamming distance of a pair of sequences
 def hamming(x,y,prop=True):
     assert len(x) == len(y), "x and y must be the same length"
-    h = sum(x[i] != y[i] for i in range(len(x)))
+    d = 0; l = len(x)
+    for i in range(len(x)):
+        if x[i] == '-' and y[i] == '-':
+            l -= 1
+        elif x[i] != y[i]:
+            d += 1
     if prop:
-        return h/float(len(x))
+        return d/float(l)
     else:
-        return h
+        return d
 
 # read FASTA stream and return (ID,seq) dictionary
 def readFASTA(stream):
