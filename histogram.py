@@ -5,6 +5,10 @@ import argparse
 from sys import stdin
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument('-i', '--input', required=False, type=str, default='stdin', help="Input File Stream")
+parser.add_argument('-c', '--cumulative', action='store_true', help="Cumulative Density (instead of Probability Density)")
+parser.add_argument('-k', '--kde', action='store_true', help="Show Kernel Density Estimation (KDE)")
+parser.add_argument('-kl', '--kde_linestyle', required=False, type=str, default='-', help="KDE Linestyle")
+parser.add_argument('-nh', '--nohist', action='store_true', help="Hide Histogram")
 parser.add_argument('-b', '--binsize', required=False, type=float, default=None, help="Bin Size")
 parser.add_argument('-t', '--title', required=False, type=str, default=None, help="Figure Title")
 parser.add_argument('-xl', '--xlabel', required=False, type=str, default=None, help="X-Axis Label")
@@ -17,8 +21,6 @@ parser.add_argument('-xlog', '--xlog', action='store_true', help="Log-Scaled X-A
 parser.add_argument('-ylog', '--ylog', action='store_true', help="Log-Scaled Y-Axis")
 parser.add_argument('-xint', '--xint', action='store_true', help="Integer Ticks on X-Axis")
 parser.add_argument('-yint', '--yint', action='store_true', help="Integer Ticks on Y-Axis")
-parser.add_argument('-k', '--kde', action='store_true', help="Show Kernel Density Estimation")
-parser.add_argument('-nh', '--nohist', action='store_true', help="Hide Histogram")
 args = parser.parse_args()
 assert args.kde or not args.nohist, "Must show either Histogram or Kernel Density Estimation (or both)"
 if args.input == 'stdin':
@@ -49,7 +51,10 @@ else:
     bins = None
 
 # plot the histogram
-sns.distplot(data, bins=bins, kde=args.kde, hist=(not args.nohist))
+kde_kws = {'linestyle':args.kde_linestyle}; hist_kws = dict()
+if args.cumulative:
+    kde_kws['cumulative'] = True; hist_kws['cumulative'] = True
+sns.distplot(data, bins=bins, kde=args.kde, hist=(not args.nohist), kde_kws=kde_kws, hist_kws=hist_kws)
 
 # set figure title and labels (if applicable)
 if args.title is not None:
