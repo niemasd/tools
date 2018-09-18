@@ -30,7 +30,7 @@ freq = [dict() for _ in range(L)]
 T = [int(len(seqs)*prop)]*L
 for k in seqs:
     for i in range(L):
-        c = seqs[k][i]
+        c = seqs[k][i].upper()
         if c == '-': # ignore gaps
             T[i] -= 1; continue
         elif c not in {'A','C','G','T'}:
