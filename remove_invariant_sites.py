@@ -40,7 +40,7 @@ for k in seqs:
         freq[i][c] += 1
 to_remove = set()
 for i in range(L):
-    if max(freq[i].values()) >= T[i]:
+    if len(freq[i]) == 0 or max(freq[i].values()) >= T[i]:
         to_remove.add(i)
 for k in seqs:
     outfile.write('>%s\n'%k)
