@@ -21,21 +21,26 @@ def parseArgs():
 infile, outfile, prop = parseArgs()
 seqs = readFASTA(infile)
 infile.close()
-L = None; T = int(len(seqs)*prop)
+L = None
 for k in seqs:
     if L is None:
         L = len(seqs[k])
     assert L == len(seqs[k]), "All sequences must be of equal length"
 freq = [dict() for _ in range(L)]
+T = [int(len(seqs)*prop)]*L
 for k in seqs:
     for i in range(L):
         c = seqs[k][i]
+        if c == '-': # ignore gaps
+            T[i] -= 1; continue
+        elif c not in {'A','C','G','T'}:
+            c = 'C' # resolve all ambiguities as C TODO REMOVE
         if c not in freq[i]:
             freq[i][c] = 0
         freq[i][c] += 1
 to_remove = set()
 for i in range(L):
-    if max(freq[i].values()) >= T:
+    if max(freq[i].values()) >= T[i]:
         to_remove.add(i)
 for k in seqs:
     outfile.write('>%s\n'%k)
