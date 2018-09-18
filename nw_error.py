@@ -23,11 +23,11 @@ if __name__ == "__main__":
     if args.tree1.lower().endswith('.gz'):
         t1_str = gopen(args.tree1).read().decode().strip()
     else:
-        t1_str = gopen(args.tree1).read().strip()
+        t1_str = open(args.tree1).read().strip()
     if args.tree2.lower().endswith('.gz'):
         t2_str = gopen(args.tree2).read().decode().strip()
     else:
-        t2_str = gopen(args.tree2).read().strip()
+        t2_str = open(args.tree2).read().strip()
     tns = TaxonNamespace()
     t1 = Tree.get(data=t1_str, schema='newick', taxon_namespace=tns)
     t2 = Tree.get(data=t2_str, schema='newick', taxon_namespace=tns)
