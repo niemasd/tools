@@ -24,11 +24,13 @@ const string USAGE_MESSAGE =
 "    -abs           Compute the absolute value of each number\n"
 "    -add<NUM>      Add <NUM> to each number\n"
 "    -avg           Compute the average of the list\n"
+"    -ceil          Compute the ceiling of each number\n"
 "    -csv           Print the list as comma-separated values\n"
 "    -div<NUM>      Divide each number by <NUM>\n"
 "    -dlm<STR>      Print the list, but delimited by <STR>\n"
 "    -exp           Compute e to the power of each number\n"
 "    -fact          Compute the factorial of each number\n"
+"    -floor         Compute the floor of each number\n"
 "    -gt<NUM>       Print all numbers greater than <NUM>\n"
 "    -gte<NUM>      Print all numbers greater than or equal to <NUM>\n"
 "    -h             Print this help message\n"
@@ -379,6 +381,22 @@ void lte( const double & thresh ) {
         if(num <= thresh) {
             cout << num << endl;
         }
+    }
+}
+
+// take the ceiling of all numbers
+void ceil() {
+    double num;
+    while(cin >> num) {
+        cout << ceil(num) << endl;
+    }
+}
+
+// take the floor of all numbers
+void floor() {
+    double num;
+    while(cin >> num) {
+        cout << floor(num) << endl;
     }
 }
 
@@ -763,11 +781,14 @@ int main( int argc, char* argv[] ) {
         abs();
     }
     else if(argv[1][1] == 'a' && argv[1][2] == 'd' && argv[1][3] == 'd') {
-         check_num_double(argv[1],4);
+        check_num_double(argv[1],4);
         add(strtod(((string)argv[1]).substr(4).c_str(),(char**)0));
     }
     else if(strcmp(argv[1],"-avg") == 0) {
         cout << avg() << endl;
+    }
+    else if(strcmp(argv[1],"-ceil") == 0) {
+        ceil();
     }
     else if(strcmp(argv[1],"-csv") == 0) {
         dlm(",");
@@ -797,6 +818,9 @@ int main( int argc, char* argv[] ) {
     }
     else if(strcmp(argv[1],"-fact") == 0) {
         fact();
+    }
+    else if(strcmp(argv[1],"-floor") == 0) {
+        floor();
     }
     else if(argv[1][1] == 'g' && argv[1][2] == 't') {
         if(argv[1][3] == 'e') {
