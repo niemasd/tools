@@ -6,6 +6,7 @@ import argparse
 from sys import stdin
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument('-i', '--input', required=False, type=str, default='stdin', help="Input File Stream")
+parser.add_argument('-yx', '--y_then_x', action='store_true', help="Points are y,x instead of x,y")
 parser.add_argument('-c', '--color', required=False, type=str, default=None)
 parser.add_argument('-l', '--lowess', action='store_true', help="Lowess")
 parser.add_argument('-ls', '--linestyle', required=False, type=str, default=None)
@@ -40,6 +41,8 @@ for line in args.input:
     xval,yval = line.split(',')
     x.append(float(xval))
     y.append(float(yval))
+if args.y_then_x:
+    x,y = y,x
 fig, ax = plt.subplots()
 
 # set integer ticks (if applicable)
