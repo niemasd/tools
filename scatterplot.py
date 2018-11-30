@@ -12,6 +12,7 @@ parser.add_argument('-l', '--lowess', action='store_true', help="Lowess")
 parser.add_argument('-ls', '--linestyle', required=False, type=str, default=None)
 parser.add_argument('-lw', '--linewidth', required=False, type=float, default=None)
 parser.add_argument('-m', '--marker', required=False, type=str, default=None)
+parser.add_argument('-p', '--plot', action='store_true', help="Plot lines using pyplot.plot")
 parser.add_argument('-r', '--reg', action='store_true', help="Fit Regression")
 parser.add_argument('-t', '--title', required=False, type=str, default=None, help="Figure Title")
 parser.add_argument('-xl', '--xlabel', required=False, type=str, default=None, help="X-Axis Label")
@@ -60,6 +61,8 @@ if args.linewidth:
 
 # plot the scatterplot
 sns.regplot(x=np.array(x), y=np.array(y), lowess=args.lowess, fit_reg=args.reg, marker=args.marker, color=args.color, line_kws=line_kws)
+if args.plot:
+    plt.plot(x, y, color=args.color, linestyle=args.linestyle, linewidth=args.linewidth)
 
 # set figure title and labels (if applicable)
 if args.title is not None:
