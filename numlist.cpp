@@ -61,6 +61,9 @@ const string USAGE_MESSAGE =
 "    -sort          Print the list in ascending order\n"
 "    -sortA         Print the list in ascending order\n"
 "    -sortD         Print the list in descending order\n"
+"    -sorted        Print 1 if the list is sorted in ascending order, otherwise 0\n"
+"    -sortedA       Print 1 if the list is sorted in ascending order, otherwise 0\n"
+"    -sortedD       Print 1 if the list is sorted in descending order, otherwise 0\n"
 "    -sqrt          Compute the square root of each number\n"
 "    -stats         Compute various statistics on the list\n"
 "    -std           Compute the standard deviation of the list\n"
@@ -589,6 +592,34 @@ void reverse() {
     }
 }
 
+// check if a list of numbers is sorted in ascending order
+bool sortedA() {
+    double prev;
+    cin >> prev;
+    double next;
+    while(cin >> next) {
+        if(next < prev) {
+            return false;
+        }
+        prev = next;
+    }
+    return true;
+}
+
+// check if a list of numbers is sorted in descending order
+bool sortedD() {
+    double prev;
+    cin >> prev;
+    double next;
+    while(cin >> next) {
+        if(next > prev) {
+            return false;
+        }
+        prev = next;
+    }
+    return true;
+}
+
 // print list in ascending order
 void sortA() {
     // read in numbers
@@ -917,6 +948,12 @@ int main( int argc, char* argv[] ) {
     }
     else if(strcmp(argv[1],"-sortD") == 0) {
         sortD();
+    }
+     else if(strcmp(argv[1],"-sortedA") == 0 || strcmp(argv[1],"-sorted") == 0) {
+        cout << sortedA() << endl;
+    }
+    else if(strcmp(argv[1],"-sortedD") == 0) {
+        cout << sortedD() << endl;
     }
     else if(strcmp(argv[1],"-sqrt") == 0) {
         power(0.5);
