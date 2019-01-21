@@ -14,6 +14,9 @@ This is a collection of command-line tools I wrote to make various repetitive ta
     * For branches without support values, can give them a default value (e.g. 100), or keep them empty by default
     * For help message: `python convert_trees.py`
 
+* **[download_m3u8.py](download_m3u8.py): Download an m3u8 video stream**
+    * For help message: `python download_m3u8.py -h`
+
 * **[fasta1ln.py](fasta1ln.py): Convert a multiline FASTA file to one-line**
     * For help message: `python fasta1ln.py -h`
 
