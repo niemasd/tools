@@ -12,6 +12,7 @@ parser.add_argument('-l', '--lowess', action='store_true', help="Lowess")
 parser.add_argument('-ls', '--linestyle', required=False, type=str, default=None)
 parser.add_argument('-lw', '--linewidth', required=False, type=float, default=None)
 parser.add_argument('-m', '--marker', required=False, type=str, default=None)
+parser.add_argument('-a', '--alpha', required=False, type=float, default=None)
 parser.add_argument('-p', '--plot', action='store_true', help="Plot lines using pyplot.plot")
 parser.add_argument('-r', '--reg', action='store_true', help="Fit Regression")
 parser.add_argument('-t', '--title', required=False, type=str, default=None, help="Figure Title")
@@ -52,15 +53,20 @@ if args.xint:
 if args.yint:
     ax.yaxis.set_major_locator(ticker.MaxNLocator(integer=True))
 
+# parse scatter kws
+scatter_kws = dict()
+if args.alpha:
+    scatter_kws['alpha'] = args.alpha
+
 # parse line kws
-line_kws = {}
+line_kws = dict()
 if args.linestyle:
     line_kws['linestyle'] = args.linestyle
 if args.linewidth:
     line_kws['linewidth'] = args.linewidth
 
 # plot the scatterplot
-sns.regplot(x=np.array(x), y=np.array(y), lowess=args.lowess, fit_reg=args.reg, marker=args.marker, color=args.color, line_kws=line_kws)
+sns.regplot(x=np.array(x), y=np.array(y), lowess=args.lowess, fit_reg=args.reg, marker=args.marker, color=args.color, scatter_kws=scatter_kws, line_kws=line_kws)
 if args.plot:
     plt.plot(x, y, color=args.color, linestyle=args.linestyle, linewidth=args.linewidth)
 
