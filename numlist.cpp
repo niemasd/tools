@@ -25,6 +25,7 @@ const string USAGE_MESSAGE =
 "    -add<NUM>      Add <NUM> to each number\n"
 "    -avg           Compute the average of the list\n"
 "    -ceil          Compute the ceiling of each number\n"
+"    -cma           Compute the cumulative moving average of the list\n"
 "    -csv           Print the list as comma-separated values\n"
 "    -div<NUM>      Divide each number by <NUM>\n"
 "    -dlm<STR>      Print the list, but delimited by <STR>\n"
@@ -465,6 +466,14 @@ void abs() {
     }
 }
 
+// compute the cumulative moving average of the list
+void cma() {
+    double num; double tot = 0; int n = 0;
+    while(cin >> num) {
+        tot += num; ++n; cout << (tot/n) << endl;
+    }
+}
+
 // raise all numbers to the power of "exponent"
 void power( const double & exponent ) {
     double num;
@@ -820,6 +829,9 @@ int main( int argc, char* argv[] ) {
     }
     else if(strcmp(argv[1],"-ceil") == 0) {
         ceil();
+    }
+    else if(strcmp(argv[1],"-cma") == 0) {
+        cma();
     }
     else if(strcmp(argv[1],"-csv") == 0) {
         dlm(",");
