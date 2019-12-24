@@ -1,9 +1,11 @@
 " Editing
 set tabstop=4                  " number of visual spaces per TAB
 set softtabstop=4              " number of spaces in tab when editing
+set shiftwidth=4               " number of spaces in tab when shifting
 set expandtab                  " tabs are spaces
 set backspace=indent,eol,start " normal backspacing
-set autoindent
+set autoindent                 " automatically indent
+set smartindent                " automatically indent C-style
 
 " Visual
 syntax enable                  " syntax highlighting
