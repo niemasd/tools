@@ -13,6 +13,7 @@ alias keyboard='telnet 192.168.1.4 2323'
 
 # SSH aliases
 alias cse='echo "Connecting to CSE (login.eng.ucsd.edu)..." ; ssh a1moshir@login.eng.ucsd.edu'
+alias comet='echo "Connecting to Comet..." ; ssh a1moshir@comet.sdsc.edu'
 alias tscc='echo "Connecting to TSCC..." ; ssh -Y a1moshir@tscc.sdsc.edu'
 alias tsccL1='echo "Connecting to TSCC Login Node 1..." ; ssh -Y a1moshir@tscc-login1.sdsc.edu'
 alias tsccL2='echo "Connecting to TSCC Login Node 2..." ; ssh -Y a1moshir@tscc-login2.sdsc.edu'
