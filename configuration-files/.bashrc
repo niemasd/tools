@@ -112,5 +112,4 @@ if ! shopt -oq posix; then
 fi
 
 # niema's additional PATH stuff
-export PATH="$HOME/.local:$PATH"
 export DISPLAY=localhost:0.0
