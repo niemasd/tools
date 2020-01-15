@@ -12,6 +12,7 @@ alias update='sudo apt-get -y update ; sudo apt-get -y upgrade ; sudo apt-get -y
 alias keyboard='telnet 192.168.1.4 2323'
 
 # SSH aliases
+alias ssh_key_create='ssh-keygen -t rsa -b 4096 -o -a 100'
 alias cse='echo "Connecting to CSE (login.eng.ucsd.edu)..." ; ssh a1moshir@login.eng.ucsd.edu'
 alias comet='echo "Connecting to Comet..." ; ssh -Y a1moshir@comet.sdsc.edu'
 alias cometL1='echo "Connecting to Comet Login Node 1..." ; ssh -Y a1moshir@comet-ln1.sdsc.edu'
