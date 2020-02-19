@@ -3,6 +3,20 @@ This is a collection of command-line tools I wrote to make various repetitive ta
 * **[ambiguity2gap.py](ambiguity2gap.py): Convert ambiguous characters to gaps**
     * For help message: `python ambiguity2gap.py -h`
 
+* **[barplot.py](barplot.py): Create a barplot from a list of labels**
+    * Reads the list of labels from standard input by default, or a file can be passed vi `-i`
+        * Only include labels, no counts! The script will count them for you!
+            ```
+            Niema
+            Niema
+            Niema
+            Moshiri
+            Moshiri
+            ```
+     * The order of the x-axis will be the order in which each label first appeared in the input
+         * From left to right, the above example will plot "Niema" (with a count of 3) followed by "Moshiri" (with a count of 2)
+    * For help message: `python barplot.py -h`
+
 * **[boxplots.py](boxplots.py): Create box plots from data**
     * Reads the data from standard input by default, or a file can be passed via `-i`
         * The data must be in the JSON (or Python dictionary) format
