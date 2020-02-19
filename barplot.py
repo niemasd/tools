@@ -12,6 +12,7 @@ parser.add_argument('-ymin', '--ymin', required=False, type=int, default=None, h
 parser.add_argument('-ymax', '--ymax', required=False, type=int, default=None, help="Y-Axis Maximum")
 parser.add_argument('-ylog', '--ylog', action='store_true', help="Log-Scaled Y-Axis")
 parser.add_argument('-yint', '--yint', action='store_true', help="Integer Ticks on Y-Axis")
+parser.add_argument('-nx', '--no_x', action='store_true', help="Hide the Category (X-Axis) Labels")
 args = parser.parse_args()
 if args.input == 'stdin':
     args.input = stdin
@@ -60,6 +61,10 @@ elif args.ymin is not None:
     plt.ylim(ymin=args.ymin)
 elif args.ymax is not None:
     plt.ylim(ymax=args.ymax)
+
+# hide category (X-axis) labels (if applicable)
+if args.no_x:
+    ax.set_xticks(list())
 
 # clean up the figure and show
 plt.tight_layout()

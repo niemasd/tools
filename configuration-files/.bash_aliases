@@ -11,6 +11,9 @@ alias update='sudo apt-get -y update ; sudo apt-get -y upgrade ; sudo apt-get -y
 # android box keyboard alias
 alias keyboard='telnet 192.168.1.4 2323'
 
+# prettify
+alias pretty_json='python -m json.tool'
+
 # SSH aliases
 alias ssh_key_create='ssh-keygen -t rsa -b 4096 -o -a 100'
 alias cse='echo "Connecting to CSE (login.eng.ucsd.edu)..." ; ssh a1moshir@login.eng.ucsd.edu'
