@@ -13,6 +13,7 @@ alias keyboard='telnet 192.168.1.4 2323'
 
 # prettify
 alias pretty_json='python -m json.tool'
+alias pretty_js='js-beautify'
 
 # SSH aliases
 alias ssh_key_create='ssh-keygen -t rsa -b 4096 -o -a 100'
