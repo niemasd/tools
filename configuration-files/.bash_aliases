@@ -26,6 +26,7 @@ alias cometL4='echo "Connecting to Comet Login Node 4..." ; ssh -Y a1moshir@come
 alias tscc='echo "Connecting to TSCC..." ; ssh -Y a1moshir@tscc.sdsc.edu'
 alias tsccL1='echo "Connecting to TSCC Login Node 1..." ; ssh -Y a1moshir@tscc-login1.sdsc.edu'
 alias tsccL2='echo "Connecting to TSCC Login Node 2..." ; ssh -Y a1moshir@tscc-login2.sdsc.edu'
+alias xsede='echo "Connecting to XSEDE Login Hub..." ; ssh -Y niemasd@login.xsede.org'
 
 # aliases for running servers
 alias server_jupyter='jupyter notebook --ip 0.0.0.0 --port 1642'
