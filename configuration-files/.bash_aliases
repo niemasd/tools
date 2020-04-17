@@ -23,6 +23,7 @@ alias cometL1='echo "Connecting to Comet Login Node 1..." ; ssh -Y a1moshir@come
 alias cometL2='echo "Connecting to Comet Login Node 2..." ; ssh -Y a1moshir@comet-ln2.sdsc.edu'
 alias cometL3='echo "Connecting to Comet Login Node 3..." ; ssh -Y a1moshir@comet-ln3.sdsc.edu'
 alias cometL4='echo "Connecting to Comet Login Node 4..." ; ssh -Y a1moshir@comet-ln4.sdsc.edu'
+alias pi_tv_server='echo "Connecting to Raspberry Pi TV Server..." ; ssh -Y pi@192.168.1.15'
 alias tscc='echo "Connecting to TSCC..." ; ssh -Y a1moshir@tscc.sdsc.edu'
 alias tsccL1='echo "Connecting to TSCC Login Node 1..." ; ssh -Y a1moshir@tscc-login1.sdsc.edu'
 alias tsccL2='echo "Connecting to TSCC Login Node 2..." ; ssh -Y a1moshir@tscc-login2.sdsc.edu'

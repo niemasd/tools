@@ -113,3 +113,5 @@ fi
 
 # niema's additional PATH stuff
 export DISPLAY=localhost:0.0
+export LIBRARY_PATH=$HOME/.local/lib
+export LD_LIBRARY_PATH=$HOME/.local/lib
