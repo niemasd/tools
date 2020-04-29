@@ -101,6 +101,16 @@ This is a collection of command-line tools I wrote to make various repetitive ta
     * Dictionary of name mappings is output to STDERR
     * For help message: `python safenames.py -h`
 
+* **[samstats](samstats.cpp): Compute basic statistics on a SAM file passed in via STDIN**
+    * Statistics are printed to STDERR
+    * Also useful for converting from SAM to FASTQ/FASTA extremely quickly
+    * Usage: `samstats [output_format]`
+    * Valid output formats:
+        * `none`: Don't output the SAM file's contents
+        * `fasta`: Output a FASTA file to STDOUT
+        * `fastq`: Output a FASTQ file to STDOUT
+        * `sam`: Output the same exact SAM file to STDOUT
+
 * **[scatterplot.py](scatterplot.py): Create a scatterplot from two lists of numbers (x,y)**
     * Reads the list of points from standard input by default, or a file can be passed vi `-i`
         * Each line should contain a single point in the format `xvalue,yvalue`, e.g.:
