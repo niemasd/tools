@@ -79,6 +79,10 @@ This is a collection of command-line tools I wrote to make various repetitive ta
     ```bash
     echo "1,2,3,4,5" | tr ',' ' ' | numlist -sum
     ```
+* You can compile it using ``make`` or as follows:
+    ```bash
+    g++ -Wall -pedantic -O3 -o numlist numlist.cpp
+    ```
 
 ### [nw_error](nw_error): Compute various error metrics on Newick trees
 * Usage: `nw_error metric tree1 tree2`
@@ -110,6 +114,10 @@ This is a collection of command-line tools I wrote to make various repetitive ta
     * `fasta`: Output a FASTA file to STDOUT
     * `fastq`: Output a FASTQ file to STDOUT
     * `sam`: Output the same exact SAM file to STDOUT
+* You can compile it using ``make`` or as follows:
+    ```bash
+    g++ -Wall -pedantic -O3 -o samstats samstats.cpp
+    ```
 
 ### [scatterplot.py](scatterplot.py): Create a scatterplot from two lists of numbers (x,y)
 * Reads the list of points from standard input by default, or a file can be passed vi `-i`
