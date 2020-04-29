@@ -50,6 +50,7 @@ int main( int argc, char* argv[] ) {
     }
 
     // stats to compute
+    unsigned long long num_bases = 0;   // number of bases
     unsigned long long num_headers = 0; // number of header lines
     unsigned long long num_reads = 0;   // number of reads
 
@@ -119,6 +120,8 @@ int main( int argc, char* argv[] ) {
 
         // 10th column (sequence)
         else if(col == 10) {
+            ++num_bases;
+
             // print nucleotide if FASTQ or FASTA
             if(out_format == 1 || out_format == 2) {
                 if(col_pos == 1) {
@@ -140,6 +143,8 @@ int main( int argc, char* argv[] ) {
         }
     }
     cerr << "Number of Header Lines: " << num_headers << endl;
+    cerr << "Number of Bases: " << num_bases << endl;
     cerr << "Number of Reads: " << num_reads << endl;
+    cerr << "Average Read Length: " << (((long double)num_bases)/num_reads) << endl;
     return 0;
 }
