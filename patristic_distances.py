@@ -21,6 +21,7 @@ infile, outfile = parseArgs()
 dm = read_tree_newick(infile.read()).distance_matrix()
 infile.close()
 keys = list(dm.keys())
+outfile.write("ID1,ID2,Distance\n")
 for i in range(len(keys)-1):
     for j in range(i+1,len(keys)):
-        outfile.write('%f\n'%dm[keys[i]][keys[j]])
+        outfile.write('%s,%s,%f\n' % (keys[i], keys[j], dm[keys[i]][keys[j]]))
