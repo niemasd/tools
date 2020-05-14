@@ -1,6 +1,6 @@
 # use g++ compiler with C++11 support
 CXX=g++
-CXXFLAGS=-Wall -pedantic -O3
+CXXFLAGS=-Wall -pedantic -O3 -std=c++11
 TOOLS=numlist samstats
 
 # compile all tools
