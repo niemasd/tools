@@ -10,6 +10,28 @@ DNA = {'-','?','A','C','B','D','G','H','K','M','N','S','R','T','W','V','Y','X','
 RNA = {'-','?','A','C','B','D','G','H','K','M','N','S','R','U','W','V','Y','X','a','c','b','d','g','h','k','m','n','s','r','u','w','v','y'}
 AMINO = {'-','?','A','C','B','E','D','G','F','I','H','K','M','L','N','Q','P','S','R','T','W','V','Y','X','Z','a','c','b','e','d','g','f','i','h','k','m','l','n','q','p','s','r','t','w','v','y','x','z'}
 
+# remove gaps from FASTA
+def remove_gaps(stream):
+    for line in stream:
+        l = line.strip()
+        if len(l) == 0:
+            continue
+        if l[0] == '>':
+            print(l)
+        else:
+            print(l.replace('-'))
+
+# convert FASTA to upper case
+def convert_fasta_upper(stream):
+    for line in stream:
+        l = line.strip()
+        if len(l) == 0:
+            continue
+        if l[0] == '>':
+            print(l)
+        else:
+            print(l.upper())
+
 # convert multiline FASTA to one-line
 def convert_fasta_1ln(stream):
     seq = ''
