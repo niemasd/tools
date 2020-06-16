@@ -19,7 +19,7 @@ def remove_gaps(stream):
         if l[0] == '>':
             print(l)
         else:
-            print(l.replace('-'))
+            print(l.replace('-',''))
 
 # convert FASTA to upper case
 def convert_fasta_upper(stream):
