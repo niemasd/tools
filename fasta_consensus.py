@@ -7,7 +7,6 @@ parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.A
 parser.add_argument('-i', '--input', required=False, type=str, default='stdin', help="Input File Stream")
 parser.add_argument('-o', '--output', required=False, type=str, default='stdout', help="Output File Stream")
 parser.add_argument('-l', '--ignore_length', action='store_true', help="Don't check sequence lengths")
-parser.add_argument('-n', '--no_gaps', action='store_true', help="Don't include gaps in output")
 args = parser.parse_args()
 if args.input == 'stdin':
     args.input = stdin
@@ -40,8 +39,8 @@ if not args.ignore_length and col != len(count):
 
 # output consensus
 for c in count:
+    if '-' in c:
+        del c['-']
     nuc = max(c.keys(), key=lambda x: c[x])
-    if args.no_gaps and nuc == '-':
-        continue
     args.output.write(nuc)
 args.output.write('\n')
