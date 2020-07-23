@@ -39,7 +39,7 @@ if not args.ignore_length and col != len(count):
 
 # output consensus
 for c in count:
-    if '-' in c:
+    if '-' in c and len(c) != 1:
         del c['-']
     nuc = max(c.keys(), key=lambda x: c[x])
     args.output.write(nuc)
