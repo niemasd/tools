@@ -23,10 +23,13 @@ if isfile(argv[2]):
         exit(1)
 
 # read m3u8 and prepare for download
-if PYTHON3:
-    lines = [l.strip() for l in urlopen(argv[1]).read().decode().strip().splitlines()]
-else:
-    lines = [l.strip() for l in urlopen(argv[1]).read().strip().splitlines()]
+try:
+    if PYTHON3:
+        lines = [l.strip() for l in urlopen(argv[1]).read().decode().strip().splitlines()]
+    else:
+        lines = [l.strip() for l in urlopen(argv[1]).read().strip().splitlines()]
+except ValueError:
+    lines = [l.strip() for l in open(argv[1]).read().strip().splitlines()]
 out = open(argv[2],'wb')
 TOTAL = sum(l.startswith('#EXTINF:') for l in lines); COUNT = 1
 print("Downloading video file with %d parts to file: %s" % (TOTAL,argv[2]))
