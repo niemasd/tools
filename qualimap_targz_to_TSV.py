@@ -77,5 +77,5 @@ for fn_num,full_fn in enumerate(argv[1:]):
 
     # output to TSV
     if fn_num == 0:
-        print('\t'.join('%s: %s' % (header,s) if s != '' else header for header in header_order for s in item_order[header]))
-    print('\t'.join(stats[fn][header][s] for header in header_order for s in item_order[header]))
+        print('\t'.join(["Qualimap Stats Filename"] + ['%s: %s' % (header,s) if s != '' else header for header in header_order for s in item_order[header]]))
+    print('\t'.join([fn] + [stats[fn][header][s] for header in header_order for s in item_order[header]]))
