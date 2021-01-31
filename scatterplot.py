@@ -3,9 +3,11 @@
 
 # parse user arguments
 import argparse
+from os.path import isfile
 from sys import stdin
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument('-i', '--input', required=False, type=str, default='stdin', help="Input File Stream")
+parser.add_argument('-o', '--output', required=False, type=str, default=None, help="Output File")
 parser.add_argument('-yx', '--y_then_x', action='store_true', help="Points are y,x instead of x,y")
 parser.add_argument('-c', '--color', required=False, type=str, default=None)
 parser.add_argument('-l', '--lowess', action='store_true', help="Lowess")
@@ -27,6 +29,8 @@ parser.add_argument('-ylog', '--ylog', action='store_true', help="Log-Scaled Y-A
 parser.add_argument('-xint', '--xint', action='store_true', help="Integer Ticks on X-Axis")
 parser.add_argument('-yint', '--yint', action='store_true', help="Integer Ticks on Y-Axis")
 args = parser.parse_args()
+if args.output is not None and isfile(args.output):
+    print("Output file exists: %s" % args.output); exit(1)
 if args.input == 'stdin':
     args.input = stdin
 else:
@@ -102,4 +106,7 @@ elif args.ymax is not None:
 
 # clean up the figure and show
 plt.tight_layout()
-plt.show()
+if args.output is None:
+    plt.show()
+else:
+    fig.savefig(args.output, format=args.output.split('.')[-1], bbox_inches='tight')

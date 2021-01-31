@@ -8,6 +8,7 @@ parser.add_argument('-i', '--input', required=False, type=str, default='stdin', 
 parser.add_argument('-x', '--x', required=True, type=str, help="Key for X Values")
 parser.add_argument('-y', '--y', required=True, type=str, help="Key for Y Values")
 parser.add_argument('-t', '--title', required=False, type=str, default=None, help="Figure Title")
+parser.add_argument('-rx', '--rotate_xticks', action='store_true', help="Rotate X-Axis Ticks")
 parser.add_argument('-xl', '--xlabel', required=False, type=str, default=None, help="X-Axis Label")
 parser.add_argument('-yl', '--ylabel', required=False, type=str, default=None, help="Y-Axis Label")
 parser.add_argument('-ymin', '--ymin', required=False, type=float, default=None, help="Y-Axis Minimum")
@@ -42,6 +43,10 @@ if args.xlabel is not None:
     plt.xlabel(args.xlabel)
 if args.ylabel is not None:
     plt.ylabel(args.ylabel)
+
+# rotate x-axis ticks (if applicable)
+if args.rotate_xticks:
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
 
 # log-scale the axes (if applicable)
 if args.xlog:

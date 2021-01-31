@@ -2,9 +2,11 @@
 
 # parse user arguments
 import argparse
+from os.path import isfile
 from sys import stdin
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument('-i', '--input', required=False, type=str, default='stdin', help="Input File Stream")
+parser.add_argument('-o', '--output', required=False, type=str, default=None, help="Output File")
 parser.add_argument('-c', '--cumulative', action='store_true', help="Cumulative Density (instead of Probability Density)")
 parser.add_argument('-k', '--kde', action='store_true', help="Show Kernel Density Estimation (KDE)")
 parser.add_argument('-kl', '--kde_linestyle', required=False, type=str, default='-', help="KDE Linestyle")
@@ -23,6 +25,8 @@ parser.add_argument('-xint', '--xint', action='store_true', help="Integer Ticks 
 parser.add_argument('-yint', '--yint', action='store_true', help="Integer Ticks on Y-Axis")
 args = parser.parse_args()
 assert args.kde or not args.nohist, "Must show either Histogram or Kernel Density Estimation (or both)"
+if args.output is not None and isfile(args.output):
+    print("Output file exists: %s" % args.output); exit(1)
 if args.input == 'stdin':
     args.input = stdin
 else:
@@ -88,4 +92,7 @@ elif args.ymax is not None:
 
 # clean up the figure and show
 plt.tight_layout()
-plt.show()
+if args.output is None:
+    plt.show()
+else:
+    fig.savefig(args.output, format=args.output.split('.')[-1], bbox_inches='tight')

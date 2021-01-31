@@ -30,8 +30,8 @@ for fn in argv[1:]:
         print("%s: %s" % (NOT_TAR_GZ, fn), file=stderr); exit(1)
 
 # load data to dict
-stats = dict(); header_order = list(); item_order = dict()
-for fn_num,full_fn in enumerate(argv[1:]):
+stats = dict(); header_order = list(); item_order = dict(); item_set = dict()
+for full_fn in argv[1:]:
     # load tar.gz and check for validity
     tar = topen(full_fn, 'r:gz'); fn = full_fn.split('/')[-1]
     html_fn = None
@@ -54,15 +54,13 @@ for fn_num,full_fn in enumerate(argv[1:]):
 
         # now, I'm at the start of a table: <table class="summary hovertable">
         header = html_lines[i-1].split('>')[1].split('<')[0].strip() # table header is on previous line: <h3>HEADER NAME</h3>
-        if fn_num == 0:                                              # keep track of header order for output
-            header_order.append(header); item_order[header] = list()
+        if header not in item_set:                                 # keep track of header order for output
+            header_order.append(header); item_order[header] = list(); item_set[header] = set()
         stats[fn][header] = dict()                                   # get ready to load data from this table
         i += 1                                                       # move to row line: <tr ...>
 
         # handle "QualiMap command line" table in a special manner (it's the only one where a row has 1 column)
         if header.lower().endswith('command line'):
-            if fn_num == 0:
-                item_order[header] = ['']                            # don't append anything to "QualiMap command line" in output
             stats[fn][header][''] = html_lines[i+1].split('>')[1].split('<')[0].strip()
             i += 4
             continue
@@ -70,12 +68,24 @@ for fn_num,full_fn in enumerate(argv[1:]):
         # iterate over rows of this table
         while html_lines[i].startswith('<tr '):
             item_key,item_value = [html_lines[x].split('>')[1].split('<')[0].strip().rstrip(':').strip() for x in range(i+1,i+3)]
-            if fn_num == 0:
-                item_order[header].append(item_key)
+            if item_key not in item_set[header]:
+                item_order[header].append(item_key); item_set[header].add(item_key)
             stats[fn][header][item_key] = item_value
             i += 4 # move to next row
 
-    # output to TSV
-    if fn_num == 0:
-        print('\t'.join(["Qualimap Stats Filename"] + ['%s: %s' % (header,s) if s != '' else header for header in header_order for s in item_order[header]]))
+# fix data
+for header in item_set:
+    if header.lower().endswith('command line'):
+        item_order[header] = ['']; break # don't append anything to "QualiMap command line" in output
+for fn in stats:
+    for header in item_order:
+        if header not in stats[fn]:
+            stats[fn][header] = dict()
+        for s in item_order[header]:
+            if s not in stats[fn][header]:
+                stats[fn][header][s] = 'N/A'
+
+# output to TSV
+print('\t'.join(["Qualimap Stats Filename"] + ['%s: %s' % (header,s) if s != '' else header for header in header_order for s in item_order[header]]))
+for fn in stats:
     print('\t'.join([fn] + [stats[fn][header][s] for header in header_order for s in item_order[header]]))
