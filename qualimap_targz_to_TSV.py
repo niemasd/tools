@@ -37,7 +37,7 @@ for full_fn in argv[1:]:
     try:
         tar = topen(full_fn, 'r:gz')
     except:
-        warn("Unable to open tar: %s" full_fn)
+        warn("Unable to open tar: %s" % full_fn)
     fn = full_fn.split('/')[-1]; html_fn = None
     for tar_fn in tar.getnames():
         if tar_fn.split('/')[-1].lower() == QUALIMAP_REPORT_HTML.lower():
