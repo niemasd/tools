@@ -7,6 +7,7 @@ Create a TSV file from Qualimap file(s) that has all of the summary stats
 from os.path import isdir,isfile
 from sys import argv,stderr
 from tarfile import open as topen
+from warnings import warn
 
 # messages
 USAGE = "USAGE: %s <file1.stats.tar.gz> [file2.stats.tar.gz] [file3.stats.tar.gz] ..." % argv[0]
@@ -33,8 +34,11 @@ for fn in argv[1:]:
 stats = dict(); header_order = list(); item_order = dict(); item_set = dict()
 for full_fn in argv[1:]:
     # load tar.gz and check for validity
-    tar = topen(full_fn, 'r:gz'); fn = full_fn.split('/')[-1]
-    html_fn = None
+    try:
+        tar = topen(full_fn, 'r:gz')
+    except:
+        warn("Unable to open tar: %s" full_fn)
+    fn = full_fn.split('/')[-1]; html_fn = None
     for tar_fn in tar.getnames():
         if tar_fn.split('/')[-1].lower() == QUALIMAP_REPORT_HTML.lower():
             html_fn = tar_fn; break
