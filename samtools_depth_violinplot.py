@@ -56,12 +56,8 @@ fig.set_size_inches(INCH_PER_SAMPLE*len(fns), 4.8)
 violinplot(x=x, y=y)
 plt.ylim(ymin=1)
 ax.set_yscale('log')
-#plt.ticklabel_format(style='plain', axis='y') # disable scientific notation
 plt.title("Distribution of Mapping Depth")
 plt.xlabel("Sample")
 plt.ylabel("Mapping Depth (per site)")
 plt.xticks(rotation=90)
-if headless:
-    fig.savefig('depth_violin.pdf', format='pdf', bbox_inches='tight')
-else:
-    plt.show()
+fig.savefig('depth_violin.pdf', format='pdf', bbox_inches='tight')
