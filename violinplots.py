@@ -30,7 +30,6 @@ else:
 
 # create figure+axes
 import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
 import seaborn as sns
 import pandas as pd
 df = pd.DataFrame(eval(args.input.read()))
