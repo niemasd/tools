@@ -6,9 +6,14 @@ Create line plot(s) from samtools depth file(s)
 '''
 from gzip import open as gopen
 from os.path import isdir,isfile
+from matplotlib.backends.backend_pdf import PdfPages
 from pandas import DataFrame
 from seaborn import FacetGrid,lineplot,relplot
 from sys import argv,stderr
+
+# headless matplotlib
+import matplotlib as mpl
+mpl.use('Agg')
 import matplotlib.pyplot as plt
 
 # messages and constants
@@ -48,15 +53,18 @@ for fn in argv[1:]:
 fns = sorted(data.keys())
 
 # create line plots
-fig,axs = plt.subplots(len(data), figsize=(4.8, INCH_PER_SAMPLE*len(fns)))
-#fig.suptitle("Mapping Depth Across Genome")
+XMAX = max(len(data[fn]) for fn in data)
 YMAX = max(max(data[fn]) for fn in data)
-for i,fn in enumerate(fns):
-    y = data[fn]; axs[i].plot([1+i for i in range(len(curr))], y)
-    axs[i].set_ylim([1,YMAX])
-    axs[i].set_yscale('log')
-    axs[i].set_ylabel('Mapping Depth')
-    axs[i].set_title(fn, fontsize=6)
-plt.xlabel("Genome Position")
-fig.tight_layout(rect=[0, 0.03, 1, 0.95])
-fig.savefig('depth_lineplot.pdf', format='pdf', bbox_inches='tight')
+with PdfPages('depth_lineplot.pdf') as pdf_pages:
+    for i,fn in enumerate(fns):
+        fig = plt.figure(i)
+        plt.plot([1+i for i in range(len(data[fn]))], data[fn])
+        plt.xlim((1,XMAX))
+        plt.ylim((1,YMAX))
+        plt.yscale('log')
+        plt.xlabel('Genome Position')
+        plt.ylabel('Mapping Depth')
+        plt.title(fn, fontsize=8)
+        fig.tight_layout(rect=[0, 0.03, 1, 0.95])
+        pdf_pages.savefig(fig)
+        plt.close(fig)
