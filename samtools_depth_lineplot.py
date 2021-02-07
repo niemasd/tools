@@ -53,7 +53,7 @@ for fn in argv[1:]:
 fns = sorted(data.keys())
 
 # create line plots
-XMAX = max(len(data[fn]) for fn in data)
+XMAX = max(len(data[fn]) for fn in data)+1
 YMAX = max(max(data[fn]) for fn in data)
 with PdfPages('depth_lineplot.pdf') as pdf_pages:
     for i,fn in enumerate(fns):
