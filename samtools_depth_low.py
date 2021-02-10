@@ -2,25 +2,40 @@
 '''
 Niema Moshiri 2021
 
-Concatenate samtools depth files
+List all sites that have lower mapping coverage than a user-specified threshold within a user-specified window (1-based indexing)
 '''
 from gzip import open as gopen
 from os.path import isdir,isfile
 from sys import argv,stderr
 
 # messages and constants
-USAGE = "USAGE: %s <file1.depth.txt> [file2.depth.txt] [file3.depth.txt] ..." % argv[0]
+USAGE = "USAGE: %s <start_pos> <end_pos> <cov_thresh> <file1.depth.txt> [file2.depth.txt] [file3.depth.txt] ..." % argv[0]
 FOLDER_NOT_FILE = "ERROR: Argument is a folder, not a file"
 FILE_NOT_FOUND = "ERROR: File not found"
 NOT_PILEUP = "ERROR: File is not a samtools pileup output"
 DUP_FILE = "ERROR: Duplicate file in arguments"
 MULTIPLE_REFS = "ERROR: Multiple reference IDs were found (needs to be exactly 1)"
+INVALID_INT = "ERROR: Invalid integer"
 
-# check for validity and load data
-if len(argv) == 1 or argv[1].lower() in {'-h', '--help', '-help'}:
+# check for validity
+if len(argv) < 5:
     print(USAGE, file=stderr); exit(1)
+try:
+    START = int(argv[1])
+except:
+    print("%s: %s" % (INVALID_INT, argv[1])); exit(1)
+try:
+    END = int(argv[2])
+except:
+    print("%s: %s" % (INVALID_INT, argv[2])); exit(1)
+try:
+    THRESH = int(argv[3])
+except:
+    print("%s: %s" % (INVALID_INT, argv[3])); exit(1)
+
+# load data
 data = dict(); ref_IDs = set()
-for fn in argv[1:]:
+for fn in argv[4:]:
     if not isfile(fn):
         if isdir(fn):
             print("%s: %s" % (FOLDER_NOT_FILE, fn), file=stderr)
@@ -44,7 +59,10 @@ if len(ref_IDs) != 1:
 ref_ID = list(ref_IDs)[0]; fns = sorted(data.keys())
 
 # concatenate
-max_len = max(len(data[fn]) for fn in data)
-print('\t'.join(['Reference', 'Position'] + fns))
+print('File Name\tNumber of Positions Below %d\tPositions Below %d (CSV)' % (THRESH,THRESH))
+for fn in fns:
+    below = [str(i+1) for i,cov in enumerate(data[fn]) if i >= START and i <= END and cov < THRESH]
+    print('%s\t%d\t%s' % (fn, len(below), ','.join(below)))
+exit()
 for i in range(max_len):
     print('\t'.join([ref_ID,str(i+1)] + [str(data[fn][i]) for fn in fns]))
