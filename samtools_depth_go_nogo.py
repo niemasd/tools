@@ -2,23 +2,24 @@
 '''
 Niema Moshiri 2021
 
-List all sites that have lower mapping coverage than a user-specified threshold within a user-specified window (1-based indexing)
+For each <depth.txt>, call "GO" if <proportion> positions in the window from <start_pos> to <end_pos> have coverage above <cov_thres>, otherwise "NO GO"
 '''
 from gzip import open as gopen
 from os.path import isdir,isfile
 from sys import argv,stderr
 
 # messages and constants
-USAGE = "USAGE: %s <start_pos> <end_pos> <cov_thresh> <file1.depth.txt> [file2.depth.txt] [file3.depth.txt] ..." % argv[0]
+USAGE = "USAGE: %s <start_pos> <end_pos> <cov_thresh> <proportion> <file1.depth.txt> [file2.depth.txt] [file3.depth.txt] ..." % argv[0]
 FOLDER_NOT_FILE = "ERROR: Argument is a folder, not a file"
 FILE_NOT_FOUND = "ERROR: File not found"
 NOT_PILEUP = "ERROR: File is not a samtools pileup output"
 DUP_FILE = "ERROR: Duplicate file in arguments"
 MULTIPLE_REFS = "ERROR: Multiple reference IDs were found (needs to be exactly 1)"
 INVALID_INT = "ERROR: Invalid integer"
+INVALID_FLOAT = "ERROR: Invalid float"
 
 # check for validity
-if len(argv) < 5:
+if len(argv) < 6:
     print(USAGE, file=stderr); exit(1)
 try:
     START = int(argv[1])
@@ -32,10 +33,15 @@ try:
     THRESH = int(argv[3])
 except:
     print("%s: %s" % (INVALID_INT, argv[3])); exit(1)
+try:
+    PROP = float(argv[4])
+except:
+    print("%s: %s" % (INVALID_FLOAT, argv[4])); exit(1)
+GO_NOGO_CUTOFF = (END-START+1)*PROP
 
 # load data
 data = dict(); ref_IDs = set()
-for fn in argv[4:]:
+for fn in argv[5:]:
     if not isfile(fn):
         if isdir(fn):
             print("%s: %s" % (FOLDER_NOT_FILE, fn), file=stderr)
@@ -59,7 +65,8 @@ if len(ref_IDs) != 1:
 ref_ID = list(ref_IDs)[0]; fns = sorted(data.keys())
 
 # concatenate
-print('File Name\tNumber of Positions Below %d\tPositions Below %d (CSV)' % (THRESH,THRESH))
+print('File Name\tNum. Positions between %d and %d >= %d\tGO vs NOGO (GO means >= %s*%d=%s)' % (START, END, THRESH, str(PROP).rstrip('0').rstrip('.'), END-START+1, GO_NOGO_CUTOFF))
 for fn in fns:
-    below = [str(i+1) for i,cov in enumerate(data[fn]) if i >= START and i <= END and cov < THRESH]
-    print('%s\t%d\t%s' % (fn, len(below), ','.join(below)))
+    above = sum(1 for i,cov in enumerate(data[fn]) if i >= START and i <= END and cov >= THRESH)
+    go_nogo = {True:'GO',False:'NOGO'}[above >= GO_NOGO_CUTOFF]
+    print('%s\t%d\t%s' % (fn,above,go_nogo))
