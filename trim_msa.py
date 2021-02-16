@@ -15,7 +15,7 @@ def parseArgs():
     parser.add_argument('-s', '--start', required=False, type=int, default=1, help="Start Position (1-based)")
     parser.add_argument('-e', '--end', required=False, type=int, default=None, help="End Position (1-based)")
     args = parser.parse_args()
-    return args.input, args.start, args.end
+    return args.input, args.output, args.start, args.end
 
 # main code execution
 infile, outfile, start, end = parseArgs()
