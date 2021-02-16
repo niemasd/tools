@@ -26,11 +26,11 @@ for line in infile:
         continue
     if l[0] == '>':
         if curr_ID is not None:
-            outfile.write("%s\n%s\n" % (curr_ID, curr_seq))
+            outfile.write("%s\n%s\n" % (curr_ID, curr_seq[start:end]))
         curr_ID = l; curr_seq = ''
     else:
         assert curr_seq is not None, "Invalid input FASTA"
         curr_seq += l
 if curr_ID is not None:
-    outfile.write("%s\n%s\n" % (curr_ID, curr_seq))
+    outfile.write("%s\n%s\n" % (curr_ID, curr_seq[start:end]))
 infile.close(); outfile.close()
