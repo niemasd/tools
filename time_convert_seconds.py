@@ -29,6 +29,9 @@ for l in parseArgs():
             assert False, "Invalid time: %s" % ':'.join(parts)
         print("Elapsed (wall clock) time (seconds): %s" % t)
     elif 'm' in end: # `time` (0m0.000s)
-        c1,c2 = [v.strip() for v in l.strip().split()]
-        m,s = [float(v) for v in c2.rstrip('s').split('m')]
-        print("%s\t%f" % (c1, 60*m + s))
+        try:
+            c1,c2 = [v.strip() for v in l.strip().split()]
+            m,s = [float(v) for v in c2.rstrip('s').split('m')]
+            print("%s\t%f" % (c1, 60*m + s))
+        except:
+            pass
