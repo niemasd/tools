@@ -2,12 +2,13 @@
 from glob import glob
 from os.path import abspath, expanduser, getsize, isdir, isfile
 from sys import argv
+from time import time
 
 # returns dict where keys are paths and values are sizes of all files nested within `path`
 def get_all_files(path, verbose=True):
     out = dict(); to_explore = [abspath(expanduser(path)).rstrip('/')]
     if verbose:
-        print("Loading files from: %s" % path); num_checked = 0
+        print("Loading files from: %s" % path); num_checked = 0; start_time = time()
     while len(to_explore) != 0:
         path = to_explore.pop()
         if isfile(path):
@@ -17,7 +18,7 @@ def get_all_files(path, verbose=True):
         if verbose:
             num_checked += 1; print("Checked %d item(s)..." % num_checked, end='\r')
     if verbose:
-        print("Checked %d item(s)" % num_checked)
+        end_time = time(); print("Checked %d item(s) in %d seconds" % (num_checked, end_time-start_time))
     return out
 
 if len(argv) != 3:
