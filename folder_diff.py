@@ -4,14 +4,20 @@ from os.path import abspath, expanduser, getsize, isdir, isfile
 from sys import argv
 
 # returns dict where keys are paths and values are sizes of all files nested within `path`
-def get_all_files(path):
+def get_all_files(path, verbose=True):
     out = dict(); to_explore = [abspath(expanduser(path)).rstrip('/')]
+    if verbose:
+        print("Loading files from: %s" % path); num_checked = 0
     while len(to_explore) != 0:
         path = to_explore.pop()
         if isfile(path):
             out[path] = getsize(path)
         elif isdir(path):
             to_explore += [fn for fn in glob('%s/*' % path.rstrip('/'))]
+        if verbose:
+            num_checked += 1; print("Checked %d item(s)..." % num_checked, end='\r')
+    if verbose:
+        print("Checked %d item(s)" % num_checked)
     return out
 
 if len(argv) != 3:
