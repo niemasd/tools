@@ -4,7 +4,8 @@ Use ffmpeg to split chapters of a given file
 '''
 
 # imports
-from os.path import abspath, expanduser, isfile
+from os import getcwd
+from os.path import abspath, expanduser, isdir, isfile
 from subprocess import run
 import argparse
 
@@ -15,6 +16,7 @@ EXTS = {'avi', 'mkv', 'mov', 'mp4', 'wmv'}
 def parse_args():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-i', '--input', required=True, type=str, help="Input File")
+    parser.add_argument('-o', '--output_directory', required=False, type=str, default=getcwd(), help="Output Directory")
     parser.add_argument('-p', '--prefix', required=False, type=str, default='', help="Output Prefix")
     parser.add_argument('-cv', '--copy_video_codec', action='store_true', help="Copy Video Codec")
     parser.add_argument('-ca', '--copy_audio_codec', action='store_true', help="Copy Audio Codec")
@@ -24,9 +26,12 @@ def parse_args():
     # check args before returning
     if not isfile(args.input):
         raise ValueError("File not found: %s" % args.input)
+    if not isdir(args.output_directory):
+        raise ValueError("Directory not found: %s" % args.output_directory)
     if args.input.split('.')[-1].strip().lower() not in EXTS:
         raise ValueError("Unsupported file extension: %s" % args.input)
     args.input = abspath(expanduser(args.input))
+    args.output_directory = abspath(expanduser(args.output_directory))
     return args
 
 # main execution
@@ -38,7 +43,7 @@ if __name__ == "__main__":
     chapter_times = [[float(t) for t in l.strip().split('start ')[1].split(', end ')] for l in get_chapters_lines if l.startswith('    Chapter #')]
     for curr_ind, curr_times in enumerate(chapter_times):
         start_time, end_time = curr_times
-        curr_fn = '%s%s.%s' % (args.prefix, str(curr_ind+1).zfill(len(str(len(chapter_times)))), input_ext)
+        curr_fn = '%s/%s%s.%s' % (args.output_directory, args.prefix, str(curr_ind+1).zfill(len(str(len(chapter_times)))), input_ext)
         curr_command = ['ffmpeg', '-i', args.input, '-ss', str(start_time), '-to', str(end_time)]
         if args.copy_video_codec:
             curr_command += ['-c:v', 'copy']
