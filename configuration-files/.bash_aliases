@@ -5,6 +5,9 @@ alias lla='ll -a'
 alias llh='ll -h'
 alias llt='ll -t'
 
+# alias for recursive case-insensitive grep
+alias search='grep -i -r'
+
 # update
 alias update='sudo apt-get -y update ; sudo apt-get -y upgrade ; sudo apt-get -y autoremove; sudo apt-get autoclean ; sudo apt-get clean'
 
@@ -25,7 +28,7 @@ alias cometL3='echo "Connecting to Comet Login Node 3..." ; ssh -Y a1moshir@come
 alias cometL4='echo "Connecting to Comet Login Node 4..." ; ssh -Y a1moshir@comet-ln4.sdsc.edu'
 alias expanse='echo "Connecting to Expanse..." ; ssh -Y a1moshir@expanse.sdsc.xsede.org'
 alias knuron='echo "Connecting to Knuron..." ; ssh -Y root@knuron.calit2.optiputer.net'
-alias pi_server='echo "Connecting to Raspberry Pi Server..." ; ssh niema@192.168.86.15'
+alias pi_server='echo "Connecting to Raspberry Pi Server..." ; ssh niema@raspberrypi.local'
 alias spis='echo "Connecting to SPIS website..." ; ssh -Y newspis@newspis.ucsd.edu'
 alias tscc='echo "Connecting to TSCC..." ; ssh -Y a1moshir@tscc.sdsc.edu'
 alias tsccL1='echo "Connecting to TSCC Login Node 1..." ; ssh -Y a1moshir@tscc-login1.sdsc.edu'
