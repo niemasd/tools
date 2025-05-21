@@ -4,7 +4,10 @@ Convert a graphic novel epub to cbz
 '''
 
 # imports
+from io import BytesIO
+from natsort import natsorted
 from pathlib import Path
+from PIL import Image
 from sys import argv
 from xml.etree import ElementTree
 from zipfile import ZipFile, Path as ZipPath
@@ -21,7 +24,7 @@ if __name__ == "__main__":
     epub_path = Path(argv[1].strip()).expanduser().absolute()
     if not epub_path.is_file():
         raise ValueError("Input file not found: %s" % epub_path)
-    cbz_path = Path('.').expanduser().absolute() / (epub_path.stem + '.cbz')
+    cbz_path = Path('.').expanduser().absolute() / epub_path.parent.name / (epub_path.stem + '.cbz')
     if cbz_path.exists():
         raise ValueError("Output file exists: %s" % cbz_path)
 
@@ -29,11 +32,17 @@ if __name__ == "__main__":
     with ZipFile(epub_path, mode='r') as epub_zip:
         # parse epub to build page map, which maps page numbers to image paths
         page_map = dict() # keys = page number as integer (0 = cover, 1-n = pages); values = ZipPath to image file
-        replicaMap_xml_path = ZipPath(epub_zip, at='OPS/replicaMap.xml')
+        
+        # check replicaMap.xml
+        replicaMap_xml_path = ZipPath(epub_zip, at='OPS/replicaMap.xml'); replicaMap_xml = None
+        if replicaMap_xml_path.is_file():
+            try:
+                replicaMap_xml = ElementTree.fromstring(replicaMap_xml_path.read_text())
+            except:
+                pass
 
         # Barnes and Noble epub (not really valid epub)
-        if replicaMap_xml_path.is_file():
-            replicaMap_xml = ElementTree.fromstring(replicaMap_xml_path.read_text())
+        if replicaMap_xml is not None:
             replicaMap_xml_pages = None
             for child in replicaMap_xml:
                 if child.tag.strip().endswith('Pages'):
@@ -123,7 +132,10 @@ if __name__ == "__main__":
                     if item_href_path_suffix not in IMG_SUFFIXES:
                         # if this item is an XML/HTML, search for image within it
                         if item_href_path_suffix in XML_SUFFIXES and str(item_href_path) not in xml_pages_parsed:
-                            item_href_xml = ElementTree.fromstring(item_href_path.read_text())
+                            try:
+                                item_href_xml = ElementTree.fromstring(item_href_path.read_text())
+                            except:
+                                continue
                             image_xmls = [child for child in item_href_xml.iter() if child.tag.strip().endswith('img') or child.tag.strip().endswith('image')]
                             if len(image_xmls) != 1:
                                 raise ValueError("Expected exactly 1 image file, but there were %d: %s" % (len(image_xmls), item_href_path))
@@ -153,12 +165,33 @@ if __name__ == "__main__":
             # populate page_map
             page_map = {page_num : spine_file for page_num, spine_file in enumerate(spine_files)}
 
+        # if didn't find any pages, manually search for all images ending with a number
+        if len(page_map) == 0:
+            cover = None; page_paths = list()
+            for fn in epub_zip.namelist():
+                fn_path = ZipPath(epub_zip, fn)
+                if fn_path.suffix in IMG_SUFFIXES:
+                    if cover is None and 'cover' in str(fn_path).lower():
+                        cover = fn_path
+                    elif fn_path.stem.strip()[-1].isdigit():
+                        page_paths.append(fn_path)
+            page_paths = natsorted(page_paths, key=lambda x: str(x))
+            if cover is not None:
+                page_paths = [cover] + page_paths
+            page_map = {page_num : page_path for page_num, page_path in enumerate(page_paths)}
+
         # write images to output cbz file
         if len(page_map) == 0:
-            raise ValueError("Unable to parse pages from epub: %s" % epub_path)
+            raise ValueError("Failed to parse any page images from epub: %s" % epub_path)
         sorted_page_nums = sorted(page_map.keys())
         pad_length = len(str(sorted_page_nums[-1]))
+        cbz_path.parent.mkdir(exist_ok=True)
         with ZipFile(cbz_path, mode='w', compresslevel=9) as cbz_zip:
             for page_num in sorted_page_nums:
                 page_file_path = page_map[page_num]
-                cbz_zip.writestr(str(page_num).zfill(pad_length) + page_file_path.suffix, page_file_path.read_bytes())
+                img_data = page_file_path.read_bytes()
+                try:
+                    Image.open(BytesIO(img_data)) # if this crashes, image data is corrupt
+                    cbz_zip.writestr(str(page_num).zfill(pad_length) + page_file_path.suffix, img_data)
+                except:
+                    raise ValueError("Invalid image: %s" % page_file_path)
