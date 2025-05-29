@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # imports
 from __future__ import print_function
 PYTHON3 = True

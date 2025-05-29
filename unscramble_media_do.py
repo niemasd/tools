@@ -12,18 +12,8 @@ from xml.etree import ElementTree
 # main program
 if __name__ == "__main__":
     # check user args
-    if len(argv) != 5 or argv[1].split('-')[-1].strip().lower() in {'h', 'help'}:
-        print("USAGE: %s <jpg> <xml> <zone_width> <zone_height>" % argv[0]); exit(1)
-    try:
-        zone_width = int(argv[3])
-        assert zone_width > 0
-    except:
-        raise ValueError("Invalid zone width (probably should be 400): %s" % argv[3])
-    try:
-        zone_height = int(argv[4])
-        assert zone_height > 0
-    except:
-        raise ValueError("Invalid zone height (probably should be 568): %s" % argv[4])
+    if len(argv) not in {3,5} or argv[1].split('-')[-1].strip().lower() in {'h', 'help'}:
+        print("USAGE: %s <jpg> <xml> [zone_width] [zone_height]" % argv[0]); exit(1)
     img_scrambled_path = Path(argv[1].strip()).expanduser().absolute()
     xml_path = Path(argv[2].strip()).expanduser().absolute()
     for p in [img_scrambled_path, xml_path]:
@@ -36,6 +26,22 @@ if __name__ == "__main__":
         img_scrambled = Image.open(img_scrambled_path)
     except:
         raise ValueError("Unable to open Media Do JPG: %s" % img_scrambled_path)
+
+    # determine width and height (either user-provided, or width // 4 and height // 4)
+    if len(argv) == 3:
+        zone_width = img_scrambled.width // 4
+        zone_height = img_scrambled.height // 4
+    else:
+        try:
+            zone_width = int(argv[3])
+            assert zone_width > 0
+        except:
+            raise ValueError("Invalid zone width: %s" % argv[3])
+        try:
+            zone_height = int(argv[4])
+            assert zone_height > 0
+        except:
+            raise ValueError("Invalid zone height: %s" % argv[4])
 
     # load scramble data from XML
     xml_root = ElementTree.parse(xml_path).getroot()
