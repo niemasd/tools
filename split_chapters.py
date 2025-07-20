@@ -21,6 +21,7 @@ def parse_args():
     parser.add_argument('-cv', '--copy_video_codec', action='store_true', help="Copy Video Codec")
     parser.add_argument('-ca', '--copy_audio_codec', action='store_true', help="Copy Audio Codec")
     parser.add_argument('-q', '--quiet', action='store_true', help="Suppress Log Messages")
+    parser.add_argument('--dry_run', action='store_true', help="Dry Run (just print ffmpeg commands)")
     args = parser.parse_args()
 
     # check args before returning
@@ -52,4 +53,7 @@ if __name__ == "__main__":
         curr_command += [curr_fn]
         if not args.quiet:
             print(' '.join(curr_command))
-        run(curr_command, capture_output=args.quiet)
+        if args.dry_run:
+            print(' '.join(curr_command))
+        else:
+            run(curr_command, capture_output=args.quiet)
