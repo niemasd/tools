@@ -53,7 +53,7 @@ if __name__ == "__main__":
         curr_command = ['ffmpeg']
         if preseek_start is not None:
             curr_command += ['-ss', str(preseek_start)]
-        curr_comand += ['-i', args.input, '-ss', str(postseek_start), '-t', str(duration)]
+        curr_command += ['-i', args.input, '-ss', str(postseek_start), '-t', str(duration)]
         if args.copy_video_codec:
             curr_command += ['-c:v', 'copy']
         if args.copy_audio_codec:
