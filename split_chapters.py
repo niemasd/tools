@@ -18,6 +18,7 @@ def parse_args():
     parser.add_argument('-i', '--input', required=True, type=str, help="Input File")
     parser.add_argument('-o', '--output_directory', required=False, type=str, default=getcwd(), help="Output Directory")
     parser.add_argument('-p', '--prefix', required=False, type=str, default='', help="Output Prefix")
+    parser.add_argument('-d', '--deinterlace', action='store_true', help="Deinterlace Video")
     parser.add_argument('-cv', '--copy_video_codec', action='store_true', help="Copy Video Codec")
     parser.add_argument('-ca', '--copy_audio_codec', action='store_true', help="Copy Audio Codec")
     parser.add_argument('-q', '--quiet', action='store_true', help="Suppress Log Messages")
@@ -32,6 +33,8 @@ def parse_args():
         raise ValueError("Directory not found: %s" % args.output_directory)
     if args.input.split('.')[-1].strip().lower() not in EXTS:
         raise ValueError("Unsupported file extension: %s" % args.input)
+    if args.deinterlace and args.copy_video_codec:
+        raise ValueError("Cannot copy video codec if deinterlacing video stream")
     args.input = abspath(expanduser(args.input))
     args.output_directory = abspath(expanduser(args.output_directory))
     return args
@@ -54,7 +57,9 @@ if __name__ == "__main__":
         if preseek_start is not None:
             curr_command += ['-ss', str(preseek_start)]
         curr_command += ['-i', args.input, '-ss', str(postseek_start), '-t', str(duration)]
-        if args.copy_video_codec:
+        if args.deinterlace:
+            curr_command += ['-vf', 'yadif=1']
+        elif args.copy_video_codec:
             curr_command += ['-c:v', 'copy']
         if args.copy_audio_codec:
             curr_command += ['-c:a', 'copy']
