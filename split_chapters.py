@@ -53,7 +53,5 @@ if __name__ == "__main__":
         curr_command += [curr_fn]
         if not args.quiet:
             print(' '.join(curr_command))
-        if args.dry_run:
-            print(' '.join(curr_command))
-        else:
+        if not args.dry_run:
             run(curr_command, capture_output=args.quiet)
