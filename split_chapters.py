@@ -21,6 +21,7 @@ def parse_args():
     parser.add_argument('-cv', '--copy_video_codec', action='store_true', help="Copy Video Codec")
     parser.add_argument('-ca', '--copy_audio_codec', action='store_true', help="Copy Audio Codec")
     parser.add_argument('-q', '--quiet', action='store_true', help="Suppress Log Messages")
+    parser.add_argument('--preseek', required=False, type=float, default=30, help="Preseek Seconds (larger = slower but more accurate at beginning of output)")
     parser.add_argument('--dry_run', action='store_true', help="Dry Run (just print ffmpeg commands)")
     args = parser.parse_args()
 
@@ -44,8 +45,15 @@ if __name__ == "__main__":
     chapter_times = [[float(t) for t in l.strip().split('start ')[1].split(', end ')] for l in get_chapters_lines if l.startswith('    Chapter #')]
     for curr_ind, curr_times in enumerate(chapter_times):
         start_time, end_time = curr_times; duration = end_time - start_time
+        if start_time <= args.preseek:
+            preseek_start = None; postseek_start = start_time
+        else:
+            preseek_start = start_time - args.preseek; postseek_start = args.preseek
         curr_fn = '%s/%s%s.%s' % (args.output_directory, args.prefix, str(curr_ind+1).zfill(len(str(len(chapter_times)))), input_ext)
-        curr_command = ['ffmpeg', '-ss', str(start_time), '-i', args.input, '-t', str(duration)]
+        curr_command = ['ffmpeg']
+        if preseek_start is not None:
+            curr_command += ['-ss', str(preseek_start)]
+        curr_comand += ['-i', args.input, '-ss', str(postseek_start), '-t', str(duration)]
         if args.copy_video_codec:
             curr_command += ['-c:v', 'copy']
         if args.copy_audio_codec:
