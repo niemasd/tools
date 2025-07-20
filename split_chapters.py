@@ -60,6 +60,7 @@ if __name__ == "__main__":
             curr_command += ['-c:a', 'copy']
         curr_command += [curr_fn]
         if not args.quiet:
-            print(' '.join(curr_command))
+            print_command = ['"%s"' % s for s in curr_command if ' ' in s else s]
+            print(' '.join(print_command))
         if not args.dry_run:
             run(curr_command, capture_output=args.quiet)
