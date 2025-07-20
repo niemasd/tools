@@ -42,9 +42,9 @@ if __name__ == "__main__":
     get_chapters_lines = run(get_chapters_command, capture_output=True).stderr.decode().split('  Chapters:')[1].splitlines()
     chapter_times = [[float(t) for t in l.strip().split('start ')[1].split(', end ')] for l in get_chapters_lines if l.startswith('    Chapter #')]
     for curr_ind, curr_times in enumerate(chapter_times):
-        start_time, end_time = curr_times
+        start_time, end_time = curr_times; duration = end_time - start_time
         curr_fn = '%s/%s%s.%s' % (args.output_directory, args.prefix, str(curr_ind+1).zfill(len(str(len(chapter_times)))), input_ext)
-        curr_command = ['ffmpeg', '-ss', str(start_time), '-i', args.input, '-to', str(end_time)]
+        curr_command = ['ffmpeg', '-ss', str(start_time), '-i', args.input, '-t', str(duration)]
         if args.copy_video_codec:
             curr_command += ['-c:v', 'copy']
         if args.copy_audio_codec:
