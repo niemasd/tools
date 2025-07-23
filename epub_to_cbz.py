@@ -121,46 +121,51 @@ if __name__ == "__main__":
                     if child_path.is_file():
                         spine_xml_children = [child] + spine_xml_children
 
-            # parse spine
+            # try to parse spine
             spine_files = list(); xml_pages_parsed = set()
-            for child in spine_xml_children:
-                if child.tag.strip().endswith('itemref'):
-                    item_href_path = manifest_map[child.attrib['idref'].strip()]
-                    item_href_path_suffix = item_href_path.suffix.strip().lower()
+            try:
+                for child in spine_xml_children:
+                    if child.tag.strip().endswith('itemref'):
+                        item_href_path = manifest_map[child.attrib['idref'].strip()]
+                        item_href_path_suffix = item_href_path.suffix.strip().lower()
 
-                    # if this item isn't itself an image, need to search for an image within it
-                    if item_href_path_suffix not in IMG_SUFFIXES:
-                        # if this item is an XML/HTML, search for image within it
-                        if item_href_path_suffix in XML_SUFFIXES and str(item_href_path) not in xml_pages_parsed:
-                            try:
-                                item_href_xml = ElementTree.fromstring(item_href_path.read_text())
-                            except:
-                                continue
-                            image_xmls = [child for child in item_href_xml.iter() if child.tag.strip().endswith('img') or child.tag.strip().endswith('image')]
-                            if len(image_xmls) != 1:
-                                raise ValueError("Expected exactly 1 image file, but there were %d: %s" % (len(image_xmls), item_href_path))
-                            image_path = None
-                            for val in image_xmls[0].attrib.values():
-                                val_parts = [s.strip() for s in val.strip().split('/')]
-                                val_path = item_href_path.parent
-                                for val_part in val_parts:
-                                    if val_part == '..':
-                                        val_path = val_path.parent
-                                    else:
-                                        val_path = val_path / val_part
-                                if val_path.suffix in IMG_SUFFIXES:
-                                    image_path = val_path
-                            if image_path is None:
-                                raise ValueError("No image files detected in: %s" % item_href_path)
-                            elif not image_path.is_file():
-                                raise ValueError("Image file not found: %s" % image_path)
-                            xml_pages_parsed.add(str(item_href_path))
-                            item_href_path = image_path
+                        # if this item isn't itself an image, need to search for an image within it
+                        if item_href_path_suffix not in IMG_SUFFIXES:
+                            # if this item is an XML/HTML, search for image within it
+                            if item_href_path_suffix in XML_SUFFIXES and str(item_href_path) not in xml_pages_parsed:
+                                try:
+                                    item_href_xml = ElementTree.fromstring(item_href_path.read_text())
+                                except:
+                                    continue
+                                image_xmls = [child for child in item_href_xml.iter() if child.tag.strip().endswith('img') or child.tag.strip().endswith('image')]
+                                if len(image_xmls) != 1:
+                                    raise ValueError("Expected exactly 1 image file, but there were %d: %s" % (len(image_xmls), item_href_path))
+                                image_path = None
+                                for val in image_xmls[0].attrib.values():
+                                    val_parts = [s.strip() for s in val.strip().split('/')]
+                                    val_path = item_href_path.parent
+                                    for val_part in val_parts:
+                                        if val_part == '..':
+                                            val_path = val_path.parent
+                                        else:
+                                            val_path = val_path / val_part
+                                    if val_path.suffix in IMG_SUFFIXES:
+                                        image_path = val_path
+                                if image_path is None:
+                                    raise ValueError("No image files detected in: %s" % item_href_path)
+                                elif not image_path.is_file():
+                                    raise ValueError("Image file not found: %s" % image_path)
+                                xml_pages_parsed.add(str(item_href_path))
+                                item_href_path = image_path
 
-                        # this item is some unknown type
-                        else:
-                            raise NotImplementedError("Unsupported spine item filetype: %s" % item_href_path)
-                    spine_files.append(item_href_path)
+                            # this item is some unknown type
+                            else:
+                                raise NotImplementedError("Unsupported spine item filetype: %s" % item_href_path)
+                        spine_files.append(item_href_path)
+
+            # if failed to parse spine, give up (will manually search later)
+            except:
+                spine_files = list() # clear list just in case (to make sure the manual search is triggered)
 
             # populate page_map
             page_map = {page_num : spine_file for page_num, spine_file in enumerate(spine_files)}
