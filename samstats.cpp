@@ -23,7 +23,7 @@ int main( int argc, char* argv[] ) {
         cerr << USAGE_MESSAGE << endl;
         exit(1);
     }
-    unsigned char out_format; // 0 = none, 1 = FASTQ, 2 = FASTA, 3 = SAM
+    unsigned char out_format = 255; // 0 = none, 1 = FASTQ, 2 = FASTA, 3 = SAM
     if(argc == 1) {
         out_format = 0;
     } else if(strcmp(argv[1],"-h") == 0 || strcmp(argv[1],"-help") == 0 || strcmp(argv[1],"--help") == 0) {
