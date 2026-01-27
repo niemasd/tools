@@ -20,7 +20,6 @@ def parse_args():
     parser.add_argument('-p', '--prefix', required=False, type=str, default='', help="Output Prefix")
     parser.add_argument('-d', '--deinterlace', action='store_true', help="Deinterlace Video")
     parser.add_argument('-cv', '--copy_video_codec', action='store_true', help="Copy Video Codec")
-    parser.add_argument('-ca', '--copy_audio_codec', action='store_true', help="Copy Audio Codec")
     parser.add_argument('-s', '--slow', action='store_true', help="Reencode Slow Preset")
     parser.add_argument('-q', '--quiet', action='store_true', help="Suppress Log Messages")
     parser.add_argument('--preseek', required=False, type=float, default=30, help="Preseek Seconds (larger = slower but more accurate at beginning of output)")
@@ -57,15 +56,14 @@ if __name__ == "__main__":
         curr_command = ['ffmpeg']
         if preseek_start is not None:
             curr_command += ['-ss', str(preseek_start)]
-        curr_command += ['-i', args.input, '-ss', str(postseek_start), '-t', str(duration)]
-        if args.deinterlace:
-            curr_command += ['-vf', 'yadif=1']
-        if args.slow:
-            curr_command += ['-preset', 'slow']
-        if args.copy_video_codec:
-            curr_command += ['-c:v', 'copy']
-        if args.copy_audio_codec:
-            curr_command += ['-c:a', 'copy']
+        curr_command += ['-i', args.input, '-ss', str(postseek_start), '-t', str(duration), '-map', '0', '-c', 'copy']
+        if not args.copy_video_codec:
+            if args.deinterlace:
+                curr_command += ['-vf', 'yadif=1']
+            if args.slow:
+                curr_command += ['-preset', 'slow']
+            else:
+                curr_command += ['-c:v', 'libx264']
         curr_command += [curr_fn]
         if not args.quiet:
             print_command = ['"%s"' % s if ' ' in s else s for s in curr_command]
