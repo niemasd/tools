@@ -65,7 +65,7 @@ if __name__ == "__main__":
                 curr_command += ['-c:v', 'libx264']
         curr_command += [curr_fn]
         if not args.quiet:
-            print_command = ['"%s"' % s if ' ' in s else s for s in curr_command]
+            print_command = ['"%s"' % s if ' ' in str(s) else str(s) for s in curr_command]
             print(' '.join(print_command))
         if not args.dry_run:
             run(curr_command, capture_output=args.quiet)
