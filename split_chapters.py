@@ -59,10 +59,9 @@ if __name__ == "__main__":
         if not args.copy_video_codec:
             if args.deinterlace:
                 curr_command += ['-vf', 'yadif=1']
+            curr_command += ['-c:v', 'libx264']
             if args.slow:
                 curr_command += ['-preset', 'slow']
-            else:
-                curr_command += ['-c:v', 'libx264']
         curr_command += [curr_fn]
         if not args.quiet:
             print_command = ['"%s"' % s if ' ' in str(s) else str(s) for s in curr_command]
