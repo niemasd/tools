@@ -5,7 +5,7 @@ Use ffmpeg to split chapters of a given file
 
 # imports
 from os import getcwd
-from os.path import abspath, expanduser, isdir, isfile
+from pathlib import Path
 from subprocess import run
 import argparse
 
@@ -27,22 +27,21 @@ def parse_args():
     args = parser.parse_args()
 
     # check args before returning
-    if not isfile(args.input):
+    args.input = Path(args.input)
+    if not args.input.is_file():
         raise ValueError("File not found: %s" % args.input)
-    if not isdir(args.output_directory):
+    args.output_directory = Path(args.output_directory)
+    if not args.output_directory.is_dir():
         raise ValueError("Directory not found: %s" % args.output_directory)
-    if args.input.split('.')[-1].strip().lower() not in EXTS:
+    if args.input.suffix.lstrip('.').strip().lower() not in EXTS:
         raise ValueError("Unsupported file extension: %s" % args.input)
     if args.copy_video_codec and (args.deinterlace or args.slow):
         raise ValueError("Cannot copy video codec if modifying video stream (e.g. deinterlacing or reencoding with the slow preset)")
-    args.input = abspath(expanduser(args.input))
-    args.output_directory = abspath(expanduser(args.output_directory))
     return args
 
 # main execution
 if __name__ == "__main__":
     args = parse_args()
-    input_ext = args.input.split('.')[-1].strip()
     get_chapters_command = ['ffmpeg', '-i', args.input]
     get_chapters_lines = run(get_chapters_command, capture_output=True).stderr.decode().split('  Chapters:')[1].splitlines()
     chapter_times = [[float(t) for t in l.strip().split('start ')[1].split(', end ')] for l in get_chapters_lines if l.startswith('    Chapter #')]
@@ -52,7 +51,7 @@ if __name__ == "__main__":
             preseek_start = None; postseek_start = start_time
         else:
             preseek_start = start_time - args.preseek; postseek_start = args.preseek
-        curr_fn = '%s/%s%s.%s' % (args.output_directory, args.prefix, str(curr_ind+1).zfill(len(str(len(chapter_times)))), input_ext)
+        curr_fn = args.output_directory / '%s%s%s' % (args.prefix, str(curr_ind+1).zfill(len(str(len(chapter_times)))), args.input.suffix)
         curr_command = ['ffmpeg']
         if preseek_start is not None:
             curr_command += ['-ss', str(preseek_start)]
