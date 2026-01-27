@@ -51,7 +51,7 @@ if __name__ == "__main__":
             preseek_start = None; postseek_start = start_time
         else:
             preseek_start = start_time - args.preseek; postseek_start = args.preseek
-        curr_fn = args.output_directory / '%s%s%s' % (args.prefix, str(curr_ind+1).zfill(len(str(len(chapter_times)))), args.input.suffix)
+        curr_fn = args.output_directory / ('%s%s%s' % (args.prefix, str(curr_ind+1).zfill(len(str(len(chapter_times)))), args.input.suffix))
         curr_command = ['ffmpeg']
         if preseek_start is not None:
             curr_command += ['-ss', str(preseek_start)]
