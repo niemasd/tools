@@ -1,5 +1,7 @@
 This is a collection of command-line tools I wrote to make various repetitive tasks more convenient. They will typically take input from standard input and will output to standard output. I make an effort to not use external libraries so that compilation requires the least possible dependencies. Note that some other tools/scripts I write for other projects use these tools and assume they can be found in your `PATH`.
 
+# Tools
+
 * [`ambiguity2gap.py`](ambiguity2gap.py): Convert ambiguous characters to gaps
   * For help message: `python ambiguity2gap.py -h`
 * [`barplot.py`](barplot.py): Create a barplot from a list of labels
