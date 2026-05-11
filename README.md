@@ -144,21 +144,33 @@ This is a collection of command-line tools I wrote to make various repetitive ta
     * The data must be in the JSON (or Python dictionary) format
 * For help message: `python violinplots.py -h`
 
-INSTALLATION
-===
-1. Clone the [GitHub repository](https://github.com/niemasd/tools.git) wherever you want to install the tools. For example, if I wanted to install the collection into a directory `~/bin`:
-    ```bash
-    cd ~/bin
-    git clone https://github.com/niemasd/tools.git
-    ```
+### Helpful Commands
 
-2. Compile the tools with `make` (the `Makefile` should compile all of the tools automatically). To continue the previous example:
-    ```bash
-    cd ~/bin/tools
-    make
-    ```
+```bash
+# GPU decode, CPU encode:
+for %f in (*.m*) do ffmpeg -c:v h264_cuvid -i "%f" -map_metadata -1 -map_chapters -1 -an -c:v libx265 "D:\%~nf.VIDEO_ONLY.mp4"
 
-3. **OPTIONAL**: Other tools/scripts I write for other projects may expect these tools to be found in your `PATH`, so I would suggest adding the directory to your `PATH` variable. To continue the previous example, if I were to add it to my `.profile`:
-    ```bash
-    echo "PATH=~/bin/tools:$PATH" >> ~/.profile
-    ```
+# GPU decode, GPU encode:
+for %f in (*.m*) do ffmpeg -c:v h264_cuvid -i "%f" -map_metadata -1 -map_chapters -1 -an -c:v hevc_nvenc -preset slow "D:\%~nf.VIDEO_ONLY.mp4"
+
+# CPU decode, GPU encode: ***USE THIS***
+for %f in (*.m*) do ffmpeg -i "%f" -map_metadata -1 -map_chapters -1 -an -c:v hevc_nvenc -preset slow "D:\%~nf.VIDEO_ONLY.mp4"
+
+# Same as above (CPU decode, GPU encode), but copy all non-video streams (to avoid manual remux after):
+for %f in (*.m*) do ffmpeg -i "%f" -map 0 -c copy -c:v hevc_nvenc -preset slow "M:\%~nf.mkv"
+
+# CROP FLAG (place before output video codec):
+-vf "crop=out_w:out_h:x:y"
+
+# DEINTERLACE FLAG (place before output video codec):
+-vf yadif=1
+
+# SORT FOLDERS IN DESCENDING ORDER OF SIZE IN POWERSHELL:
+ls | sort -pr { ls -rec $_ | measure Length -sum | % Sum } -des | select -first 20
+
+# YT-DLP AUTO ENCODE:
+yt-dlp -a url.txt --cookies-from-browser firefox --postprocessor-args "-c:v hevc_nvenc -preset slow -c:a copy"
+
+# BULK EPUB TO CBZ:
+for /r "M:\Ebooks\Graphic Novels\" %f in (*.epub) do python3 epub_to_cbz.py "%f"
+```
