@@ -105,7 +105,7 @@ This is a collection of command-line tools I wrote to make various repetitive ta
       3,8
       ```
   * For help message: `python scatterplot.py -h`
-* [`suppress_unifurcations.py`](suppress_unifurcations.py: Suppress unifurcations in a given tree
+* [`suppress_unifurcations.py`](suppress_unifurcations.py): Suppress unifurcations in a given tree
   * Reads tree with unifurcations from STDIN and writes output tree to STDOUT
   * Usage: `suppress_unifurcations.py < UNRESOLVED.tre > RESOLVED.tre`
 * [`touchall.sh`](touchall.sh): Recursively touch all files in current directory (and subdirectories)
