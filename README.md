@@ -145,5 +145,5 @@ ls | sort -pr { ls -rec $_ | measure Length -sum | % Sum } -des | select -first 
 yt-dlp -a url.txt --cookies-from-browser firefox --postprocessor-args "-c:v hevc_nvenc -preset slow -c:a copy"
 
 # BULK EPUB TO CBZ:
-for /r "M:\Ebooks\Graphic Novels\" %f in (*.epub) do python3 epub_to_cbz.py "%f"
+for /r "M:\Books\Comics\" %f in (*.epub) do python3 epub_to_cbz.py "%f"
 ```
