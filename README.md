@@ -146,4 +146,10 @@ yt-dlp -a url.txt --cookies-from-browser firefox --postprocessor-args "-c:v hevc
 
 # BULK EPUB TO CBZ:
 for /r "M:\Books\Comics\" %f in (*.epub) do python3 epub_to_cbz.py "%f"
+
+# EPUB TO PAGES (from XHTML; slower)
+rm -rf ../tmp && mkdir ../tmp && for f in *.xhtml ; do cp ./$(cat "$f" | grep 'xlink:href=' | sed 's/xlink:href="/\t/g' | cut -f2 | cut -d'"' -f1) ../tmp/$(echo "$f" | sed 's/xhtml/jpg/g'); done
+
+# EPUB TO PAGES (from TOC; faster)
+rm -rf ../tmp && mkdir ../tmp && while read line ; do cp ./$(cat ./$(echo $line | sed 's/src="/\t/g' | cut -f2 | cut -d'"' -f1) | grep 'src="' | sed 's/src="/\t/g' | cut -f2 | cut -d'"' -f1) ../tmp/$(echo $line | sed 's/id="/\t/g' | cut -f2 | cut -d'"' -f1).jpg ; done < <(cat toc.ncx | sed 's/<navPoint/\n/g' | grep playOrder)
 ```
