@@ -154,5 +154,5 @@ rm -rf ../tmp && mkdir ../tmp && for f in *.xhtml ; do cp ./$(cat "$f" | grep 'x
 rm -rf ../tmp && mkdir ../tmp && while read line ; do cp ./$(cat ./$(echo $line | sed 's/src="/\t/g' | cut -f2 | cut -d'"' -f1) | grep 'src="' | sed 's/src="/\t/g' | cut -f2 | cut -d'"' -f1) ../tmp/$(echo $line | sed 's/id="/\t/g' | cut -f2 | cut -d'"' -f1).jpg ; done < <(cat toc.ncx | sed 's/<navPoint/\n/g' | grep playOrder)
 
 # MP4 TO MP4 FOR GOOGLE PHOTOS BACKUP
-for %f in (*.m*) do (ffmpeg -y -i "%f" -c copy -map 0:v -map 0:a -map 0:s? "D:\%~nf.COPY.mp4" && exiftool -m -tagsFromFile "%f" -Time:All -GPS:All -FileModifyDate -FileCreateDate -overwrite_original "D:\%~nf.COPY.mp4")
+for %f in (*.mp4) do (ffmpeg -y -i "%f" -c copy -map 0:v -map 0:a -map 0:s? "D:\%~nf.COPY.mp4" && exiftool -m -tagsFromFile "%f" -Time:All -GPS:All -FileModifyDate -FileCreateDate -overwrite_original "D:\%~nf.COPY.mp4")
 ```
